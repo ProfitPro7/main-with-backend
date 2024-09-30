@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+
+<script type="module" src='/main.js'></script>
+<div class="container" id="container">
+
+  <body> 
+    <div class="form-container sign-up">
+      <form>
+        <h1>Create Account</h1>
+        <input id='signup-firstname' type="text" placeholder="First Name">
+        <input id='signup-lastname' type="text" placeholder="Last Name">
+        <input id='signup-address' type="text" placeholder="Address">
+        <input id='signup-DOB' type="date" placeholder="Date of Birth">
+        <input id='signup-email' type="email" placeholder="Email">
+        <input id='signup-password' type="password" placeholder="Password">
+        <button id='create-new-user' onclick='return false;'>Sign Up</button>
+      </form>
+      </div>
+
+      <div class="form-container sign-in">
+        <form>
+          <h1>Sign In</h1>
+          <input id='signin-email' type="email" placeholder="Email">
+          <input id='signin-password' type="password" placeholder="Password">
+          <p style='display: none; color: red;'id='wrong-password'>Wrong email/password</p>
+          <a href="forgot-password.html" id="forgotPasswordLink">Forgot Password?</a>
+          <button id='sign-in-user' onclick='return false;' >Sign In</button>
+        </form>
+      </div>
+      <div class="toggle-container">
+        <div class="toggle">
+          <div class="toggle-panel toggle-left">  
+            <h1>Hello!</h1>
+            <p>Register with your personal details to use all of the site features</p>
+            <button class="hidden" id="login">Sign In</button>
+            <p style='font-size: 9px;'>Already have an account? Sign in!</p>
+          </div>
+          <div class="toggle-panel toggle-right">
+            <h1>Welcome Back!</h1>
+            <p>Enter your personal details to use all of the site features</p>
+            <button class="hidden" id="register">Sign Up</button>
+            <p style='font-size: 9px;'>Don't have an account? Sign up now!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

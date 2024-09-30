@@ -1,0 +1,25 @@
+{
+  "name": "profit-pro",
+  "version": "1.0.0",
+  "description": "app-domain project",
+  "type": "module",
+  "main": "/src/js/index.js",
+  "scripts": {
+    "start": "node app.js",
+    "serve": "firebase serve",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "firebase": "^10.13.2",
+    "firebase-functions": "^6.0.1",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^12.0.2",
+    "webpack": "^5.94.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
