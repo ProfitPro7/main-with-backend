@@ -1,7 +1,8 @@
-import { app } from ".//firebaseConfig.js";
+import { app, auth } from ".//firebaseConfig.js";
 import { signUpUser } from ".//signUp.js";
 import { signInUser } from ".//signIn.js";
 import { getUserName, createUserList } from ".//admin.js";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 const path = window.location.pathname;
 
@@ -84,49 +85,6 @@ document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
 }
 
 
-
-
-
-if(path.includes("forgot-password.html")){
-  //forgot-password js: 
-  document.getElementById('resetPasswordBtn').addEventListener('click', function () {
-    const email = document.getElementById('forgotEmail').value;
-    const userId = document.getElementById('forgotUserId').value;
-    const securityAnswer = document.getElementById('securityQuestion').value;
-    const newPassword = document.getElementById('newPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const errorMsg = document.getElementById('errorMsg');
-
-    if (!email || !userId || !securityAnswer || !newPassword || !confirmPassword) {
-      errorMsg.textContent = 'Please fill in all fields.';
-      return;
-    }
-
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(newPassword)) {
-      errorMsg.textContent = 'Password must be at least 8 characters, include a letter, a number, and a special character.';
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      errorMsg.textContent = 'Passwords do not match.';
-      return;
-    }
-
-    //  auth.sendPasswordResetEmail(email)
-    //    .then(function () {
-    //      errorMsg.textContent = 'Password reset email sent! Check your inbox.';
-    //    })
-    //    .catch(function (error) {
-    //      console.error(error);
-    //      errorMsg.textContent = error.message;
-    //    });
-  });
-}
-
-
-
-
 if(path.includes("adminPage.html")){
   getUserName()
     .then((userName) => {
@@ -145,3 +103,71 @@ if(path.includes("adminPage.html")){
 
 
 }
+
+
+
+
+if(path.includes("forgot-password.html")){
+  async function handleFormSubmission(formId) {
+    const form = document.getElementById(formId);
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const input = new FormData(event.target);
+      const queryParams = new
+        URLSearchParams(input).toString();
+      const url = `${event.target.action}?${queryParams}`;
+
+      try {
+        const API_response = await fetch(url, {
+          method: "GET"
+        });
+
+        const result = await API_response.json();
+      const email = event.target.email.value;
+
+        const message = result.message;
+        if (message.includes("correct")) {
+          sendPasswordResetEmail(auth, email)
+            .then(() => {
+              showPopup();
+            })
+          .catch((error)=> {
+            console.log(error);
+          });
+        }
+      } catch (e) {
+        showWrongPopup();
+        console.log(e);
+      }
+
+    });
+  }
+
+  function showPopup() {
+    document.getElementById('popupOverlay').style.display = 'block';
+  }
+
+  function showWrongPopup() {
+    document.getElementById('wrong-popupOverlay').style.display = 'block';
+  }
+
+  function closePopup() {
+    document.getElementById('popupOverlay').style.display = 'none';
+    window.location.href='signIn.html';
+  }
+  function closeWrongPopup() {
+    document.getElementById('wrong-popupOverlay').style.display = 'none';
+    location.reload(); // Refresh the page
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    handleFormSubmission('forgotPasswordForm');
+  });
+
+
+
+}
+
+
