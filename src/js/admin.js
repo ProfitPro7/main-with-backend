@@ -93,6 +93,45 @@ export async function createUserList(divId){
 
 
 
-  }
+}
+
+
+export async function getExpiredPassCollection(){
+  const users = collection(db, "expired-passwords");
+
+  const docSnap = await getDocs(users);
+  return docSnap;
+  
+}
+
+export async function createExpiredPasswordList(divId){
+  const docSnap = await getExpiredPassCollection();
+  docSnap.forEach((doc) => {
+    const data = doc.data();
+    const newDiv = document.createElement('div');
+    newDiv.className = 'user-panel';
+    newDiv.innerHTML = `
+           <div class="user-title" onclick="togglePanel(this)">
+             <span>${data.email}</span>
+             <span class="arrow">&#9660;</span>
+           </div>
+           <div class="user-info">
+             <div style="display: inline-block; margin-right: 50px;">
+               <p><strong>Password: </strong>${data.password}</p>
+             </div>
+             <div style="display: inline-block;">
+               <p><strong>Expired On: </strong>${data.expiredOn}</p>
+             </div>
+
+             <br>
+             <div id='suspended'style="display: none; width: 100%; background-color: red; padding: 10px; box-sizing: border-box;">
+             </div>
+           </div>
+
+    `;
+    document.getElementById(`${divId}`).append(newDiv);
+
+  });
+}
 
   

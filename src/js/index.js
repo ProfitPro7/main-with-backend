@@ -1,7 +1,7 @@
 import { app, auth } from ".//firebaseConfig.js";
 import { signUpUser } from ".//signUp.js";
 import { signInUser } from ".//signIn.js";
-import { getUserName, createUserList } from ".//admin.js";
+import { getUserName, createUserList, createExpiredPasswordList } from ".//admin.js";
 import { sendPasswordResetEmail } from "firebase/auth";
 
 const path = window.location.pathname;
@@ -85,6 +85,7 @@ document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
 }
 
 
+//admin page javascript
 if(path.includes("adminPage.html")){
   getUserName()
     .then((userName) => {
@@ -95,6 +96,7 @@ if(path.includes("adminPage.html")){
   });
 
   createUserList('userTableContainer');
+  createExpiredPasswordList('expired-password-list');
     
 
 
