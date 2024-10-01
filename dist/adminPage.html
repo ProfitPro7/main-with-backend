@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <!-- Basic -->
   <meta charset="utf-8" />
@@ -15,6 +14,7 @@
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="/index-css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="adminPage_user_table.css" />
 
   <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
@@ -23,6 +23,8 @@
   <!-- responsive style -->
   <link href="index-css/responsive.css" rel="stylesheet" />
 </head>
+
+
 
 <script type='module' src='main.js'></script>
 <body>
@@ -80,103 +82,33 @@
       </div>
     </header>
     <!-- end header section -->
+
     <style>
-           body {
-               font-family: Arial, sans-serif;
-               margin: 0;
-               padding: 0;
-               background-color: #f4f4f4;
-           }
-           header {
-               background: blue;
-               color: #ffffff;
-               padding: 20px 0;
-               text-align: center;
-           }
-           nav {
-               margin: 20px 0;
-           }
-           nav a {
-               color: #ffffff;
-               margin: 0 15px;
-               text-decoration: none;
-           }
-           .container {
-               width: 80%;
-               margin: auto;
-               overflow: hidden;
-           }
-           footer {
-               background: blue;
-               color: #ffffff;
-               text-align: center;
-               padding: 10px 0;
-               position: relative;
-               bottom: 0;
-               width: 100%;
-           }
-           .administratorsection {
-               display: flex;
-               justify-content: space-around;
-               margin: 20px 0;
-           }
-           .tab {
-               overflow: hidden;
-               border: 1px solid #ccc;
-               background-color: #f1f1f1;
-           }
-           .tab button {
-               background-color: inherit;
-               float: left;
-               border: none;
-               outline: none;
-               cursor: pointer;
-               padding: 14px 16px;
-               transition: 0.3s;
-           }
-           .tab button:hover {
-               background-color: #ddd;
-           }
-           .tab button.active {
-               background-color: #ccc;
-           }
-           .tabcontent {
-               display: none;
-               padding: 6px 12px;
-               border: 1px solid #ccc;
-               border-top: none;
-               background-color: #f1f1f1;
-           }
-           fieldset {
-               margin-bottom: 30px;
-           }
-           input {
-               height: auto;
-               display: block;
-               width: 20%;
-               margin: 5px;
-           }
-           input[id="bodyEmail"]{
-               width: 75%;
-               padding: 60px;
-           }
-           tr {
-               border-bottom: 1px solid black;
-               width: 100%;
-           }
-           td {
-               text-align: center;
-           }
-           table {
-               width: 100%;
-           }
+           body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+           header { background: blue; color: #ffffff; padding: 20px 0; text-align: center; }
+           nav { margin: 20px 0; }
+           nav a { color: #ffffff; margin: 0 15px; text-decoration: none; }
+           .container { width: 80%; margin: auto; overflow: hidden; }
+           footer { background: blue; color: #ffffff; text-align: center; padding: 10px 0; position: relative; bottom: 0; width: 100%; }
+           .administratorsection { display: flex; justify-content: space-around; margin: 20px 0; }
+           .tab { overflow: hidden; border: 1px solid #ccc; background-color: #f1f1f1; }
+           .tab button { background-color: inherit; float: left; border: none; outline: none; cursor: pointer; padding: 14px 16px; transition: 0.3s; }
+           .tab button:hover { background-color: #ddd; }
+           .tab button.active { background-color: #ccc; }
+           .tabcontent { display: none; padding: 6px 12px; border: 1px solid #ccc; border-top: none; background-color: #f1f1f1; }
+           fieldset { margin-bottom: 30px; }
+           input { height: auto; display: block; width: 20%; margin: 5px; }
+           input[id="bodyEmail"]{ width: 75%; padding: 60px; }
+           tr { border-bottom: 1px solid black; width: 100%; }
+           td { text-align: center; }
+           table { width: 100%; }
+
        </style>
+
        <script>
            document.getElementById("defaultOpen").click();
-
            function openTab(evt, cityName) {
                var i, tabcontent, tablinks;
-
                tabcontent = document.getElementsByClassName("tabcontent");
                for (i = 0; i < tabcontent.length; i++) {
                    tabcontent[i].style.display = "none";
@@ -197,174 +129,301 @@
                <h2>Administrator</h2>
                <div class="services">
                    <div class="tab">
-                       <button class="tablinks" onclick="openTab(event, 'User')" id="defaultOpen">Users</button>
-                       <button class="tablinks" onclick="openTab(event, 'Roles')">Roles</button>
+                       <button class="tablinks" onclick="openTab(event, 'User')" id="defaultOpen">Manage Users</button>
                        <button class="tablinks" onclick="openTab(event, 'Create_User')">Create User</button>
-                       <button class="tablinks" onclick="openTab(event, 'Activation')">Activation</button>
                        <button class="tablinks" onclick="openTab(event, 'Email')">Email</button>
-                       <button class="tablinks" onclick="openTab(event, 'Suspend')">Suspend</button>
                    </div>
-                   <div id="User" class="tabcontent">
+
 <!--Need to make the table auto populated by API request and then done in
   script-->
-                       <h3>Users</h3>
-                       <table>
-                           <tr>
-                               <th>User ID</th>
-                               <th>First Name</th>
-                               <th>Last Name</th>
-                               <th>Email</th>
-                               <th>Address</th>
-                               <th>DOB</th>
-                           </tr>
-                           <tr>
-                               <td>test</td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                           </tr>
-                       </table>
-                   </div>
-                  
-<!--Might be redundant, because you can see the roles in the user Page-->
-                   <div id="Roles" class="tabcontent">
-                       <h3>Roles</h3>
-                       <table>
-                           <tr>
-                               <th>User ID</th>
-                               <th>First Name</th>
-                               <th>Last Name</th>
-                               <th>Email</th>
-                               <th>Address</th>
-                               <th>DOB</th>
-                               <th>Role</th>
-                           </tr>   
-                           <tr>
-                               <td>test</td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td>
-                                   <select name="role" id="role">
-                                       <option value="role1">Role1</option>
-                                       <option value="role2">Role2</option>
-                                       <option value="role3">Role3</option>
-                                   </select>
-                               </td>
-                           </tr>
-                       </table>
-                   </div>
-                  
-<!--Update with table from adminPage-->
-                   <div id="Create_User" class="tabcontent">
-                       <h3>Create User</h3>
-                       <form action="https://adminadduser-hbs3oxnkoa-uc.a.run.app/adminAddUser" method="GET" style="display: inline-block; width: 300px;">
-                         <input type="text" id="firstName" name="firstName" required placeholder="First Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #    ccc;">      
-                         <input type="text" id="lastName" name="lastName" required placeholder="Last Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc    ;">
-                         <input type="email" id="email" name="email" required placeholder="Email" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+  <script>
+    function show(id){
+      document.getElementById(`${id}`).style.display = "inline-block";
+      const buttons = document.getElementsByClassName('actionButton');
+      for(let i = 0; i < buttons.length; i++){
+        buttons[i].disabled = true;
+        buttons[i].style.backgroundColor = '#A9A9A9';
+      }
+    }
+    function hide(id){
+      document.getElementById(`${id}`).style.display = "none";
+      const buttons = document.getElementsByClassName('actionButton');
+      for(let i = 0; i < buttons.length; i++){
+        buttons[i].disabled = false;
+        buttons[i].style.backgroundColor = '#4CAF50';
+      }
+    }
+  </script>
 
-                         <input type="password" id="password" name="password" required placeholder="Password" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #    ccc;">
-                         <input type="text" id="address" name="address" required placeholder="Address" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
 
-                         <input type="date" id="DOB" name="DOB" required placeholder="Date of Birth" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
 
-                         <select name="accountType" id="accountType" required style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
-                           <option value="" disabled selected>Select Account Type</option>
-                           <option value="Admin">Admin</option>
-                           <option value="Manager">Manager</option>
-                           <option value="Regular-User">Regular User</option>
-                         </select>
+  <div id="User" class="tabcontent">
+    <h3>Users</h3>
+    <div id="mainContainer-usertable">
+      <!-- Left: Searchable Table -->
+      <div id="userTableContainer">
 
-                         <p>Security Question: What is your favorite color?</p>
+        <style>
+          .user-panel {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            overflow: hidden;
+          }
 
-                         <input type="text" id="securityQuestion" name="securityQuestion" required placeholder="Answer to Security Question" style="padding: 10px; width: 100%; margin-bottom: 20px; border-r    adius: 5px; border: 1px solid #ccc;">
+         .user-title {
+           padding: 10px;
+           background-color: #f1f1f1;
+           cursor: pointer;
+           font-weight: bold;
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+         }
 
-                         <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
-                       </form>
+         .user-info {
+           display: none; /* Initially hidden */
+           padding: 10px;
+           background-color: #fff;
+         }
 
-                   </div>
+         .user-title .arrow {
+           font-size: 12px;
+         }
 
-                   <div id="Activation" class="tabcontent">
-                       <h3>Activation</h3>
-                       <table>
-                           <tr>
-                               <th>User ID</th>
-                               <th>First Name</th>
-                               <th>Last Name</th>
-                               <th>Email</th>
-                               <th>Address</th>
-                               <th>DOB</th>
-                               <th>Role</th>
-                           </tr>   
-                           <tr>
-                               <td>test</td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td>
-                                   <select name="activationlist" id="activation">
-                                       <option value="activate_user">Activate</option>
-                                       <option value="deactivate_user">Deactivate</option>
-                                   </select>
-                               </td>
-                           </tr>
-                       </table>
-                   </div>
+         .active .user-info {
+           display: block;
+         }
 
-                   <div id="Email" class="tabcontent">
-                       <h3>Email</h3>
-                    
-                       <label for="toEmail">To:</label>
-                       <input type="text" id="toEmail" name="toEmail">
+         .active .user-title .arrow {
+           content: '\\9650'; /* Up arrow */
+         }
+         .active .user-title{
+           background-color: #A9A9A9;
 
-                       <label for="bodyEmail">Body:</label>
-                       <input type="text" id="bodyEmail" name="bodyEmail">
+         }
 
-                       <button>Send</button>
-                   </div>
+        </style>
 
-                   <div id="Suspend" class="tabcontent">
-                       <h3>Suspend</h3>
-                       <table>
-                           <tr>
-                               <th>User ID</th>
-                               <th>First Name</th>
-                               <th>Last Name</th>
-                               <th>Email</th>
-                               <th>Address</th>
-                               <th>DOB</th>
-                               <th>Role</th>
-                           </tr>   
-                           <tr>
-                               <td>test</td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td></td>
-                               <td>
-                                   <select name="suspendselect" id="suspend">
-                                       <option value="suspend_user">Suspend</option>
-                                       <option value="activate_user">Activate</option>
-                                   </select>
-                               </td>
-                           </tr>
-                       </table>
-                   </div>
+        <script>
+
+          function togglePanel(element) {
+            const allPanels = document.querySelectorAll('.user-panel');
+
+
+            allPanels.forEach(panel => {
+              if (panel !== element.parentElement) {
+                panel.classList.remove('active');
+              }
+            });
+            element.parentElement.classList.toggle('active');
+          }
+          </script>
+
+
+          <!--
+        <div class="user-panel" >
+          <div class="user-title" onclick="togglePanel(this)">
+            <span>John Doe</span> 
+            <span class="arrow">&#9660;</span> 
+          </div>
+          <div class="user-info">
+            <p>Email: john.doe@example.com</p>
+            <p>Date of Birth: 01/01/1990</p>
+            <p>User ID: 12345</p>
+            <p>Address: 123 Main St, New York, NY</p>
+          </div>
+        </div>
+
+        <div class="user-panel" >
+          <div class="user-title" onclick="togglePanel(this)">
+            <span>Jane Smith</span>
+            <span class="arrow">&#9660;</span>
+          </div>
+          <div class="user-info">
+            <p>Email: jane.smith@example.com</p>
+            <p>Date of Birth: 02/05/1985</p>
+            <p>User ID: 67890</p>
+            <p>Address: 456 Maple St, Los Angeles, CA</p>
+          </div>
+        </div>
+        -->
+
+      </div>
+
+      <!-- Right: Action Buttons -->
+      <div id="actionButtons">
+
+<!--Admin Update user Regular Information-->
+        <form id='account-update' action="" method="GET" style="display: none; width: auto;">
+          <h4>Update Account</h4>
+          <input type="text" id="firstName" name="firstName" required placeholder="First Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          <input type="text" id="lastName" name="lastName" required placeholder="Last Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          <input type="email" id="email" name="email" required placeholder="Email" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          <input type="password" id="password" name="password" required placeholder="Password" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          <input type="text" id="address" name="address" required placeholder="Address" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          <input type="date" id="DOB" name="DOB" placeholder="Date of Birth" required  style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          <p>Security Question: What is your favorite color?</p>
+          <input type="text" id="securityQuestion" name="securityQuestion" required placeholder="Answer to Security Question" style="padding: 10px; width: 100%; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ccc;">
+          <br>
+          <hr>
+          <span style="display: inline;">
+            <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
+            <button type='button' onclick='hide("account-update")' style="padding: 10px 20px; background-color: #cc3f35; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+          </span>
+        </form>
+
+        <button id="updateInfoBtn" class='actionButton' onclick='show("account-update")'>Update Information</button>
+
+<!--Admin Update User Role form-->
+        <form id='update-accountType' action="" method="GET" style="display: none; width: auto;">
+          <hr>
+          <br>
+          <h4>Update User Role</h4>
+          <select id="accountType-select" name="options" 
+            style="padding: 10px; width: 100%; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ccc; background-color: #fff; color: #333; font-size: 16px;" required>
+
+            <option value="" disabled selected>Select Account Type</option>
+            <option value="Admin">Admin</option>
+            <option value="Manager">Manager</option>
+            <option value="Regular-User">Regular User</option>
+          </select>
+
+          <br>
+          <hr>
+
+          <span style="display: inline;">
+            <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
+            <button type='button' onclick='hide("update-accountType")' style="padding: 10px 20px; background-color: #cc3f35; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+          </span>
+
+          <script>
+            function changeColor(){
+              const selectedValue = document.getElementById('styledSelect').value;
+
+              if(selectedValue === "true"){
+                document.getElementById('styledSelect').style.backgroundColor = "#4CAF50";
+                document.getElementById('styledSelect').style.color = "white";
+
+              }else if (selectedValue === 'false'){
+                document.getElementById('styledSelect').style.backgroundColor = "#f44336";
+                document.getElementById('styledSelect').style.color = "white";
+
+              }            
+            }
+          </script>
+        </form>
+
+        <button id="changeAccountType" class='actionButton' onclick="show('update-accountType')">Change User Role</button>
+
+
+<!--Admin Activate/Deactivate User form-->
+        <form id='update-activeStatus' action="" method="GET" style="display: none; width: auto;">
+          <hr>
+          <br>
+          <h4>Update Active Status</h4>
+
+          <select id="styledSelect" name="action" onchange="changeColor()" style="padding: 10px; width: auto; border-radius: 5px; background-color: #f0f0f0; color: #333; font-size: 16px; appearance: none; cursor: pointer;">
+            <option value="" disabled selected style="background-color: #333; display: none;">Select an Option</option>
+            <option value="true" style="padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Activate</option>
+            <option value="false" style="padding: 10px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer;">Deactivate</option>
+          </select>
+
+
+          <br>
+          <hr>
+            <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
+            <button type='button' onclick='hide("update-activeStatus")' style="padding: 10px 20px; background-color: #cc3f35; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+
+        </form>
+
+
+        <button id="activateDeactivateBtn-rolesTable" class='actionButton' onclick="show('update-activeStatus')">Activate/Deactivate User</button>
+
+
+<!--Admin Suspend User form-->
+        <form id='account-suspend' action="" method="GET" style="display: none; width: auto;">
+          <hr>
+          <br>
+          <h4>Suspend User</h4>
+          <label>
+            Start Date <br>
+            <input type="date" id="start-suspend" name="end-suspend" placeholder="Start of Suspension" required  style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          </label>
+
+          <label>
+            End Date <br>
+            <input type="date" id="end-suspend" name="start-suspend" placeholder="End of Suspension" required  style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+          </label>
+
+          <br>
+          <hr>
+          <span style="display: inline;">
+            <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
+            <button type='button' onclick='hide("account-suspend")' style="padding: 10px 20px; background-color: #cc3f35; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+          </span>
+        </form>
+
+
+
+        <button id="suspendUserBtn-rolesTable" class='actionButton' onclick="show('account-suspend')">Suspend User</button>
+      </div>
+    </div>
+
+
+  </div>
+
+
+  <!--Update with table from adminPage-->
+  <div id="Create_User" class="tabcontent">
+
+    <h3>Create User</h3>
+    <form action="https://adminadduser-hbs3oxnkoa-uc.a.run.app/adminAddUser" method="GET" style="display: inline-block; width: 300px;">
+      <input type="text" id="firstName" name="firstName" required placeholder="First Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid # ccc;">      
+      <input type="text" id="lastName" name="lastName" required placeholder="Last Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      <input type="email" id="email" name="email" required placeholder="Email" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      <input type="password" id="password" name="password" required placeholder="Password" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      <input type="text" id="address" name="address" required placeholder="Address" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      <input type="date" id="DOB" name="DOB" required placeholder="Date of Birth" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+
+      <select name="accountType" id="accountType" required style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <option value="" disabled selected>Select Account Type</option>
+        <option value="Admin">Admin</option>
+        <option value="Manager">Manager</option>
+        <option value="Regular-User">Regular User</option>
+      </select>
+
+      <p>Security Question: What is your favorite color?</p>
+
+      <input type="text" id="securityQuestion" name="securityQuestion" required placeholder="Answer to Security Question" 
+                                                                                style="padding: 10px; width: 100%; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ccc;">
+
+      <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
+    </form>
+
+  </div>
+
+  <div id="Email" class="tabcontent">
+    <h3>Email</h3>
+
+    <label for="toEmail">To:</label>
+    <input type="text" id="toEmail" name="toEmail">
+
+    <label for="bodyEmail">Body:</label>
+    <input type="text" id="bodyEmail" name="bodyEmail">
+
+    <button>Send</button>
+  </div>
+
                </div>
            </section>
-       </div>
+    </div>
 
     <!-- footer section -->
     <section class="container-fluid footer_section">
       <p>
-        &copy; ProfitPro LLC
+      &copy; ProfitPro LLC
       </p>
     </section>
     <!-- footer section -->

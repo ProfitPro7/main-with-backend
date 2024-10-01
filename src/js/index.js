@@ -1,7 +1,7 @@
 import { app } from ".//firebaseConfig.js";
 import { signUpUser } from ".//signUp.js";
 import { signInUser } from ".//signIn.js";
-import { getUserName } from ".//admin.js";
+import { getUserName, createUserList } from ".//admin.js";
 
 const path = window.location.pathname;
 
@@ -135,4 +135,13 @@ if(path.includes("adminPage.html")){
   .catch((e) => {
     console.log(e);
   });
+
+  createUserList('userTableContainer');
+    
+
+
+
+
+
+
 }

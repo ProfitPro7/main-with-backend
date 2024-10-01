@@ -20,6 +20,7 @@ module.exports = {
         {from: "./src/html/userPages/adminPage.html", to: "adminPage.html"},
         {from: "./src/html/userPages/account-created-confirmation.html", to: "account-created-confirmation.html"},
         {from: "./src/css/styles.css", to: "styles.css"},
+        {from: "./src/css/adminPage_user_table.css", to: "adminPage_user_table.css"},
         //directories
         {
           from: path.resolve(__dirname, './src/js/js-for-index'),

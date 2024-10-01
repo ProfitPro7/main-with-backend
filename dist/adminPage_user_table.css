@@ -1,0 +1,54 @@
+#mainContainer-usertable {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+  padding: 0;
+}
+
+#userTableContainer {
+  width: 70%;
+}
+
+.userTableContainer table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.userTableContainer table, th, td {
+  border: 1px solid #ccc;
+}
+
+.userTableContainer th, td {
+  padding: 10px;
+  text-align: center;
+}
+
+.userTableContainer th {
+  background-color: #f1f1f1;
+}
+
+.userTableContainer tr.selected {
+  background-color: #d1e7fd;
+}
+
+#actionButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 25%;
+}
+
+.actionButton {
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+

@@ -1,6 +1,6 @@
 import { auth, db } from ".//firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 
 export async function getUserName(){
   return new Promise((resolve, reject) => {
@@ -35,3 +35,50 @@ async function getData(email){
       }
 
 }
+
+
+export async function getUserCollection(){
+  const users = collection(db, "Users");
+
+  const docSnap = await getDocs(users);
+  return docSnap;
+  
+}
+
+
+export async function createUserList(divId){
+  const docSnap = await getUserCollection();
+  docSnap.forEach((doc) => {
+    const data = doc.data();
+    const newDiv = document.createElement('div');
+    newDiv.className = 'user-panel';
+    newDiv.innerHTML = `
+           <div class="user-title" onclick="togglePanel(this)">
+             <span>${data.firstName} ${data.lastName}</span>
+             <span class="arrow">&#9660;</span>
+           </div>
+           <div class="user-info">
+             <div style="display: inline-block; margin-right: 50px;">
+               <p><strong>User ID: </strong>${data.userId}</p>
+               <p><strong>User Name: </strong>${data.userName}</p>
+               <p><strong>Email: </strong>${data.Email}</p>
+               <p><strong>Password: </strong>${data.Password}</p>
+             </div>
+             <div style="display: inline-block;">
+               <p><strong>Address: </strong>${data.Address}</p>
+               <p><strong>Date of Birth: </strong>${data.DateOfBirth}</p>
+               <p><strong>Account Type: </strong>${data.accountType}</p>
+               <p><strong>Active: </strong>${data.active}</p>
+             </div>
+           </div>
+
+    `;
+
+    document.getElementById(`${divId}`).append(newDiv);
+
+  });
+
+
+  }
+
+  
