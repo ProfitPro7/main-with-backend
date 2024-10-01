@@ -82,3 +82,82 @@ exports.adminAddUser = onRequest(async(request, response) => {
 
 });
 
+
+exports.updateUserDoc = onRequest(async(request, res) => {
+  const { email, changeEmail, address, dateOfBirth, password, accountType, active, firstName, lastName, profileUrl, suspendedEnd, suspendedStart } = request.query;
+
+  let update = {};
+  let response = { Message: "Doc Updated",};
+
+  if (changeEmail){
+    update.Email = changeEmail;
+    response.Email = changeEmail;
+  }
+  if (address){
+    update.Address = address;
+    response.Address = address;
+
+  }
+  if (dateOfBirth){
+    update.DateOfBirth = dateOfBirth;
+    response.DateOfBirth = dateOfBirth;
+
+  }
+  if (password){
+    update.Password = password;
+    response.Password = password;
+
+  }
+  if (accountType){
+    update.accountType = accountType;
+    response.accountType = accountType;
+
+  }
+  if (active){
+    update.active = active;
+    response.active = active;
+
+  }
+  if (firstName){
+    update.firstName = firstName;
+    response.firstName = firstName;
+
+  }
+  if (lastName){
+    update.lastName = lastName;
+    response.lastName = lastName;
+
+  }
+  if (profileUrl){
+    update.profile_pic_url = profileUrl;
+    response.profile_pic_url = profileUrl;
+
+  }
+  if (suspendedEnd){
+    update.suspendedEnd = suspendedEnd;
+    response.suspendedEnd = suspendedEnd;
+
+  }
+  if (suspendedStart){
+    update.suspendedStart = suspendedStart;
+    response.suspendedStart = suspendedStart;
+
+  }
+
+
+
+  db.collection("Users").doc(`${email}`).update(update)
+    .then(() => {
+      console.log("OK");
+    })
+    .catch((e) => {
+      console.log(e);
+  });
+
+
+  res.status(200).json(response);
+
+});
+
+
+

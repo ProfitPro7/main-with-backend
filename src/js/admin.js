@@ -70,13 +70,27 @@ export async function createUserList(divId){
                <p><strong>Account Type: </strong>${data.accountType}</p>
                <p><strong>Active: </strong>${data.active}</p>
              </div>
+             <br>
+             <div id='suspended'style="display: none; width: 100%; background-color: red; padding: 10px; box-sizing: border-box;">
+             </div>
            </div>
 
     `;
-
     document.getElementById(`${divId}`).append(newDiv);
 
+    if(data.suspendedStart && data.suspendedEnd){
+      const suspendedDiv = document.createElement('span');
+      suspendedDiv.style.color = 'white';
+      suspendedDiv.innerHTML = `SUSPENDED FROM : ${data.suspendedStart} - ${data.suspendedEnd}`;
+
+      document.getElementById('suspended').append(suspendedDiv);
+      document.getElementById('suspended').style.display = 'initial';
+
+
+    }
+
   });
+
 
 
   }

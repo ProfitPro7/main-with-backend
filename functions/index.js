@@ -13,3 +13,4 @@ exports.accountApproval = emailFunctions.accountApproval;
 exports.securityQuestion = emailFunctions.securityQuestion;
 
 exports.adminAddUser = adminFunctions.adminAddUser;
+exports.updateUserDoc = adminFunctions.updateUserDoc;

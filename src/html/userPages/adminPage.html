@@ -106,7 +106,9 @@
        </style>
 
        <script>
+         document.addEventListener("DOMContentLoaded", function() {
            document.getElementById("defaultOpen").click();
+         });
            function openTab(evt, cityName) {
                var i, tabcontent, tablinks;
                tabcontent = document.getElementsByClassName("tabcontent");
@@ -132,6 +134,7 @@
                        <button class="tablinks" onclick="openTab(event, 'User')" id="defaultOpen">Manage Users</button>
                        <button class="tablinks" onclick="openTab(event, 'Create_User')">Create User</button>
                        <button class="tablinks" onclick="openTab(event, 'Email')">Email</button>
+                       <button class="tablinks" onclick="openTab(event, 'Expired-Password')">Expired Passwords</button>
                    </div>
 
 <!--Need to make the table auto populated by API request and then done in
@@ -220,35 +223,6 @@
             element.parentElement.classList.toggle('active');
           }
           </script>
-
-
-          <!--
-        <div class="user-panel" >
-          <div class="user-title" onclick="togglePanel(this)">
-            <span>John Doe</span> 
-            <span class="arrow">&#9660;</span> 
-          </div>
-          <div class="user-info">
-            <p>Email: john.doe@example.com</p>
-            <p>Date of Birth: 01/01/1990</p>
-            <p>User ID: 12345</p>
-            <p>Address: 123 Main St, New York, NY</p>
-          </div>
-        </div>
-
-        <div class="user-panel" >
-          <div class="user-title" onclick="togglePanel(this)">
-            <span>Jane Smith</span>
-            <span class="arrow">&#9660;</span>
-          </div>
-          <div class="user-info">
-            <p>Email: jane.smith@example.com</p>
-            <p>Date of Birth: 02/05/1985</p>
-            <p>User ID: 67890</p>
-            <p>Address: 456 Maple St, Los Angeles, CA</p>
-          </div>
-        </div>
-        -->
 
       </div>
 
@@ -416,9 +390,23 @@
     <button>Send</button>
   </div>
 
-               </div>
-           </section>
-    </div>
+  <div id="Expired-Password" class="tabcontent"> 
+    <h3>Expired Passwords</h3>
+
+    <table>
+      <tr> 
+        <th>Password</th>
+        <th>Email</th>
+        <th>User Name</th>
+        <th>Expired On</th>
+      </tr>
+    </table>
+
+  </div>
+
+      </div>
+  </section>
+</div>
 
     <!-- footer section -->
     <section class="container-fluid footer_section">
@@ -428,6 +416,12 @@
     </section>
     <!-- footer section -->
   </div>
+
+
+
+
+
+
 
   <script type="text/javascript" src="js-for-index/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="js-for-index/bootstrap.js"></script>
