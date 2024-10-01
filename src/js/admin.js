@@ -61,7 +61,7 @@ export async function createUserList(divId){
              <div style="display: inline-block; margin-right: 50px;">
                <p><strong>User ID: </strong>${data.userId}</p>
                <p><strong>User Name: </strong>${data.userName}</p>
-               <p><strong>Email: </strong>${data.Email}</p>
+               <p><strong>Email: </strong><span class='user-email'>${data.Email}</span></p>
                <p><strong>Password: </strong>${data.Password}</p>
              </div>
              <div style="display: inline-block;">

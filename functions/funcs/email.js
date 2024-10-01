@@ -117,6 +117,30 @@ exports.securityQuestion = onRequest(async(request, response) => {
 });
 
 
+exports.sendMail = onRequest(async(request, response) => {
+  const {to, subject, message} = request.query;
+
+  if (to && subject && message){
+    db.collection("mail").add({
+      to: `${to}`,
+      message: {
+        subject: `${subject}`,
+        text: "Sent Email",
+        html: `<p>${message}</p>`
+      },
+    })
+      .then(() => {
+        response.send(200).json({message: "Email Sent"});
+      })
+        .catch((e) => {
+          response.send(500).json({message: "Email Could not Send"});
+        });
+
+  } else{
+    response.status(500).json({message: "Not all Fields are Filled"});
+  }
+
+});
 
 
 

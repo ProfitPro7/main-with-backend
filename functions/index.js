@@ -14,3 +14,4 @@ exports.securityQuestion = emailFunctions.securityQuestion;
 
 exports.adminAddUser = adminFunctions.adminAddUser;
 exports.updateUserDoc = adminFunctions.updateUserDoc;
+exports.sendMail = emailFunctions.sendMail;

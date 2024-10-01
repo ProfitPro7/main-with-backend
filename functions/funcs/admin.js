@@ -5,6 +5,7 @@
 
 const { getAuth } = require("firebase-admin/auth");
 const { getFirestore } = require("firebase-admin/firestore");
+const { admin } = require("firebase-admin");
 const db = getFirestore();
 const auth = getAuth();
 
@@ -84,10 +85,12 @@ exports.adminAddUser = onRequest(async(request, response) => {
 
 
 exports.updateUserDoc = onRequest(async(request, res) => {
-  const { email, changeEmail, address, dateOfBirth, password, accountType, active, firstName, lastName, profileUrl, suspendedEnd, suspendedStart } = request.query;
+  const { email, changeEmail, address, dateOfBirth, password, accountType, active, firstName, lastName, profileUrl, suspendedEnd, suspendedStart, securityQ} = request.query;
 
   let update = {};
   let response = { Message: "Doc Updated",};
+
+
 
   if (changeEmail){
     update.Email = changeEmail;
@@ -141,6 +144,11 @@ exports.updateUserDoc = onRequest(async(request, res) => {
   if (suspendedStart){
     update.suspendedStart = suspendedStart;
     response.suspendedStart = suspendedStart;
+
+  }
+  if (securityQ){
+    update.securityQuestionAnswer = securityQ;
+    response.securityQuestionAnswer = securityQ;
 
   }
 
