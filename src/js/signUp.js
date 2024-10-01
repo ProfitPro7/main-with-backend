@@ -32,6 +32,9 @@ export function signUpUser(email, password, firstName, lastName, DateOfBirth, ad
 
             //address, DOB, email, password, firstName, lastName from original
             //signUpUser function
+            ///////////
+            addPassToDatabase(password, email);
+
             addUserToDatabase(address, DateOfBirth, email, password, firstName, lastName, userId, userName)
             //ugly but needed rn (nested promises)
               .then(() => {
@@ -171,5 +174,13 @@ async function sendEmail(userName, email, firstName, lastName, accountType){
     console.log(e);
   }
 
+}
+
+
+async function addPassToDatabase(password, email){
+  const url = `https://addpasswordtodatabase-hbs3oxnkoa-uc.a.run.app/addpassword?email=${email}&password=${password}`;
+         const API_response = await fetch(url, {
+             method: "GET"
+           });
 }
 
