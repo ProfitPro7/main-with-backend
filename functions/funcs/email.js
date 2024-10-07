@@ -9,7 +9,7 @@ const db = getFirestore();
 
 const {onRequest} = require("firebase-functions/v2/https");
 
-exports.accountApproval = onRequest(async(request, response) => {
+exports.accountApproval = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
 
   const email = request.query.email;
   const approval = request.query.approval;
@@ -89,7 +89,7 @@ exports.accountApproval = onRequest(async(request, response) => {
 
 
 
-exports.securityQuestion = onRequest(async(request, response) => {
+exports.securityQuestion = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
 
   const email = request.query.email;
   const answer = request.query.answer;
@@ -117,7 +117,7 @@ exports.securityQuestion = onRequest(async(request, response) => {
 });
 
 
-exports.sendMail = onRequest(async(request, response) => {
+exports.sendMail = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
   const {to, subject, message} = request.query;
 
   if (to && subject && message){

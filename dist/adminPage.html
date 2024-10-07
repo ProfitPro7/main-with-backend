@@ -251,7 +251,7 @@
 <!--Admin Update user Regular Information-->
 <!--https://updateuserdoc-hbs3oxnkoa-uc.a.run.app/updateUserDoc-->
 <!--http://localhost:5001/profitpro-e81ab/us-central1/updateUserDoc-->
-        <form id='account-update' action="https://updateuserdoc-hbs3oxnkoa-uc.a.run.app/updateUserDoc" method="GET" style="display: none; width: auto;">
+        <form id='account-update' action="http://localhost:5001/profitpro-e81ab/us-central1/updateUserDoc" method="GET" style="display: none; width: auto;">
         <!-- Popup Content -->
           <h4>Update Account</h4>
           <input type="hidden" id='user-email' class='user-email' name='email'>
@@ -374,7 +374,7 @@
 <!--Admin Activate/Deactivate User form-->
 <!--https://updateuserdoc-hbs3oxnkoa-uc.a.run.app/updateUserDoc-->
 <!--http://localhost:5001/profitpro-e81ab/us-central1/updateUserDoc-->
-        <form id='update-activeStatus' action="https://updateuserdoc-hbs3oxnkoa-uc.a.run.app/updateUserDoc" method="GET" style="display: none; width: auto;">
+        <form id='update-activeStatus' action="http://localhost:5001/profitpro-e81ab/us-central1/updateUserDoc" method="GET" style="display: none; width: auto;">
           <input type="hidden" id='user-email' class='user-email' name='email'>
           <hr>
           <br>
@@ -401,7 +401,7 @@
 <!--Admin Suspend User form-->
 <!--https://updateuserdoc-hbs3oxnkoa-uc.a.run.app/updateUserDoc-->
 <!--http://localhost:5001/profitpro-e81ab/us-central1/updateUserDoc-->
-        <form id='account-suspend' action="https://updateuserdoc-hbs3oxnkoa-uc.a.run.app/updateUserDoc" method="GET" style="display: none; width: auto;">
+        <form id='account-suspend' action="http://localhost:5001/profitpro-e81ab/us-central1/updateUserDoc" method="GET" style="display: none; width: auto;">
           <input type="hidden" id='user-email' class='user-email' name='email'>
           <hr>
           <br>
@@ -438,7 +438,7 @@
   <div id="Create_User" class="tabcontent">
 
     <h3>Create User</h3>
-    <form action="https://adminadduser-hbs3oxnkoa-uc.a.run.app/adminAddUser" method="GET" style="display: inline-block; width: 300px;">
+    <form action="http://localhost:5001/profitpro-e81ab/us-central1/updateUserDoc" method="GET" style="display: inline-block; width: 300px;">
       <input type="text" id="firstName" name="firstName" required placeholder="First Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid # ccc;">      
       <input type="text" id="lastName" name="lastName" required placeholder="Last Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
       <input type="email" id="email" name="email" required placeholder="Email" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
@@ -467,7 +467,9 @@
     <h3>Email</h3>
 
 <!--http://127.0.0.1:5001/profitpro-e81ab/us-central1/sendMail-->
-    <form id='send-Email' action="http://127.0.0.1:5001/profitpro-e81ab/us-central1/sendMail" method="GET" style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+<!--https://sendmail-hbs3oxnkoa-uc.a.run.app/sendMail-->
+    <form id='send-Email'
+      action="http://127.0.0.1:5001/profitpro-e81ab/us-central1/sendMail" method="GET" style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
       <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Send Email</h2>
 
       <!-- To Field -->

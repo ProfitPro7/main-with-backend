@@ -11,7 +11,7 @@ const auth = getAuth();
 
 const { onRequest } = require("firebase-functions/v2/https");
 
-exports.adminAddUser = onRequest(async(request, response) => {
+exports.adminAddUser = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
   //userName + accountID creation
   const d = new Date();
   //d.getMonth() returns a month from 0-11 (Jan=0 - Dec=11)
@@ -84,7 +84,7 @@ exports.adminAddUser = onRequest(async(request, response) => {
 });
 
 
-exports.updateUserDoc = onRequest(async(request, res) => {
+exports.updateUserDoc = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, res) => {
   const { email, changeEmail, address, dateOfBirth, password, accountType, active, firstName, lastName, profileUrl, suspendedEnd, suspendedStart, securityQ} = request.query;
 
   let update = {};

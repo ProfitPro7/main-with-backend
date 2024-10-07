@@ -8,7 +8,7 @@ const auth = getAuth();
 const { onRequest } = require("firebase-functions/v2/https");
 
 
-exports.addPasswordToDatabase = onRequest(async(request, response) => {
+exports.addPasswordToDatabase = onRequest({cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
 
   const {password, email } = request.query;
 
@@ -36,7 +36,7 @@ exports.addPasswordToDatabase = onRequest(async(request, response) => {
 });
 
 
-exports.resetPassword = onRequest(async(request, response) => {
+exports.resetPassword = onRequest({cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
 
   const { email, securityQ } = request.query;
   const userDoc = await db.collection("Users").doc(`${email}`).get()
