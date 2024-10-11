@@ -13,12 +13,21 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         //html files
+        //Sprint 1 
         {from: "./src/html/index.html", to: "index.html"},
         {from: "./src/html/signIn.html", to: "signIn.html"},
         {from: "./src/html/forgot-password.html", to: "forgot-password.html"},
         {from: "./src/html/userPages/regUser.html", to: "regUser.html"},
         {from: "./src/html/userPages/adminPage.html", to: "adminPage.html"},
         {from: "./src/html/userPages/account-created-confirmation.html", to: "account-created-confirmation.html"},
+        //Sprint 2 
+        {from: "./src/html/userPages/bookkeeping.html", to: "bookkeeping.html"},
+        {from: "./src/html/userPages/reports.html", to: "reports.html"},
+        //clint's account search
+        {from: "./src/html/clint/coa.html", to: "coa.html"},
+        {from: "./src/html/clint/ledger.html", to: "ledger.html"},
+        {from: "./src/html/clint/search.html", to: "search.html"},
+        //styling
         {from: "./src/css/styles.css", to: "styles.css"},
         {from: "./src/css/adminPage_user_table.css", to: "adminPage_user_table.css"},
         //directories

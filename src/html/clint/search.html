@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profit Pro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: blue;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        nav {
+            margin: 20px 0;
+        }
+        nav a {
+            color: #ffffff;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        footer {
+            background: blue;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        .administratorsection {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        .tab button.active {
+            background-color: #ccc;
+        }
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+        fieldset {
+            margin-bottom: 30px;
+        }
+        input {
+            height: auto;
+            display: block;
+            width: 20%;
+            margin: 5px;
+        }
+        input[id="bodyEmail"]{
+            width: 75%;
+            padding: 60px;
+        }
+        tr {
+            border-bottom: 1px solid black;
+            width: 100%;
+        }
+        td {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Profit Pro</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#bookkeeping">Bookkeeping</a>
+            <a href="#reports">Reports</a>
+            <a href="#usersettings">User Settings</a>
+            <a href="#manager">Manager</a>
+            <a href="adminhomepage.html">Administrator</a>
+        </nav>
+    </header>
+    <script>
+      async function searchItemsNumber(searchTerm) {
+        const itemsRef = db.collection('chart_of_accounts');
+        const query = itemsRef.where('number', '>=', searchTerm)
+                          .where('number', '<=', searchTerm + '\uf8ff'); // Using Unicode for range
+
+        const snapshot = await query.get();
+        const results = [];
+
+        snapshot.forEach((doc) => {
+          results.push(doc.data());
+        });
+
+        console.log('Search Results:', results);
+      }
+
+      async function searchItemsName(searchTerm) {
+        const itemsRef = db.collection('chart_of_accounts');
+        const query = itemsRef.where('name', '>=', searchTerm)
+                          .where('name', '<=', searchTerm + '\uf8ff'); // Using Unicode for range
+
+        const snapshot = await query.get();
+        const results = [];
+
+        snapshot.forEach((doc) => {
+          results.push(doc.data());
+        });
+
+        console.log('Search Results:', results);
+      }
+
+      async function performNumberSearch() {
+          const searchNumber = document.getElementById('account_number_search').value;
+          await searchItemsNumber(searchNumber);
+      }
+
+      async function performNameSearch() {
+          const searchName = document.getElementById('account_name_search').value;
+          await searchItems(searchName);
+      }
+    </script>
+    <div class="container">
+        <section id="accountsearchsection">
+            <h2>Search</h2>
+            <div class="account_number_search">
+              <input type="text" class="form-control" placeholder="Account Number" aria-label="Account Number" aria-describedby="button-addon" id="account_number_search">
+              <button class="account_search_button" type="button" id="button-addon" onclick="performNumberSearch()">Search</button>
+            </div>
+            <div class="account_name_search">
+              <input type="text" class="form-control" placeholder="Account Name" aria-label="Account Name" aria-describedby="button-addon" id="account_name_search">
+              <button class="account_search_button" type="button" id="button-addon" onclick="performNameSearch()">Search</button>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <p>&copy; Profit Pros LLC</p>
+    </footer>
+</body>
+</html>

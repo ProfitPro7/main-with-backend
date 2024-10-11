@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart of Accounts</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1>Chart of Accounts</h1>
+    <form id="accountForm">
+        <input type="text" id="accountName" placeholder="Account Name" required />
+        <input type="text" id="accountType" placeholder="Account Type" required />
+        <button type="submit">Add Account</button>
+    </form>
+
+    <h2>Accounts</h2>
+    <table id="accountTable">
+        <thead>
+            <tr>
+                <th>Account Name</th>
+                <th>Account Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="accountList"></tbody>
+    </table>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Add account
+        document.getElementById('accountForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const accountName = document.getElementById('accountName').value;
+            const accountType = document.getElementById('accountType').value;
+
+            await db.collection('accounts').add({
+                name: accountName,
+                type: accountType
+            });
+
+            document.getElementById('accountForm').reset();
+            loadAccounts();
+        });
+
+        // Load accounts
+        async function loadAccounts() {
+            const accountList = document.getElementById('accountList');
+            accountList.innerHTML = ''; // Clear existing accounts
+
+            const snapshot = await db.collection('accounts').get();
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const row = accountList.insertRow();
+                row.insertCell().textContent = data.name;
+                row.insertCell().textContent = data.type;
+
+                const actionsCell = row.insertCell();
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = () => deleteAccount(doc.id);
+                actionsCell.appendChild(deleteButton);
+            });
+        }
+
+        // Delete account
+        async function deleteAccount(accountId) {
+            await db.collection('accounts').doc(accountId).delete();
+            loadAccounts();
+        }
+
+        // Load accounts on page load
+        loadAccounts();
+    </script>
+</body>
+</html>

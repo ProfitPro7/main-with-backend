@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart of Accounts</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <h1>Chart of Accounts</h1>
+    <ul id="accountList"></ul>
+
+    <h2>Ledger</h2>
+    <div id="ledger"></div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Load accounts
+        async function loadAccounts() {
+            const accountList = document.getElementById('accountList');
+            accountList.innerHTML = ''; // Clear existing accounts
+
+            const snapshot = await db.collection('accounts').get();
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const listItem = document.createElement('li');
+                listItem.textContent = data.name;
+                listItem.style.cursor = "pointer"; // Change cursor to pointer
+                listItem.onclick = () => loadLedger(data.id); // Load ledger on click
+                accountList.appendChild(listItem);
+            });
+        }
+
+        // Load ledger for the selected account
+        async function loadLedger(accountId) {
+            const ledgerDiv = document.getElementById('ledger');
+            ledgerDiv.innerHTML = ''; // Clear existing ledger
+
+            const snapshot = await db.collection('ledgers').doc(accountId).get();
+            if (snapshot.exists) {
+                const transactions = snapshot.data().transactions; // Assuming transactions is an array
+                const table = document.createElement('table');
+                const headerRow = table.insertRow();
+                headerRow.insertCell().textContent = "Date";
+                headerRow.insertCell().textContent = "Description";
+                headerRow.insertCell().textContent = "Amount";
+
+                transactions.forEach(transaction => {
+                    const row = table.insertRow();
+                    row.insertCell().textContent = transaction.date;
+                    row.insertCell().textContent = transaction.description;
+                    row.insertCell().textContent = transaction.amount.toFixed(2);
+                });
+
+                ledgerDiv.appendChild(table);
+            } else {
+                ledgerDiv.textContent = 'No transactions found for this account.';
+            }
+        }
+
+        // Load accounts on page load
+        loadAccounts();
+    </script>
+</body>
+</html>
