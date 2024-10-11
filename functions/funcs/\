@@ -1,0 +1,172 @@
+const { getFirestore } = require("firebase-admin/firestore");
+const { admin } = require("firebase-admin");
+const db = getFirestore();
+
+const { onRequest } = require("firebase-functions/v2/https");
+
+
+exports.addAccountToCOA = onRequest(/*{ cors: [/url_here/]},*/ async(request, response) => {
+
+  let message = "";
+
+  //Getting params from client's API request 
+  const {accountName, accountNum, accountDesc, normalSide, accountCategory, accountSubCategory, initialBalance, debit, credit, balance, dateAdded, userId, order, statement, comment} = request.query;
+  
+  //Ensures API does not add data to firestore from incomplete request
+  const required = [
+    "accountName", "accountNum"/*, "accountDesc", "normalSide", "accountCategory", "accountSubCategory", "initialBalance", "debit", "credit", "balance", "dateAdded", "userId"*/, "order"/*, "statement", "comment"*/
+  ];
+  //searches through request query, and if any params are undefined, if yes: sends error
+  const missing = required.find(field => request.query[field] == undefined);
+  if (missing) {
+    message = "Missing Params";
+    console.log("Missing params check");
+  }
+
+
+  const combined_num_order = parseInt(accountNum) + parseInt(order);
+  const formatted_account_num = combined_num_order.toString();
+
+  //get currentTime
+  const currentTime = new Date().toLocaleTimeString();
+
+  //checks for Dupe Name
+  const dupName = checkForDupName(accountName);
+
+  //checks for Dupe Number
+  const dupNum = checkForAccountNumDuplicate(accountNum, accountCategory);
+
+  //Controller
+  if (message === "" && dupName === false && dupNum === false){
+    //Else, adds account to chart of accounts
+    db.collection("Chart_Of_Accounts").doc(`${accountName}`).set({
+
+      //Account Information set
+      accountCategory: `${accountCategory}`,
+      accountSubCategory: `${accountSubCategory}`,
+      accountName: `${accountName}`,
+      //accountNumber = account number param (100,200,300,...) + order param (01,02,03,...) = Ex: 100 + 01 = 101
+      accountNumber: `${formatted_account_num}`,
+      accountDesc: `${accountDesc}`,
+      userId: `${userId}`,
+      created: `${dateAdded}`,
+      statement: `${statement}`,
+      comment: `${comment}`,
+
+      //Ledger created
+      Ledger: {
+        balance: `${balance}`,
+        normalSide: `${normalSide}`,
+        firstEntry: {
+          dateAdded: `${dateAdded}`,
+          initialBalance: `${initialBalance}`,
+          debit: `${debit}`,
+          credit: `${credit}`,
+        }
+      },
+
+      //Event Log started
+      EventLog: {
+        initializationRecord: {
+          dateChanged: `${dateAdded}`,
+          timeChanged: `${currentTime}`,
+          typeOfChange:"Account Creation",
+          imageBefore: "TBI (to be implemented)",
+          imageAfter:  "TBI (to be implemented)",
+          userId: `${userId}`
+        }
+
+      }
+
+    });
+
+    response.status(200).json({message: "Account Created Successfully"});
+    console.log("account created");
+  } else if (message !== ""){
+    response.status(400).json({message: `${message}`});
+    console.log("missing param");
+
+  } else if (dupName !== false){
+    response.status(400).json({message: "Account Name is already taken"});
+    console.log("dupe name");
+
+  } else if (dupNum !== false){
+    response.status(400).json({message: `${dupNum}`});
+    console.log("dupe num");
+
+  } else {
+    response.status(500).json({message: "Server side error"});
+    console.log("just wrong bro");
+  }
+
+});
+
+
+
+function checkForDupName(accountName){
+  //Checking to see if account name is already taken
+  const checkForExistence = db.collection("Chart_Of_Accounts").doc(`${accountName}`).get()
+  .then((doc) => {
+    if (doc.exists){
+      return true;
+      console.log("duplicate Account check");
+    }else{
+      return false;
+    }
+  })
+  .catch((e) => {
+    return "Error occurred";
+  }); 
+}
+
+
+
+function checkForAccountNumDuplicate(accountNum, accountCategory) {
+  //Checking to see if account number is already taken
+  const query = db.collection("Chart_Of_Accounts").where("accountNum", "==", `${accountNum}`).get()
+  .then((queryResult) => {
+    //at this point, we are sending a bad request response to the client, as the requrest accountNum has already been taken
+    if(queryResult){ //Now trying to send convenient response to client with the next available order number of accounts within the same category
+      //find all accounts with the same Category as the request account
+      const accountsWithSameCategory = db.collection("Chart_Of_Accounts").where("accountCategory", "==", `${accountCategory}`).get()
+      .then((queryResult) => {
+        //find latest taken order number
+        const lastOrderNumber = queryResult.orderBy("accountNumber", "desc").limit(1);
+        var nextOrderNumber = lastOrderNumber + 1;
+        return `Account Number already exists. Next Number available in the ${accountCategory} category is: ${nextOrderNumber}`;
+        console.log("account num duplicate");
+      })
+      .catch((error) => {
+        return "Error when trying to send back nextOrderNumber: Line 61";
+        console.log("error checking duplicate number");
+      })
+    }else{
+      return false;
+    }
+  });
+}
+
+
+//What is needed
+//
+//  Server-side:
+//  - Create an Account for COA
+//       - Duplicate account numbers or names should not be allowed;
+//
+//  - Modify an account
+//     - Accounts with balance greater than zero cannot be deactivated;
+//
+//  - Add, modify, delete a record for an Account's Ledger
+//     - All monetary values must be formatted using commas when appropriate;
+//          - write to Event log
+//          - keep record of ledger before change (image)
+//          - keep record of ledger after change (image)
+//
+//
+//
+//  Client-side:
+//  - All monetary values must be formatted using commas when appropriate;
+//        - Use monetaryValidation.js method
+// - All monetary values should have two decimal spaces;
+// - Account numbers should not allow decimal spaces or alphanumeric values;
+// - If admin user, Administrator tab pops up 

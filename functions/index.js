@@ -8,6 +8,7 @@ const db = getFirestore();
 const emailFunctions = require('./funcs/email');
 const adminFunctions = require('./funcs/admin');
 const passwordFunctions = require('./funcs/password');
+const bookkeepingFunctions = require('./funcs/bookkeeping.js');
 
 
 exports.accountApproval = emailFunctions.accountApproval;
@@ -20,3 +21,5 @@ exports.sendMail = emailFunctions.sendMail;
 exports.addPasswordToDatabase = passwordFunctions.addPasswordToDatabase;
 exports.resetPassword = passwordFunctions.resetPassword;
 exports.updatePassword = passwordFunctions.updatePassword;
+
+exports.addAccountToCOA = bookkeepingFunctions.addAccountToCOA;
