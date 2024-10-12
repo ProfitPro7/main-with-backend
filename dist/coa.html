@@ -1,96 +1,321 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chart of Accounts</title>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>ProfitPro</title>
+
+  <!-- slider stylesheet -->
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="index-css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="index-css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="index-css/responsive.css" rel="stylesheet" />
 </head>
+
 <body>
-    <h1>Chart of Accounts</h1>
-    <form id="accountForm">
-        <input type="text" id="accountName" placeholder="Account Name" required />
-        <input type="text" id="accountType" placeholder="Account Type" required />
-        <button type="submit">Add Account</button>
-    </form>
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <span>
+              ProfitPro
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-    <h2>Accounts</h2>
-    <table id="accountTable">
-        <thead>
-            <tr>
-                <th>Account Name</th>
-                <th>Account Type</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="accountList"></tbody>
-    </table>
-
-    <script>
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        // Add account
-        document.getElementById('accountForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const accountName = document.getElementById('accountName').value;
-            const accountType = document.getElementById('accountType').value;
-
-            await db.collection('accounts').add({
-                name: accountName,
-                type: accountType
-            });
-
-            document.getElementById('accountForm').reset();
-            loadAccounts();
-        });
-
-        // Load accounts
-        async function loadAccounts() {
-            const accountList = document.getElementById('accountList');
-            accountList.innerHTML = ''; // Clear existing accounts
-
-            const snapshot = await db.collection('accounts').get();
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                const row = accountList.insertRow();
-                row.insertCell().textContent = data.name;
-                row.insertCell().textContent = data.type;
-
-                const actionsCell = row.insertCell();
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Delete';
-                deleteButton.onclick = () => deleteAccount(doc.id);
-                actionsCell.appendChild(deleteButton);
-            });
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" href="about.html"> Bookkeeping </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="how.html"> Reports </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">
+                    <span>User Settings</span> 
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"> Manager</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"> Administrator</a>
+                </li>
+               </ul>
+              <div class="user_option">
+                <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
+                  <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit"></button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --border-color: #bdc3c7;
         }
 
-        // Delete account
-        async function deleteAccount(accountId) {
-            await db.collection('accounts').doc(accountId).delete();
-            loadAccounts();
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
         }
 
-        // Load accounts on page load
-        loadAccounts();
-    </script>
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #accountsTable tbody tr:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+
+        #ledgerView {
+            display: none;
+            margin-top: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #ledgerTitle {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+    </style> 
+    <div class="container">
+        <h1>Chart of Accounts</h1>
+        <form id="newAccountForm">
+            <label for="accountName">Account Name:</label>
+            <input type="text" id="accountName" name="accountName" required>
+                    
+            <label for="accountNumber">Account Number:</label>
+            <input type="text" id="accountNumber" name="accountNum" placeholder="e.g. 100, 200, 300... " required>
+
+            <label for="accountDescription">Account Description:</label>
+            <textarea id="accountDescription" name="accountDesc" rows="3"></textarea>
+
+            <label for="order">Account Order:</label>
+            <input type="text" id="order" name="order" placeholder="e.g. 100, 200, 300... " required>
+
+            <label for="accountCategory">Account Category:</label>
+            <select id="accountCategory" name="accountCategory" required>
+                <option value="">Select category</option>
+                <option value="Asset">Asset</option>
+                <option value="Liability">Liability</option>
+                <option value="Equity">Equity</option>
+                <option value="Revenue">Revenue</option>
+                <option value="Expense">Expense</option>
+            </select>
+
+            <label for="accountSubcategory">Account Subcategory:</label>
+            <input type="text" id="accountSubcategory" name="accountSubcategory" placeholder="e.g., Current Assets">
+
+
+            <label for="normalSide">Normal Side:</label>
+            <select id="normalSide" name="normalSide" required>
+                <option value="">Select normal side</option>
+                <option value="Debit">Debit</option>
+                <option value="Credit">Credit</option>
+            </select>
+
+            <hr>
+            <h2>Ledger Information</h2>
+                    
+            <label for="initialBalance">Initial Balance:</label>
+            <input type="text" id="initialBalance" name="initialBalance" required>
+
+            <label for="Debit">Debit:</label>
+            <input type="text" id="debit" name="debit" required>
+
+            <label for="Credit">Credit:</label>
+            <input type="text" id="credit" name="credit" required>
+
+            <label for="statementType">Statement Type:</label>
+            <input type="text" id="statement" name="statement"  placeholder="e.g. IS (Income statement), BS (Balance sheet), or RE (Retained Earnings statement)" required>
+                        
+            <label for="date">Current Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="userId">User Id:</label>
+            <input type="text" id="userId" name="userId" required>
+
+
+
+
+            <button type="submit">Add Account</button>
+        </form>
+
+        <h2>Accounts</h2>
+        <table id="accountsTable">
+            <thead>
+                <tr>
+                    <th>Account Number</th>
+                    <th>Account Name</th>
+                    <th>Description</th>
+                    <th>Normal Side</th>
+                    <th>Category</th>
+                    <th>Subcategory</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Accounts will be added here dynamically -->
+            </tbody>
+        </table>
+
+        <div id="ledgerView">
+            <h2>Account Ledger</h2>
+            <h3 id="ledgerTitle"></h3>
+            <table id="ledgerTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ledger entries will be added here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+  <!-- footer section -->
+  <section class="container-fluid footer_section">
+    <p>
+      &copy; ProfitPro LLC
+    </p>
+  </section>
+  <!-- footer section -->
+
+  <script type="text/javascript" src="coa-js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="coa-js/bootstrap.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- owl carousel script 
+    -->
+  <script type="text/javascript">
+    $(".owl-carousel").owlCarousel({
+      loop: true,
+      margin: 0,
+      navText: [],
+      center: true,
+      autoplay: true,
+      autoplayHoverPause: true,
+      responsive: {
+        0: {
+          items: 1
+        },
+        1000: {
+          items: 3
+        }
+      }
+    });
+  </script>
+  <!-- end owl carousel script -->
 </body>
+
 </html>

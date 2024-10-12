@@ -5,14 +5,27 @@ const db = getFirestore();
 const { onRequest } = require("firebase-functions/v2/https");
 
 
-exports.addAccountToCOA = onRequest(/*{ cors: [/url_here/]},*/ async(request, response) => {
+//*************************DESCRIPTION*******************************
+//addAccountToCOA takes in parameters from the client needed to create an account in the COA
+//it then verifies the parameters
+//  - checks to see if the account name has already been taken
+//  - checks to see if the account number has already been taken
+//
+//if all looks good, it adds an entry to the Chart_Of_Accounts collection in firestore
+//
+//due to the nature of async functions and promises in javascript, this API relies on two subsidiary functions: 
+//  - checkForDupName => queries Chart_Of_Accounts for any duplicate names
+//  - checkForAccountNumDuplicate =>  queries Chart_Of_Accounts for any accounts within the SAME CATEGORY that already have the requested new accounts number
+//
+//*************************DESCRIPTION*******************************
+exports.addAccountToCOA = onRequest( { cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
 
   let message = "";
   //Getting params from client's API request 
   const {accountName, accountNum, accountDesc, normalSide, accountCategory, accountSubCategory, initialBalance, debit, credit, balance, dateAdded, userId, order, statement, comment} = request.query;
   
   //Ensures API does not add data to firestore from incomplete request
-  const required = [ "accountName", "accountNum"/*, "accountDesc", "normalSide"*/, "accountCategory"/*, "accountSubCategory", "initialBalance", "debit", "credit", "balance", "dateAdded", "userId"*/, "order"/*, "statement", "comment"*/];
+  const required = [ "accountName", "accountNum", "accountDesc", "normalSide", "accountCategory", "accountSubCategory", "initialBalance", "debit", "credit", "balance", "dateAdded", "userId", "order", "statement", "comment"];
   //searches through request query, and if any params are undefined, if yes: sends error
   const missing = required.find(field => request.query[field] == undefined);
   if (missing) {
@@ -25,7 +38,7 @@ exports.addAccountToCOA = onRequest(/*{ cors: [/url_here/]},*/ async(request, re
     const formatted_account_num = combined_num_order.toString();
 
     //get currentTime
-    const currentTime = new Date().toLocaleTimeString();
+    const currentTime = new Date().toLocaleTimeString("en-US", {timeZone: "America/New_York"});
 
     //checks for Dupe Name
     checkForDupName(accountName)
@@ -38,7 +51,11 @@ exports.addAccountToCOA = onRequest(/*{ cors: [/url_here/]},*/ async(request, re
               if (answer === false){ // at this point the account number has been verified
                 try{
                   //now we have veriified all inputs and will add account the the chart of accounts
-                  db.collection("Chart_Of_Accounts").doc(`${accountName}`).set({
+                  
+                  const formatted_uid = formatted_account_num + "-" + accountCategory + "-" + accountName;
+                  
+                  
+                  db.collection("Chart_Of_Accounts").doc(`${formatted_uid}`).set({
 
                     //Account Information set
                     accountCategory: `${accountCategory}`,
@@ -70,8 +87,9 @@ exports.addAccountToCOA = onRequest(/*{ cors: [/url_here/]},*/ async(request, re
                         dateChanged: `${dateAdded}`,
                         timeChanged: `${currentTime}`,
                         typeOfChange:"Account Creation",
-                        imageBefore: "TBI (to be implemented)",
-                        imageAfter:  "TBI (to be implemented)",
+                        //Don't have to be initialized at firstCreation record => First imageBefore and after will be added upon first update call
+                        //imageBefore: "TBI (to be implemented)",
+                        //imageAfter:  "TBI (to be implemented)",
                         userId: `${userId}`
                       }
 
@@ -112,17 +130,37 @@ exports.addAccountToCOA = onRequest(/*{ cors: [/url_here/]},*/ async(request, re
 
 async function checkForDupName(accountName){
   //Checking to see if account name is already taken
+  let dupeName = false;
   try{
-    const checkForExistence = await db.collection("Chart_Of_Accounts").doc(`${accountName}`).get();
-    if (checkForExistence.exists){
-      console.log("duplicate Account check");
-      return true;
-    }else{
-      return false;
+
+    const checkForExistence = await db.collection("Chart_Of_Accounts").get()
+    try{
+      checkForExistence.forEach((doc) => {
+        const regex = /^(?:[^-]*-){2}(.*)$/;
+        console.log("DOCUMENT ID: " + doc.id);
+        let docName = doc.id;
+        let match = docName.match(regex);
+
+        if (match && match[1] === accountName){
+          dupeName =  true;
+        }
+      });
+
+      return dupeName;
+
+    } catch(e){
+      console.log("Error at name matching phase");
     }
+    //const checkForExistence = await db.collection("Chart_Of_Accounts").doc(`${accountName}`).get();
+    //if (checkForExistence.exists){
+    //  console.log("duplicate Account check");
+    //  return true;
+    //}else{
+    //  return false;
+    //}
   } catch(e){
     console.log(e);
-    return "Error occurred";
+    return "Error occurred getting collection of accountName";
   }
 }
 
@@ -163,12 +201,17 @@ async function checkForAccountNumDuplicate(accountNum, accountCategory) {
   }
 }
 
+//************************ End of createAccountForCOA API ************************************************
+
 
 //What is needed
-//
-//  Server-side:
+//**********DONE*********************
+//  Server-side: 
 //  - Create an Account for COA
 //       - Duplicate account numbers or names should not be allowed;
+//       - Verify Account Name and Number
+//********************************
+//       
 //
 //  - Modify an account
 //     - Accounts with balance greater than zero cannot be deactivated;

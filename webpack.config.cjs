@@ -27,6 +27,7 @@ module.exports = {
         {from: "./src/html/clint/coa.html", to: "coa.html"},
         {from: "./src/html/clint/ledger.html", to: "ledger.html"},
         {from: "./src/html/clint/search.html", to: "search.html"},
+        {from: "./src/html/clint/coa.html", to: "coa.html"},
         //styling
         {from: "./src/css/styles.css", to: "styles.css"},
         {from: "./src/css/adminPage_user_table.css", to: "adminPage_user_table.css"},
@@ -34,6 +35,10 @@ module.exports = {
         {
           from: path.resolve(__dirname, './src/js/js-for-index'),
           to: path.resolve(__dirname, 'dist', 'js-for-index'),
+        },
+        {
+          from: path.resolve(__dirname, './src/js/coa-js/'),
+          to: path.resolve(__dirname, 'dist', 'coa-js'),
         },
         {
           from: path.resolve(__dirname, './src/css/index-css'),
