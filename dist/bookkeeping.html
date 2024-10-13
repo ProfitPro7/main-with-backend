@@ -27,7 +27,6 @@
 
 
 
-<!--<script type='module' src='main.js'></script>-->
 
 
 
@@ -61,7 +60,7 @@
                   <a class="nav-link" href="bookkeeping.html"> Bookkeeping </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="reports.html"> Reports </a>
+                  <a class="nav-link" href="#"> Reports </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#">
@@ -92,6 +91,7 @@
     </header>
     <!-- end header section -->
 
+      <!--Styling for website theme-->
     <style>
            body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
            header { background: blue; color: #ffffff;  text-align: center; }
@@ -114,6 +114,46 @@
 
        </style>
 
+      <!--Styling for Clint's HTML-->
+        <style>
+            :root { --primary-color: #3498db; --secondary-color: #2c3e50; --background-color: #ecf0f1; --text-color: #34495e; --border-color: #bdc3c7; }
+            .caf body { font-family: 'Arial', sans-serif; line-height: 1.6; color: var(--text-color); background-color: var(--background-color); margin: 0; padding: 20px; }
+            .ca-container { max-width: 1000px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+            .caf h1, h2 { color: var(--secondary-color); margin-bottom: 20px; }
+            .caf form { display: grid; gap: 15px; margin-bottom: 30px; }
+            .caf label { font-weight: bold; }
+            .caf input, select, textarea { width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px; }
+            .caf button { background-color: var(--primary-color); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s; width: 100%; }
+            .caf button:hover { background-color: #2980b9; }
+            .caf table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: white; }
+            .caf th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+            .caf th { background-color: var(--primary-color); color: white; }
+            #delete_Tables .caf th { background-color: red; color: white; }
+            #accountsTable tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }
+            #delete_Tables tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }
+            #ledgerView { display: none; margin-top: 30px; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+            #ledgerTitle { color: var(--primary-color); margin-bottom: 15px; }
+
+
+          /*Transition Effects*/
+
+            .hidden { opacity: 0; visibility: hidden; transition: opacity 0.5s ease-out, visibility 0.5s ease-out; }
+
+            .visible { opacity: 1; visibility: visible; transition: opacity 0.5s ease-in, visibility 0.5s ease-in; }
+
+
+
+            /*Popup css*/
+            .modal { display: flex; justify-content: center; align-items: center; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.5); }
+
+            .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 300px; border-radius: 5px; text-align: center; }
+
+            .closeX { color: #aaa; float: right; font-size: 28px; font-weight: bold;
+            }
+
+            .closeX:hover, .closeX:focus { color: black; text-decoration: none; cursor: pointer; }
+
+        </style> 
       <!--Auto open first tabe script, set all others to inactive-->
 
        <script>
@@ -147,161 +187,18 @@
                    <div class="tab">
                        <button class="tablinks" onclick="openTab(event, 'Account')" id="defaultOpen">Create Account</button>
                        <button class="tablinks" onclick="openTab(event, 'Modify_Account')">Modify Accounts</button>
-                       <button class="tablinks" onclick="openTab(event, 'Delete_Account')">Delete Accounts</button>
                    </div>
 
 
 
 
-<!--Need to make the table auto populated by API request and then done in
-
-
-
-
-  script-->
-<!--Script for autopopulating table with user information for Admin (may need to be used later)-->
-  <!--<script>-->
-  <!--  function show(id){-->
-  <!--    document.getElementById(`${id}`).style.display = "inline-block";-->
-  <!--    const buttons = document.getElementsByClassName('actionButton');-->
-  <!--    for(let i = 0; i < buttons.length; i++){-->
-  <!--      buttons[i].disabled = true;-->
-  <!--      buttons[i].style.backgroundColor = '#A9A9A9';-->
-  <!--    }-->
-  <!--  }-->
-  <!--  function hide(id){-->
-  <!--    document.getElementById(`${id}`).style.display = "none";-->
-  <!--    const buttons = document.getElementsByClassName('actionButton');-->
-  <!--    for(let i = 0; i < buttons.length; i++){-->
-  <!--      buttons[i].disabled = false;-->
-  <!--      buttons[i].style.backgroundColor = '#4CAF50';-->
-  <!--    }-->
-  <!--  }-->
-  <!--</script>-->
-
-
-
 <!--Styling and divs for Users management page on AdminPage-->
   <div id="Account" class="tabcontent">
-    <h3>Create Account</h3>
     <div id="mainContainer-accountCreation">
 
+      <h2>Create Accounts</h2>
+
     <div class="ca-container">
-
-    <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --background-color: #ecf0f1;
-            --text-color: #34495e;
-            --border-color: #bdc3c7;
-        }
-
-        .caf body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--background-color);
-            margin: 0;
-            padding: 20px;
-        }
-
-        .ca-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .caf h1, h2 {
-            color: var(--secondary-color);
-            margin-bottom: 20px;
-        }
-
-        .caf form {
-            display: grid;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .caf label {
-            font-weight: bold;
-        }
-
-        .caf input, select, textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .caf button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-            width: 100%;
-          
-        }
-
-        .caf button:hover {
-            background-color: #2980b9;
-        }
-
-        .caf table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: white;
-        }
-
-        .caf th, td {
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            text-align: left;
-        }
-
-        .caf th {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        #accountsTable tbody tr:hover {
-            background-color: #f5f5f5;
-            cursor: pointer;
-        }
-
-        #ledgerView {
-            display: none;
-            margin-top: 30px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #ledgerTitle {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-    </style> 
-
-
-
-
-
-
-
-
-
-        <h1>Chart of Accounts</h1>
                   <!--Change action link when deploying-->
 
   
@@ -403,25 +300,6 @@
 
             <button class='caf' type='submit'>Add Account</button>
         </form>
-        <!---->
-        <!--<h2 class='caf' >Accounts</h2>-->
-        <!--<table id="accountsTable" class='caf' >-->
-        <!--    <thead class='caf'>-->
-        <!--        <tr class='caf' >-->
-        <!--            <th class='caf'>Account Number</th>-->
-        <!--            <th class='caf'>Account Name</th>-->
-        <!--            <th class='caf'>Description</th>-->
-        <!--            <th class='caf'>Normal Side</th>-->
-        <!--            <th class='caf'>Category</th>-->
-        <!--            <th class='caf'>Subcategory</th>-->
-        <!--        </tr>-->
-        <!--    </thead>-->
-        <!--    <tbody class='caf'>-->
-                <!-- Accounts will be added here dynamically -->
-        <!--    </tbody>-->
-        <!--</table>-->
-        <!---->
-
 
 
   <script type="text/javascript" src="coa-js/jquery-3.4.1.min.js"></script>
@@ -449,65 +327,6 @@
   </script>
 
 
-
-
-
-      <!-- Left: Searchable Table -->
-<!--<style> #accountCreationContainer li{ display: inline;} </style>-->
-<!--      <div id="accountCreationContainer">-->
-<!---->
-<!--                  <form id="createAccount" action="http://localhost:5001/profitpro-e81ab/us-central1/updateUserDoc" method="GET" style="display: inline-block; width: 500px;">-->
-<!---->
-<!--                    <span style="display: flex">-->
-<!--                      <input type="text" id="accountName" name="accountName" required placeholder="Account Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid # ccc;">-->
-<!--                      <input type="text" id="accountNum" name="accountNum" required placeholder="Account Number" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-<!--                    </span>-->
-<!---->
-<!--                    <textarea type="text" id="description" required row="8" name="description" required placeholder="Description" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc; rows='8'; cols='10'"></textarea>-->
-<!---->
-<!--                    <span style="display: flex">-->
-<!--                      <input type="text" id="accountCategory" name="accountCategory" required placeholder="Account Category" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid # ccc;">-->
-<!--                      <input type="text" id="accountSubCategory" name="accountSubCategory" required placeholder="Account Sub-Category" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-<!--                    </span>-->
-<!---->
-<!---->
-<!--                    <span style="display: flex">-->
-<!--                      <input type="text" id="debit" name="debit" required placeholder="Debit Amount" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid # ccc;">-->
-<!--                      <input type="text" id="credit" name="credit" required placeholder="Credit Amount" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-<!--                    </span>-->
-<!---->
-<!--                    <span style="display: flex">-->
-<!--                      <input type="text" id="initialBalance" name="initialBalance" required placeholder="Initial Balance" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid # ccc;">-->
-<!--                      <input type="text" id="balance" name="balance" required placeholder="Balance Amount" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-<!--                    </span>-->
-<!---->
-<!---->
-<!--                    <span style="display: flex">-->
-<!--                      <input type="text" id="userId" name="userId" required placeholder="User ID" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid # ccc;">-->
-<!--                      <input type="text" id="order" name="order" required placeholder="Order (e.g cash is 01)" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-<!--                    </span>-->
-<!---->
-<!--                    <span style="display: flex; gap: 20px; align-items: flex-start;">-->
-<!--                      <label>-->
-<!--                        Statement Type <br>-->
-<!--                        <select name="statement" id="statement" required style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-<!--                          <option value="" disabled selected>Select Statement Type</option>-->
-<!--                          <option value="income_statement">IS (Income statement)</option>-->
-<!--                          <option value="balance_sheet">BS (Balance sheet)</option>-->
-<!--                          <option value="retained-earning-statement">RE (Retained Earning statement)</option>-->
-<!--                        </select>-->
-<!--                      </label>-->
-<!---->
-<!--                      <label>-->
-<!--                        Date Added<br>-->
-<!--                        <input type="date" id="dateAdded" name="dateAdded" required placeholder="Date of Creation" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-<!--                      </label>-->
-<!--                    </span>-->
-<!---->
-<!--                    <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>-->
-<!--                  </form>-->
-<!---->
-
     <div id="popupOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;">
       <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 2; border-radius: 5px; text-align: center;">
         <h2 id="popUpTitle">User Created</h2>
@@ -517,98 +336,7 @@
     </div>
 
 
-        <!--<style>-->
-        <!--  .user-panel {-->
-        <!--    width: 100%;-->
-        <!--    border: 1px solid #ccc;-->
-        <!--    border-radius: 5px;-->
-        <!--    margin-bottom: 10px;-->
-        <!--    overflow: hidden;-->
-        <!--  }-->
-        <!---->
-        <!-- .user-title {-->
-        <!--   padding: 10px;-->
-        <!--   background-color: #f1f1f1;-->
-        <!--   cursor: pointer;-->
-        <!--   font-weight: bold;-->
-        <!--   display: flex;-->
-        <!--   justify-content: space-between;-->
-        <!--   align-items: center;-->
-        <!-- }-->
-        <!---->
-        <!-- .user-info {-->
-        <!--   display: none; /* Initially hidden */-->
-        <!--   padding: 10px;-->
-        <!--   background-color: #fff;-->
-        <!-- }-->
-        <!---->
-        <!-- .user-title .arrow {-->
-        <!--   font-size: 12px;-->
-        <!-- }-->
-        <!---->
-        <!-- .active .user-info {-->
-        <!--   display: block;-->
-        <!-- }-->
-        <!---->
-        <!-- .active .user-title .arrow {-->
-        <!--   content: '\\9650'; /* Up arrow */-->
-        <!-- }-->
-        <!-- .active .user-title{-->
-        <!--   background-color: #A9A9A9;-->
-        <!---->
-        <!-- }-->
-        <!---->
-        <!--</style>-->
-
-        <!--<script>-->
-        <!---->
-        <!--  function togglePanel(element) {-->
-        <!--    const allPanels = document.querySelectorAll('.user-panel');-->
-        <!---->
-        <!---->
-        <!--    allPanels.forEach(panel => {-->
-        <!--      if (panel !== element.parentElement) {-->
-        <!--        panel.classList.remove('active');-->
-        <!--      }-->
-        <!--    });-->
-        <!--    element.parentElement.classList.toggle('active');-->
-      <!--    //based on what panel is selected, the email input in the update information form is populated with the current selected user's email-->
-      <!--    const elements = document.getElementsByClassName('user-email');-->
-      <!--    for(let i =0; i < elements.length; i++){-->
-      <!--      elements[i].value = element.parentElement.querySelector('.user-email').textContent;-->
-      <!--    }-->
-      <!--  }-->
-      <!---->
-      <!--  </script>-->
-
     </div>
-
-              <!--Will now be used for account is Created -->
-
-<!--Create Account Information Form submission popup Confirmation-->
-
-                <!--Create user Form-->
-
-      <!--<form id='account-update' action="http://localhost:5001/profitpro-e81ab/us-central1/updateUserDoc" method="GET" style="display: none; width: auto;">-->
-      <!--Popup Content -->
-      <!--  <h4>Update Account</h4>-->
-      <!--  <input type="hidden" id='user-email' class='user-email' name='email'>-->
-      <!--  <input type="text" id="firstName" name="firstName"  placeholder="First Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-      <!--  <input type="text" id="lastName" name="lastName"  placeholder="Last Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-      <!--  <input type="email" id="email" name="changeEmail"  placeholder="Email" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-      <!--  <input type="password" id="password" name="password"  placeholder="Password" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-      <!--  <input type="text" id="address" name="address"  placeholder="Address" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-      <!--  <input type="date" id="DOB" name="dateOfBirth" placeholder="Date of Birth"   style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">-->
-      <!--  <p>Security Question: What is your favorite color?</p>-->
-      <!--  <input type="text" id="securityQuestion" name="securityQ"  placeholder="Answer to Security Question" style="padding: 10px; width: 100%; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ccc;">-->
-      <!--  <br>-->
-      <!--  <hr>-->
-      <!--  <span style="display: inline;">-->
-      <!--    <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>-->
-      <!--    <button type='button' onclick='hide("account-update")' style="padding: 10px 20px; background-color: #cc3f35; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>-->
-      <!--  </span>-->
-      <!--</form>-->
-      <!---->
 
 <!--End of Manage users Tab-->
   </div> 
@@ -618,105 +346,223 @@
   <!--Update with table from adminPage-->
   <div id="Modify_Account" class="tabcontent">
 
-    <h3>Modify Account</h3>
 
     <div id="mainContainer-accountLedger">
 
 
+    <div id='COA_Tables'>
     <!--Needs implementation-->
+      <h2 id='coa_title'>Account Information</h2>
+
+        <div id='button-list-div' class='hidden' style='text-align: right; display: none; padding: 10px;'>
+          <span style='display: inline; padding:10px;'>
+            <button id="deSelectAccount" style="border-radius: 25px; color: white; background-color: grey;">Back</button>
+            <button id="modifyAccount" onclick="document.getElementById('popup').style.display ='';" style="border-radius: 25px; color: white; background-color: green;">Modify Account</button>
+            <button id="deleteAccount" onclick="document.getElementById('delete-popup').style.display ='';" style="border-radius: 25px; color: white; background-color: red;">Deactivate Account</button>
+          </span>
+        </div>
 
 
-        <div id="ledgerView">
+        <div id="popup" class="modal" style='display: none;'>
+          <div class="modal-content">
+            <span class="closeX"  onclick='document.getElementById("popup").style.display="none";' style='text-align: right;' id="closePopup">&times;</span>
+            <p>What would you like to do?</p>
+            <button id="modifyAccount" onclick='document.getElementById("modify-account-info").style.display=""; document.getElementById("popup").style.display="none";'>Modify Account Information</button>
+            <button id="viewLedger" onclick='document.getElementById("modify-ledger").style.display=""; document.getElementById("popup").style.display="none";'>Modify Account Ledger</button>
+          </div>
+        </div>
+
+        <div id="delete-popup" class="modal" style='display: none;'>
+          <div class="modal-content">
+            <span class="closeX"  onclick='document.getElementById("delete-popup").style.display="none";' style='text-align: right;' id="closePopup">&times;</span>
+            <p>Are you sure you want to deactivate this Account?</p>
+            <span style='display: flex; text-align: right;'>
+              <form id='deactivateAccountForm' action='http://localhost:5001/profitpro-e81ab/us-central1/deactivateAccountCOA'>
+                <input id='deleteAccountButton' name='accountId' style='display: none;'>
+                <button type='submit' style='background-color: green; border-radius: 25px; padding: 5px; width: 60px;'>Yes</button>
+              </form>
+              <button id="viewLedger" onclick='document.getElementById("delete-popup").style.display="none";' style='background-color: red; border-radius: 25px; padding: 5px; width: 60px;'>No</button>
+            </span>
+          </div>
+        </div>
+
+
+
+
+
+      <table id="accountsTable" class='caf'>
+        <thead class='caf'>
+          <tr class='caf'>
+            <th class='caf'>Account Number</th>
+            <th class='caf'>Account Name</th>
+            <th class='caf'>Description</th>
+            <th class='caf'>Normal Side</th>
+            <th class='caf'>Category</th>
+            <th class='caf'>Subcategory</th>
+          </tr>
+        </thead>
+        <tbody id="coa_table" class='caf'>
+
+          <!-- Accounts will be added here dynamically -->
+        </tbody>
+      </table>
+    </div>
+
+
+                <!--Modify Account form-->
+                <div id='modify-account-info' style="display: none; ">
+                  <hr><h4>Modify Account Information</h4><hr>
+                  <form id="modify-account-form-coa" action="http://localhost:5001/profitpro-e81ab/us-central1/modifyAccountInformation" style="display: flex; flex-direction: column; gap: 15px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+                    <input type="text" id='modify-source' name='source' style='display:none'>
+
+                    <div style="display: flex; gap: 15px; align-items: center; width:100%;/*! margin-left: ; */">
+                      <div>
+                        <label for="modify-accountName" style="display: block; margin-bottom: 5px;">Account Name:</label>
+                        <input type="text" id="modify-accountName" name="accountName" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
+                      </div>
+                      <div>
+                        <label for="modify-accountNum" style="display: block; margin-bottom: 5px;">Account Number:</label>
+                        <input type="text" id="modify-accountNum" name="accountNum" placeholder="e.g. 100, 200, 300..." style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
+                      </div>
+                      <div>
+                        <label for="modify-order" style="display: block; margin-bottom: 5px;">Account Order:</label>
+                        <input type="text" id="modify-order" name="order" placeholder="e.g. 1, 2, 3..." style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
+                      </div>
+
+                      <div>
+                        <label for="modify-accountCategory" style="display: block; margin-bottom: 5px;">Account Category:</label>
+                        <select id="modify-accountCategory" name="accountCategory"  style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 160px;">
+                          <option value="">Select category</option>
+                          <option value="Asset">Asset</option>
+                          <option value="Liability">Liability</option>
+                          <option value="Equity">Equity</option>
+                          <option value="Revenue">Revenue</option>
+                          <option value="Expense">Expense</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label for="modify-normalSide" style="display: block; margin-bottom: 5px;">Normal Side:</label>
+                        <select id="modify-normalSide" name="normalSide" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 160px;">
+                          <option value="">Select normal side</option>
+                          <option value="Debit">Debit</option>
+                          <option value="Credit">Credit</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    <div>
+                      <label for="modify-accountDesc" style="display: block; margin-bottom: 5px;">Account Description:</label>
+                      <textarea id="modify-accountDesc" name="accountDesc" rows="3" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 15px; align-items: center;">
+
+
+                    </div>
+
+                    <div>
+                      <label for="modify-accountSubCategory" style="display: block; margin-bottom: 5px;">Account Subcategory:</label>
+                      <input type="text" id="modify-accountSubCategory" name="accountSubCategory" placeholder="e.g., Current Assets" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%;">
+                    </div>
+
+                    <span style="display: inline; text-align: center;">
+                      <button type="submit" style="color: white; background-color: green; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">Add Account</button>
+                      <button type="button" onclick='document.getElementById("modify-account-info").style.display="none";' style="color: white; background-color: red; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">× Cancel</button>
+                    </span>
+                  </form>
+                </div>
+
+    <div id="modify-popupOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;">
+      <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 2; border-radius: 5px; text-align: center;">
+        <h2 id="modify-popUpTitle">Account Modified</h2>
+        <p id="modify-popUpMessage">Account has been modified for the Chart of Accounts</p>
+        <button id="modify-overlayButton" class="close-button" onclick="closeModifyPopup()" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
+      </div>
+    </div>
+
+
+
+
+
+        <div id="ledgerView" class='hidden'>
             <h2>Account Ledger</h2>
             <h3 id="ledgerTitle"></h3>
-            <table id="ledgerTable">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Debit</th>
-                        <th>Credit</th>
-                        <th>Balance</th>
+            <table id="ledgerTable" class='caf'>
+                <thead class='caf'>
+                    <tr class='caf'>
+                        <th class='caf'>Date</th>
+                        <th class='caf'>Description</th>
+                        <th class='caf'>Debit</th>
+                        <th class='caf'>Credit</th>
+                        <th class='caf'>Balance</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id='ledger-table'>
                     <!-- Ledger entries will be added here dynamically -->
                 </tbody>
             </table>
+
+
         </div>
+
+        <!--Modify Ledger form-->
+        <div id='modify-ledger' style="display: none; ">
+          <hr><h4>Add Record to Ledger</h4><hr>
+          <form id="modify-ledger-form-coa" action="http://localhost:5001/profitpro-e81ab/us-central1/modifyAccountLedger" style="display: flex; flex-direction: column; gap: 15px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+
+              <input type="text" id='ledger-source' name='source' style='display:none'>
+
+            <div style="display: flex; gap: 15px; align-items: center; width:100%;/*! margin-left: ; */">
+              <div>
+                <label for="ledger-date" style="display: block; margin-bottom: 5px;">Date:</label>
+                <input type="date" id="ledger-date" name="dateAdded" required="" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
+              </div>
+              <div>
+                <label for="ledger-debit" style="display: block; margin-bottom: 5px;">Debit:</label>
+                <input type="text" id="ledger-debit" name="debit" required="" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
+              </div>
+              <div>
+                <label for="ledger-credit" style="display: block; margin-bottom: 5px;">Credit:</label>
+                <input type="text" id="ledger-credit" name="credit" required="" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
+              </div>
+              <div>
+                <label for="ledger-balance" style="display: block; margin-bottom: 5px;">Balance:</label>
+                <input type="text" id="ledger-balance" name="balance" required="" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
+              </div>
+
+
+            </div>
+            <div>
+              <label for="ledger-desc" style="display: block; margin-bottom: 5px;">Record Description:</label>
+              <textarea id="ledger-accountDesc" name="description" rows="3" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+            </div>
+
+            <span style="display: inline; text-align: center;">
+              <button type="submit" style="color: white; background-color: green; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">Add Record</button>
+              <button type="button" onclick='document.getElementById("modify-ledger").style.display="none";' style="color: white; background-color: red; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">× Cancel</button>
+            </span>
+          </form>
+        </div>
+
+
+
+
     </div>
 
 
 
   </div>
 
-  <div id="Delete_Account" class="tabcontent">
-    <h3>Delete Account</h3>
 
-              <!--Needs implementation-->
-
-
-    </div>
-  </div>
-
-      <!--<script>-->
-      <!--  async function handleEmailSend(formId) {-->
-      <!--    const form = document.getElementById(formId);-->
-      <!---->
-      <!--    form.addEventListener("submit", async function(event) {-->
-      <!--      event.preventDefault();-->
-      <!---->
-      <!--      const input = new FormData(event.target);-->
-      <!--      const queryParams = new URLSearchParams(input).toString();-->
-      <!--      const url = `${event.target.action}?${queryParams}`;-->
-      <!---->
-      <!--      try {-->
-      <!--        const API_response = await fetch(url, {-->
-      <!--          method: "GET"-->
-      <!--        });-->
-      <!---->
-      <!--        if (API_response.status === 200) {-->
-      <!--          showEmailPopup();-->
-      <!--        }-->
-      <!--      } catch (e) {-->
-      <!--        console.log(e);-->
-      <!--      }-->
-      <!---->
-      <!--    });-->
-      <!--  }-->
-      <!---->
-      <!--  function showEmailPopup() {-->
-      <!--    document.getElementById('email-popupOverlay').style.display = 'block';-->
-      <!--  }-->
-      <!---->
-      <!--  function closePopup() {-->
-      <!--    document.getElementById('email-popupOverlay').style.display = 'none';-->
-      <!--    location.reload(); // Refresh the page-->
-      <!--  }-->
-      <!---->
-      <!--  document.addEventListener("DOMContentLoaded", function() {-->
-      <!--    handleEmailSend('send-Email');-->
-      <!--  });-->
-      <!--</script>-->
-      <!---->
-
-  <div id="Expired-Password" class="tabcontent"> 
-    <h3>Expired Passwords</h3>
-    <div id='expired-password-list'>
-    </div>
-
-  </div>
-
-      </div>
-
-    <!-- footer section -->
-    <section class="container-fluid footer_section">
-      <p>
+  <!-- footer section -->
+  <section class="container-fluid footer_section">
+    <p>
       &copy; ProfitPro LLC
-      </p>
-    </section>
-    <!-- footer section -->
-  </div>
+    </p>
+  </section>
+  <!-- footer section -->
+</div>
 
 
   <!--Form handler script to stop the page from auto refreshing, as well as handling the response from the API to create an account -->
@@ -840,15 +686,145 @@
     }
   }
 
+
+  async function handleModifyFormSubmission(formId) {
+    const form = document.getElementById(`${formId}`);
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      console.log("form prevented");
+
+      const input = new FormData(event.target);
+      const queryParams = new URLSearchParams(input).toString();
+      const url = `${event.target.action}?${queryParams}`;
+
+      try {
+        const API_response = await fetch(url, {
+          method: "GET"
+        });
+
+        const result = await API_response.json();
+
+        const message = result.message;
+
+        if (API_response.ok) {
+          document.getElementById("modify-popUpMessage").innerHTML = `${message}`;
+          showModifyPopup();
+        }else{
+          document.getElementById("modify-popUpTitle").innerHTML = "Account Modification Denied";
+          document.getElementById("modify-popUpMessage").innerHTML = `${message}`;
+          document.getElementById("modify-overlayButton").style.backgroundColor = "#e33030";
+          showModifyPopup();
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
+    });
+  }
+
+  function showModifyPopup() {
+    document.getElementById('modify-popupOverlay').style.display = 'block';
+  }
+
+  function closeModifyPopup() {
+    document.getElementById('modify-popupOverlay').style.display = 'none';
+    location.reload(); // Refresh the page
+  }
+
+
+  async function handleLedgerFormSubmission(formId) {
+    const form = document.getElementById(`${formId}`);
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      console.log("form prevented");
+
+      const input = new FormData(event.target);
+      const queryParams = new URLSearchParams(input).toString();
+      const url = `${event.target.action}?${queryParams}`;
+
+      try {
+        const API_response = await fetch(url, {
+          method: "GET"
+        });
+
+        const result = await API_response.json();
+
+        const message = result.message;
+
+        if (API_response.ok) {
+          document.getElementById("modify-popUpTitle").innerHTML = "Ledger Entry Added";
+          document.getElementById("modify-popUpMessage").innerHTML = `${message}`;
+          showModifyPopup();
+        }else{
+          document.getElementById("modify-popUpTitle").innerHTML = "Ledger Entry Denied";
+          document.getElementById("modify-popUpMessage").innerHTML = `${message}`;
+          document.getElementById("modify-overlayButton").style.backgroundColor = "#e33030";
+          showModifyPopup();
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
+    });
+  }
+
+  async function handleDeactivateFormSubmission(formId) {
+    const form = document.getElementById(`${formId}`);
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      console.log("form prevented");
+
+      const input = new FormData(event.target);
+      const queryParams = new URLSearchParams(input).toString();
+      const url = `${event.target.action}?${queryParams}`;
+
+      try {
+        const API_response = await fetch(url, {
+          method: "GET"
+        });
+
+        const result = await API_response.json();
+
+        const message = result.message;
+
+        if (API_response.ok) {
+          document.getElementById("modify-popUpTitle").innerHTML = "Account Deactivated";
+          document.getElementById("modify-popUpMessage").innerHTML = `${message}`;
+          showModifyPopup();
+        }else{
+          document.getElementById("modify-popUpTitle").innerHTML = "Account Could Not Be Deactivated";
+          document.getElementById("modify-popUpMessage").innerHTML = `${message}`;
+          document.getElementById("modify-overlayButton").style.backgroundColor = "#e33030";
+          showModifyPopup();
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
+    });
+  }
+
+
+
+
+
   //reuses the form submission handler function for multiple tabs as each have forms
   document.addEventListener("DOMContentLoaded", function() {
     handleFormSubmission("new-account-form-coa");
+    handleModifyFormSubmission("modify-account-form-coa");
+    handleLedgerFormSubmission("modify-ledger-form-coa");
+    handleDeactivateFormSubmission('deactivateAccountForm');
   });
+
+
   </script>
 
 
 
-
+  <script type='module' src='main.js'></script>
 
   <script type="text/javascript" src="js-for-index/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="js-for-index/bootstrap.js"></script>

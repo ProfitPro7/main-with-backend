@@ -23,3 +23,6 @@ exports.resetPassword = passwordFunctions.resetPassword;
 exports.updatePassword = passwordFunctions.updatePassword;
 
 exports.addAccountToCOA = bookkeepingFunctions.addAccountToCOA;
+exports.modifyAccountInformation = bookkeepingFunctions.modifyAccountInformation;
+exports.deactivateAccountCOA  = bookkeepingFunctions.deactivateAccountCOA;
+exports.modifyAccountLedger  = bookkeepingFunctions.modifyAccountLedger;

@@ -4,6 +4,8 @@ import { signInUser } from ".//signIn.js";
 import { getUserName, createUserList, createExpiredPasswordList } from ".//admin.js";
 import { sendPasswordResetEmail } from "firebase/auth";
 
+import { populateChartOfAccountsTable, selectAccount, deselectAccount, fillLedger } from ".//bookkeeping.js";
+
 const path = window.location.pathname;
 
 
@@ -171,5 +173,32 @@ if(path.includes("forgot-password.html")){
 
 
 }
+
+
+
+if(path.includes("bookkeeping.html")){
+  populateChartOfAccountsTable("coa_table");
+  //populateChartOfAccountsTable("delete_table");
+
+  const table = document.getElementById('coa_table');
+
+  table.addEventListener("click", function(event){
+    const clickedRow = event.target.closest('tr');
+    if(clickedRow){
+      selectAccount("coa_table", clickedRow.id);
+      fillLedger(clickedRow.id);
+    }
+
+  });
+
+  document.getElementById("deSelectAccount").addEventListener("click", function() {
+      deselectAccount("coa_table");
+    document.getElementById('ledger-table').innerHTML = "";
+  });
+
+
+}
+
+
 
 

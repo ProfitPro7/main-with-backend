@@ -1,4 +1,4 @@
-const { getFirestore } = require("firebase-admin/firestore");
+const { getFirestore, FieldValue} = require("firebase-admin/firestore");
 const { admin } = require("firebase-admin");
 const db = getFirestore();
 
@@ -68,22 +68,25 @@ exports.addAccountToCOA = onRequest( { cors: [/profitpro-e81ab\.web\.app/]}, asy
                     created: `${dateAdded}`,
                     statement: `${statement}`,
                     comment: `${comment}`,
+                    normalSide: `${normalSide}`,
 
                     //Ledger created
-                    Ledger: {
-                      balance: `${balance}`,
-                      normalSide: `${normalSide}`,
-                      firstEntry: {
+                    Ledger: [
+                      {
                         dateAdded: `${dateAdded}`,
+                        description: "First Entry",
                         initialBalance: `${initialBalance}`,
+                        balance: `${balance}`,
                         debit: `${debit}`,
                         credit: `${credit}`,
                       }
-                    },
+                    ],
 
                     //Event Log started
-                    EventLog: {
-                      initializationRecord: {
+                    EventLog: [
+                      {
+                        eventId: `${dateAdded}-${accountCategory}-${accountName}-Created`,
+                        description: "Account Created",
                         dateChanged: `${dateAdded}`,
                         timeChanged: `${currentTime}`,
                         typeOfChange:"Account Creation",
@@ -92,8 +95,7 @@ exports.addAccountToCOA = onRequest( { cors: [/profitpro-e81ab\.web\.app/]}, asy
                         //imageAfter:  "TBI (to be implemented)",
                         userId: `${userId}`
                       }
-
-                    }
+                    ]
 
                   });
 
@@ -221,12 +223,368 @@ async function checkForAccountNumDuplicate(accountNum, accountCategory) {
 //          - write to Event log
 //          - keep record of ledger before change (image)
 //          - keep record of ledger after change (image)
+
+
+
+
+
+exports.modifyAccountInformation = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
+
+  //Getting params from client's API request 
+  const {source, accountName, accountNum, accountDesc, normalSide, accountCategory, accountSubCategory,  order} = request.query;
+
+  let update = {};
+
+  const event = source + "-Account_Information_Updated"; 
+  const currDate = new Date().toJSON().slice(0,10);
+  let eventLog = {eventId: event, dateChanged: currDate};
+
+
+  let eventLogChanges = {};
+  let description = "";
+
+  //get currentTime
+  const currentTime = new Date().toLocaleTimeString("en-US", {timeZone: "America/New_York"});
+  eventLog.timeChanged = currentTime;
+  eventLog.typeOfChange = "Account Information Modified";
+
+  //change later
+  eventLog.userId = "JTonnesen-09-24";
+
+
+
+  let accountId = "";
+
+
+  const docRef = db.collection("Chart_Of_Accounts").doc(source).get()
+  .then((doc) => {
+
+    const data = doc.data();
+
+    if(doc.exists){
+
+      if(accountNum && order){
+        const combined_num_order = parseInt(accountNum) + parseInt(order);
+        const formatted_account_num = combined_num_order.toString();
+
+        eventLogChanges.accountNumber = formatted_account_num;
+        update.accountNumber = formatted_account_num;
+
+        accountId += formatted_account_num +"-";
+
+      }else{
+        accountId += data.accountNumber +"-";
+      }
+
+      if(accountCategory){
+        update.accountCategory = accountCategory;
+        eventLogChanges.accountCategory = accountCategory;
+        description += "Account Category, ";
+
+        accountId += accountCategory + "-";
+      }else{
+        accountId += data.accountCategory + "-";
+
+      }
+      if (accountName){
+        update.accountName = accountName;
+        eventLogChanges.accountName = accountName;
+        description += "Account Name, ";
+
+        accountId += accountName;;
+
+      }else{
+
+        accountId += data.accountName;
+
+      }
+
+      if (accountDesc){
+        update.accountDesc = accountDesc;
+        eventLogChanges.accountDesc = accountDesc;
+        description += "Account Description, ";
+      }
+      if (normalSide){
+        update.normalSide = normalSide;
+        eventLogChanges.normalSide = normalSide;
+        description += "Account Normal Side, ";
+      }
+      if (accountSubCategory){
+        update.accountSubCategory = accountSubCategory;
+        eventLogChanges.accountSubCategory = accountSubCategory;
+        description += "Account Sub-Category, ";
+      }
+
+      description += "Changed.";
+
+      eventLog.changes = eventLogChanges;
+      eventLog.description = description;
+
+
+      //now modifying account
+      if ([accountName, accountNum, accountCategory, accountSubCategory, order, accountDesc, normalSide].every(param => param === undefined || param === "")){
+        response.status(400).json({message: "No information passed to update"});
+      }else if ((accountNum && !order) || (!accountNum && order)){
+        response.status(400).json({message: "Must specify BOTH Account Number and Order to change either"});
+      }else{
+
+        try{
+          //creating copy with new document id because of changes
+          db.collection("Chart_Of_Accounts").doc(`${accountId}`).set({
+
+            //Account Information set
+            accountCategory: `${data.accountCategory}`,
+            accountSubCategory: `${data.accountSubCategory}`,
+            accountName: `${data.accountName}`,
+            //accountNumber = account number param (100,200,300,...) + order param (01,02,03,...) = Ex: 100 + 01 = 101
+            accountNumber: `${data.accountNumber}`,
+            accountDesc: `${data.accountDesc}`,
+            userId: `${data.userId}`,
+            created: `${data.dateAdded}`,
+            statement: `${data.statement}`,
+            comment: `${data.comment}`,
+            normalSide: `${data.normalSide}`,
+
+            //Ledger created
+            Ledger: data.Ledger,
+
+            //Event Log started
+            EventLog: data.EventLog
+          })
+          .then(() => {
+
+              try{
+                //now filling in new document with changed data
+                //
+                db.collection("Chart_Of_Accounts").doc(`${accountId}`).update(update)
+                  .then(() => {
+                    console.log("OK");
+
+                    try{
+
+                      db.collection("Chart_Of_Accounts").doc(`${accountId}`).update({
+                        EventLog: FieldValue.arrayUnion(eventLog)
+                      })
+                        .then(() => {
+                          console.log(`${accountId} changed, with adding event log: ${eventLog}`);
+
+                        })
+                        .catch((e) => {
+                          console.log(`${accountId} broke when adding event log: ${eventLog}`);
+                        });
+
+                    }catch(error){
+
+                      console.log("Failed at adding Event to Event Log");
+                      console.log(error);
+                    }
+
+
+                  })
+                  .catch((e) => {
+                    console.log(e);
+                  });
+
+              } catch(error){
+                console.log("Failed at account modification: updating copy account phase");
+              }
+
+              try{
+
+                deactivate(source)
+                .then((result) => {
+                  if(result){
+                  console.log("Deleted" + source);
+
+                }else{
+                  console.log("Not Deleted" + source);
+                }
+                  }).catch((error) => {
+                    console.log("Not Deleted" + source);
+
+                  });
+              
+
+              }catch(error){
+                console.log("Failed at account modification: deleting original account phase");
+
+              }
+
+              response.status(200).json({message: "Account Modified Successfully"});
+              console.log(eventLog);
+              console.log(update);
+              console.log(description);
+
+
+
+
+            });
+        }
+        catch(error){
+          console.log("Failed at account modification: copying account phase");
+        }
+
+
+      }
+
+
+    }
+  })
+  .catch((error) => {
+    response.status(400).json({message: "Cannot find the Account you are looking to change."});
+  });
+
+});
+
+
+//async function newAccountID(source, accountName = undefined, accountNumber = undefined, order = undefined, accountCategory = undefined){
+//  String newId = "";
 //
+//  const docRef = db.collection("Chart_Of_Accounts").doc(source).get()
+//  .then((doc) => {
+//    if(doc.exists){
+//      const data = doc.data();
+//      //account Number
+//      if(accountNumber !== undefined || order !== undefined ){
+//        if (accountNumber !== undefined && order !== undefined ){
+//          const combined_num_order = parseInt(accountNumber) + parseInt(order);
+//          const formatted_account_num = combined_num_order.toString();
 //
+//          newId += formatted_account_num + "-";
 //
-//  Client-side:
-//  - All monetary values must be formatted using commas when appropriate;
-//        - Use monetaryValidation.js method
-// - All monetary values should have two decimal spaces;
-// - Account numbers should not allow decimal spaces or alphanumeric values;
-// - If admin user, Administrator tab pops up 
+//        }else {
+//          return false;
+//
+//        }
+//      }else{
+//          newId += data.accountNumber + "-";
+//
+//      }
+//
+//      if(accountCategory !== undefined){
+//        newId += accountCategory + "-";
+//      }else{
+//        newId += data.accountCategory + "-";
+//
+//      }
+//
+//      if(accountName !== undefined){
+//        newId += accountName;
+//      }else{
+//        newId += data.accountName;
+//
+//      }
+//
+//      return newId;
+//    }
+//  })
+//  .catch((error) => {
+//    return "Error";
+//  });
+//}
+
+
+  
+    
+    //  .then((answer) => {
+    //    if (answer === false){ //at this point the account name has been verified
+    //
+    //      //checks for Dupe Number
+    //      checkForAccountNumDuplicate(formatted_account_num, accountCategory)
+    //        .then((answer) => {
+    //          if (answer === false){ // at this point the account number has been verified
+    //            try{
+    //              //now we have veriified all inputs and will add account the the chart of accounts
+    //
+    //              const formatted_uid = formatted_account_num + "-" + accountCategory + "-" + accountName;
+    //
+
+
+//exports.modifyAccountLedger = onRequest( { cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
+//});
+
+exports.modifyAccountLedger = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
+
+  const {source, balance, credit, debit, dateAdded, description} = request.query;
+
+  const newEntry = {balance: balance, credit: credit, dateAdded: dateAdded, debit: debit, description: description};
+
+  const currDate = new Date().toJSON().slice(0,10);
+  const currentTime = new Date().toLocaleTimeString("en-US", {timeZone: "America/New_York"});
+
+  const eventLog= {
+    changes: "Ledger Entry Added",
+    dateChanged: currDate,
+    description: `Ledger entry added by JTonnesen-09-24, on ${currDate}`,
+    timeChanged: currentTime,
+    typeOfChange: "Ledger Addition",
+    userId: "JTonnesen-09-24"
+  };
+
+
+  try{
+
+  db.collection("Chart_Of_Accounts").doc(`${source}`).update({
+    EventLog: FieldValue.arrayUnion(eventLog),
+    Ledger: FieldValue.arrayUnion(newEntry)
+  })
+    .then(() => {
+      console.log(`Event Log and Ledger entries added`);
+      response.status(200).json({message: "Ledger Entry Added."});
+
+    })
+    .catch((e) => {
+      console.log(`Failed printing OH NOOOO`);
+      response.status(400).json({message: "Ledger Entry Failed to Add"});
+    });
+
+}catch(error){
+
+  console.log("Failed at adding Event Log and Ledger entries");
+  console.log(error);
+}
+
+});
+
+
+
+exports.deactivateAccountCOA = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
+
+  const {accountId} = request.query;
+
+  if(accountId === undefined || accountId === ""){
+        response.status(400).json({message: "No Account Id Passed"});
+
+  }else{
+
+    try{
+      const result = await deactivate(accountId);
+      response.status(200).json({message: "Account Deactivated"});
+
+    }catch(error){
+      response.status(400).json({message: "Account Could not be Deleted"});
+    }
+  }
+
+});
+
+
+async function deactivate(accountId){
+  if(accountId === undefined || accountId === ""){
+    return false;
+
+  }else{
+    db.collection("Chart_Of_Accounts").doc(`${accountId}`).delete().then(() => {
+      return true;
+    })
+      .catch((error) => {
+        return false;
+      });
+  }
+
+}
+
+
+
+
+

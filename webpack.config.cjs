@@ -22,7 +22,7 @@ module.exports = {
         {from: "./src/html/userPages/account-created-confirmation.html", to: "account-created-confirmation.html"},
         //Sprint 2 
         {from: "./src/html/userPages/bookkeeping.html", to: "bookkeeping.html"},
-        {from: "./src/html/userPages/reports.html", to: "reports.html"},
+        //{from: "./src/html/userPages/reports.html", to: "reports.html"},
         //clint's account search
         {from: "./src/html/clint/coa.html", to: "coa.html"},
         {from: "./src/html/clint/ledger.html", to: "ledger.html"},
