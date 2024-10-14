@@ -4,7 +4,7 @@ import { signInUser } from ".//signIn.js";
 import { getUserName, createUserList, createExpiredPasswordList } from ".//admin.js";
 import { sendPasswordResetEmail } from "firebase/auth";
 
-import { populateChartOfAccountsTable, selectAccount, deselectAccount, fillLedger } from ".//bookkeeping.js";
+import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog } from ".//bookkeeping.js";
 
 const path = window.location.pathname;
 
@@ -193,6 +193,32 @@ if(path.includes("bookkeeping.html")){
 
   document.getElementById("deSelectAccount").addEventListener("click", function() {
       deselectAccount("coa_table");
+    document.getElementById('ledger-table').innerHTML = "";
+  });
+
+
+}
+
+
+if(path.includes("reports.html")){
+  populateChartOfAccountsTable("coa_table");
+  //populateChartOfAccountsTable("delete_table");
+
+  const table = document.getElementById('coa_table');
+
+  table.addEventListener("click", function(event){
+    const clickedRow = event.target.closest('tr');
+    if(clickedRow){
+      selectAccount2("coa_table", clickedRow.id);
+      fillLedger(clickedRow.id);
+      fillEventLog(clickedRow.id);
+      //populateEventLog
+    }
+
+  });
+
+  document.getElementById("deSelectAccount").addEventListener("click", function() {
+      deselectAccount2("coa_table");
     document.getElementById('ledger-table').innerHTML = "";
   });
 
