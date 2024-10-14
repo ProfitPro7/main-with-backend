@@ -147,16 +147,6 @@
 
 
 
-            /*Popup css*/
-            .modal { display: flex; justify-content: center; align-items: center; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.5); }
-
-            .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 300px; border-radius: 5px; text-align: center; }
-
-            .closeX { color: #aaa; float: right; font-size: 28px; font-weight: bold;
-            }
-
-            .closeX:hover, .closeX:focus { color: black; text-decoration: none; cursor: pointer; }
-
         </style> 
       <!--Auto open first tabe script, set all others to inactive-->
 
@@ -217,6 +207,86 @@
     <div id='COA_Tables'>
     <!--Needs implementation-->
       <h2 id='coa_title'>Select an Account</h2>
+
+                <div id='search' class='visible'>
+
+                  <style>
+                  body {
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    padding: 20px;
+                    background-color: #f4f4f4;
+                  }
+                  #searchBar {
+                    width: 100%;
+                    padding: 10px;
+                    margin-bottom: 20px;
+                    font-size: 16px;
+                  }
+                  table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    background-color: #fff;
+                  }
+                  th, td {
+                    padding: 12px;
+                    text-align: left;
+                    border-bottom: 1px solid #ddd;
+                  }
+                  th {
+                    background-color: #f2f2f2;
+                  }
+                  tr: hover {
+                    background-color: #f5f5f5;
+                    cursor: pointer;
+                  }
+                  .modal {
+                    display: none;
+                    position: fixed;
+                    z-index: 1;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    overflow: auto;
+                    background-color: rgba(0,0,0,0.4);
+                  }
+                  .modal-content {
+                    background-color: #fefefe;
+                    margin: 15% auto;
+                    padding: 20px;
+                    border: 1px solid #888;
+                    width: 80%;
+                    max-width: 600px;
+                  }
+                  .close {
+                    color: #aaa;
+                    float: right;
+                    font-size: 28px;
+                    font-weight: bold;
+                  }
+                  .close:hover,
+                  .close:focus {
+                    color: black;
+                    text-decoration: none;
+                    cursor: pointer;
+                  }
+                  </style>
+
+
+
+                  <input type="text" id="searchBar" placeholder="Search for accounts...">
+
+
+                  <div id="accountModal" class="modal">
+                    <div class="modal-content">
+                      <span class="close">&times;</span>
+                      <h2>Account Details</h2>
+                      <p id="accountDetails"></p>
+                    </div>
+                  </div>
+
+                </div>
 
         <div id='button-list-div' class='hidden' style='text-align: right; display: none; padding: 10px;'>
           <span style='display: inline; padding:10px;'>
@@ -305,6 +375,41 @@
   </section>
   <!-- footer section -->
 </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBar = document.getElementById('searchBar');
+            const table = document.getElementById('accountsTable');
+            const rows = table.getElementsByTagName('tr');
+            const modal = document.getElementById('accountModal');
+            const span = document.getElementsByClassName("close")[0];
+            const accountDetails = document.getElementById('accountDetails');
+
+            // Search functionality
+            searchBar.addEventListener('keyup', function() {
+                const searchTerm = searchBar.value.toLowerCase();
+
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    const cells = row.getElementsByTagName('td');
+                    let found = false;
+
+                    for (let j = 0; j < cells.length; j++) {
+                        const cellText = cells[j].textContent.toLowerCase();
+                        if (cellText.includes(searchTerm)) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    row.style.display = found ? '' : 'none';
+                }
+            });
+        });
+    </script>
+
+
 
 
 

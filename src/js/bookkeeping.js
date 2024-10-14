@@ -94,8 +94,12 @@ export function selectAccount2(tbodyId, rowId){
   document.getElementById("button-list-div").classList.remove("hidden");
   document.getElementById("button-list-div").classList.add("visible");
 
+  document.getElementById("search").classList.remove("visible");
+  document.getElementById("search").classList.add("hidden");
+
   setTimeout(() => {
     document.getElementById("ledgerView").style.display = "block";
+    document.getElementById("search").style.display = "none";
     document.getElementById("EventLogView").style.display = "block";
     document.getElementById("button-list-div").style.display = "block";
     document.getElementById('coa_title').innerHTML = `Account: ${rowId}`;
@@ -129,8 +133,12 @@ export function deselectAccount2(tbodyId){
   document.getElementById("button-list-div").classList.remove("visible");
   document.getElementById("button-list-div").classList.add("hidden");
 
+  document.getElementById("search").classList.remove("hidden");
+  document.getElementById("search").classList.add("visible");
+
   setTimeout(() => { 
     document.getElementById("ledgerView").style.display = "none";
+    document.getElementById("search").style.display = "block";
     document.getElementById("EventLogView").style.display = "none";
     document.getElementById("button-list-div").style.display = "none";
     document.getElementById('coa_title').innerHTML = `Account Information`;
