@@ -548,25 +548,89 @@ exports.modifyAccountLedger = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, 
 
 
 
-exports.deactivateAccountCOA = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
+//exports.deactivateAccountCOA = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
+//
+//  const {accountId} = request.query;
+//
+//  if(accountId === undefined || accountId === ""){
+//    response.status(400).json({message: "No Account Id Passed"});
+//
+//  }else{
+//
+//    const docRef = await db.collection("Chart_Of_Accounts").doc(accountId).get();
+//    if(docRef.exists){
+//      const data = docRef.data();
+//
+//      const ledger = data.Ledger;
+//
+//      const latestEntry = ledger[ledger.length - 1];
+//      console.log(latestEntry);
+//      console.log(latestEntry.balance);
+//
+//      if (latestEntry.balance > 0){
+//        return response.status(400).json({message: "Account Balance is greater than 0"});
+//
+//      }else{
+//
+//        try{
+//          //const result = await deactivate(accountId);
+//          response.status(200).json({message: "Account Deactivated"});
+//
+//        }catch(error){
+//          response.status(400).json({message: "Account Could not be Deleted"});
+//        }
+//      }
+//    }else{
+//      response.status(400).json({message: "Doc doesn't exist"});
+//    }
+//
+//  }
+//
+//});
+//
+//
 
-  const {accountId} = request.query;
+exports.deactivateAccountCOA = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async (request, response) => {
 
-  if(accountId === undefined || accountId === ""){
-        response.status(400).json({message: "No Account Id Passed"});
+  const { accountId } = request.query;
 
-  }else{
+  if (accountId === undefined || accountId === "") {
+    return response.status(400).json({ message: "No Account Id Passed" });
+  } 
 
-    try{
-      const result = await deactivate(accountId);
-      response.status(200).json({message: "Account Deactivated"});
+  try {
+    const docRef = await db.collection("Chart_Of_Accounts").doc(accountId).get();
+    
+    if (docRef.exists) {
+      const data = docRef.data();
+      const ledger = data.Ledger;
+      const latestEntry = ledger[ledger.length - 1];
+      
+      console.log(latestEntry);
+      console.log(latestEntry.balance);
 
-    }catch(error){
-      response.status(400).json({message: "Account Could not be Deleted"});
+      if (latestEntry.balance > 0) {
+        // Return here to stop further execution
+        return response.status(400).json({ message: "Account Balance is greater than 0" });
+      } else {
+        try {
+          // Assuming you have some deactivate logic
+          const result = await deactivate(accountId);
+          return response.status(200).json({ message: "Account Deactivated" });
+        } catch (error) {
+          return response.status(400).json({ message: "Account Could not be Deleted" });
+        }
+      }
+    } else {
+      return response.status(400).json({ message: "Doc doesn't exist" });
     }
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({ message: "Internal Server Error" });
   }
-
 });
+
+
 
 
 async function deactivate(accountId){
