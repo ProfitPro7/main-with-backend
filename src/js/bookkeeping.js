@@ -31,6 +31,7 @@ export async function populateChartOfAccountsTable(tableBodyId){
 }
 
 
+//used for bookkeeping.html
 export function selectAccount(tbodyId, rowId){
   const tableBody = document.getElementById(`${tbodyId}`);
 
@@ -68,6 +69,46 @@ export function selectAccount(tbodyId, rowId){
 }
 
 
+//used for bookkeeping.html
+export function deselectAccount(tbodyId){
+  const tableBody = document.getElementById(`${tbodyId}`);
+  const rows = tableBody.querySelectorAll('tr');
+
+  for(let i = 0; i < rows.length; i++){
+    const row = rows[i];
+    if(row.classList.contains('visible')){
+      row.style.pointerEvents = "auto";
+    }
+    if (row.style.display === "none"){
+      //row.style.display = "";
+      row.classList.remove('hidden');
+      row.classList.add('visible');
+      setTimeout(() => { row.style.display = "";}, 500);
+    }
+
+  }
+  //document.getElementById("ledgerView").style.display = "none";
+  document.getElementById("ledgerView").classList.remove("visible");
+  document.getElementById("ledgerView").classList.add("hidden");
+
+
+  document.getElementById("button-list-div").classList.remove("visible");
+  document.getElementById("button-list-div").classList.add("hidden");
+
+  setTimeout(() => { 
+    document.getElementById("ledgerView").style.display = "none";
+    document.getElementById("button-list-div").style.display = "none";
+    document.getElementById('coa_title').innerHTML = `Account Information`;
+
+  }, 500);
+
+
+}
+
+
+
+
+//used for reports.html
 export function selectAccount2(tbodyId, rowId){
   const tableBody = document.getElementById(`${tbodyId}`);
 
@@ -108,12 +149,16 @@ export function selectAccount2(tbodyId, rowId){
 
 }
 
+//used for reports.html
 export function deselectAccount2(tbodyId){
   const tableBody = document.getElementById(`${tbodyId}`);
   const rows = tableBody.querySelectorAll('tr');
 
   for(let i = 0; i < rows.length; i++){
     const row = rows[i];
+    if(row.classList.contains('visible')){
+      row.style.pointerEvents = "auto";
+    }
     if (row.style.display === "none"){
       //row.style.display = "";
       row.classList.remove('hidden');
@@ -151,40 +196,8 @@ export function deselectAccount2(tbodyId){
 
 
 
-export function deselectAccount(tbodyId){
-  const tableBody = document.getElementById(`${tbodyId}`);
-  const rows = tableBody.querySelectorAll('tr');
 
-  for(let i = 0; i < rows.length; i++){
-    const row = rows[i];
-    if (row.style.display === "none"){
-      //row.style.display = "";
-      row.classList.remove('hidden');
-      row.classList.add('visible');
-      setTimeout(() => { row.style.display = "";}, 500);
-    }
-
-  }
-  //document.getElementById("ledgerView").style.display = "none";
-  document.getElementById("ledgerView").classList.remove("visible");
-  document.getElementById("ledgerView").classList.add("hidden");
-
-
-  document.getElementById("button-list-div").classList.remove("visible");
-  document.getElementById("button-list-div").classList.add("hidden");
-
-  setTimeout(() => { 
-    document.getElementById("ledgerView").style.display = "none";
-    document.getElementById("button-list-div").style.display = "none";
-    document.getElementById('coa_title').innerHTML = `Account Information`;
-
-  }, 500);
-
-
-}
-
-
-
+//used for reports + bookkeeping html files
 export async function fillLedger(rowId){
 
   const tableBody = document.getElementById('ledger-table');
@@ -218,6 +231,8 @@ export async function fillLedger(rowId){
   }
 
 }
+
+//used for reports + bookkeeping html files
 export async function fillEventLog(rowId){
 
   const tableBody = document.getElementById('EventLog-table');
@@ -246,5 +261,108 @@ export async function fillEventLog(rowId){
 
 
   }
+
+
+  //******************************************************************************************
+  //      Event Log before and After images implementation
+  //******************************************************************************************
+
+
+  //
+  //export async function eventLogBeforeAndAfter(rowId){
+  //
+  //  //****************
+  //  //IMPLEMENT
+  //  //****************
+  //  //need a table for before and after image
+  //  const beforeTable = document.getElementById('');
+  //  const afterTable = document.getElementById('');
+  //
+  //  const Doc = doc(db, "Chart_Of_Accounts", rowId);
+  //  const docSnap = await getDoc(Doc);
+  //  if (docSnap.exists){
+  //
+  //    const data = docSnap.data();
+  //
+  //    const beforeRange = data.EventLog.beforeImage;
+  //    const afterRange = data.EventLog.afterImage;
+  //
+  //    const eventLog = data.EventLog;
+  //
+  //    for(let i = 0; i < beforeRange; i++){
+  //      const newRow = document.createElement('tr');
+  //      newRow.id = `${rowId}-eventLogImage`;
+  //      newRow.className = 'caf'
+  //      newRow.innerHTML = `
+  //        <td class='caf'>${eventLog[i].eventId}</td>
+  //        <td class='caf'>${eventLog[i].typeOfChange}</td>
+  //        <td class='caf' style='width: 300px;'>${eventLog[i].description}</td>
+  //        <td class='caf'>${eventLog[i].dateChanged}</td>
+  //        <td class='caf'>${eventLog[i].timeChanged}</td>
+  //        <td class='caf'>${eventLog[i].userId}</td>`;
+  //      beforeTable.append(newRow);
+  //    });
+  //
+  //
+  //    for(let i = 0; i < afterRange; i++){
+  //      const newRow = document.createElement('tr');
+  //      newRow.id = `${rowId}-eventLogImage`;
+  //      newRow.className = 'caf'
+  //      newRow.innerHTML = `
+  //        <td class='caf'>${eventLog[i].eventId}</td>
+  //        <td class='caf'>${eventLog[i].typeOfChange}</td>
+  //        <td class='caf' style='width: 300px;'>${eventLog[i].description}</td>
+  //        <td class='caf'>${eventLog[i].dateChanged}</td>
+  //        <td class='caf'>${eventLog[i].timeChanged}</td>
+  //        <td class='caf'>${eventLog[i].userId}</td>`;
+  //      afterTable.append(newRow);
+  //    });
+  //
+  //
+  //  }
+  //
+  //}
+  //
+  //
+  ////used for reports.html
+  //export function selectEventLogBeforeAfter(tbodyId, rowId){
+  //  const tableBody = document.getElementById(`${tbodyId}`);
+  //
+  //  const rows = tableBody.querySelectorAll('tr');
+  //
+  //  for(let i = 0; i < rows.length; i++){
+  //    const row = rows[i];
+  //
+  //    if (row.id !== rowId){
+  //      //row.style.display = "none"
+  //      row.classList.remove('visible');
+  //      row.classList.add('hidden');
+  //      setTimeout(() => { row.style.display = "none";}, 500);
+  //    }
+  //  }
+  //  //document.getElementById("ledgerView").style.display = "block";
+  //  document.getElementById("ledgerView").classList.remove("hidden");
+  //  document.getElementById("ledgerView").classList.add("visible");
+  //
+  //  document.getElementById("EventLogView").classList.remove("hidden");
+  //  document.getElementById("EventLogView").classList.add("visible");
+  //
+  //
+  //  document.getElementById("button-list-div").classList.remove("hidden");
+  //  document.getElementById("button-list-div").classList.add("visible");
+  //
+  //  document.getElementById("search").classList.remove("visible");
+  //  document.getElementById("search").classList.add("hidden");
+  //
+  //  setTimeout(() => {
+  //    document.getElementById("ledgerView").style.display = "block";
+  //    document.getElementById("search").style.display = "none";
+  //    document.getElementById("EventLogView").style.display = "block";
+  //    document.getElementById("button-list-div").style.display = "block";
+  //    document.getElementById('coa_title').innerHTML = `Account: ${rowId}`;
+  //
+  //  }, 500);
+  //
+  //}
 
 }

@@ -18,6 +18,9 @@ const { onRequest } = require("firebase-functions/v2/https");
 //  - checkForAccountNumDuplicate =>  queries Chart_Of_Accounts for any accounts within the SAME CATEGORY that already have the requested new accounts number
 //
 //*************************DESCRIPTION*******************************
+
+
+
 exports.addAccountToCOA = onRequest( { cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
 
   let message = "";
@@ -483,7 +486,6 @@ exports.modifyAccountInformation = onRequest({ cors: [/profitpro-e81ab\.web\.app
 //  });
 //}
 
-
   
     
     //  .then((answer) => {
@@ -511,6 +513,16 @@ exports.modifyAccountLedger = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, 
 
   const currDate = new Date().toJSON().slice(0,10);
   const currentTime = new Date().toLocaleTimeString("en-US", {timeZone: "America/New_York"});
+  let beforeImage = 0;
+
+  const docRef = await db.collection("Chart_Of_Accounts").doc(`${source}`).get();
+
+  if(docRef.exists){
+    const data = docRef.data();
+    const ledger = data.Ledger;
+    beforeImage = ledger.length - 1;
+  }
+  const afterImage = beforeImage + 1;
 
   const eventLog= {
     changes: "Ledger Entry Added",
@@ -518,12 +530,13 @@ exports.modifyAccountLedger = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, 
     description: `Ledger entry added by JTonnesen-09-24, on ${currDate}`,
     timeChanged: currentTime,
     typeOfChange: "Ledger Addition",
-    userId: "JTonnesen-09-24"
+    userId: "JTonnesen-09-24",
+    beforeImage: beforeImage,
+    afterImage: afterImage
   };
 
 
   try{
-
   db.collection("Chart_Of_Accounts").doc(`${source}`).update({
     EventLog: FieldValue.arrayUnion(eventLog),
     Ledger: FieldValue.arrayUnion(newEntry)

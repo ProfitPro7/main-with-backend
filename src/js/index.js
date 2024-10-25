@@ -184,6 +184,7 @@ if(path.includes("bookkeeping.html")){
 
   table.addEventListener("click", function(event){
     const clickedRow = event.target.closest('tr');
+    clickedRow.style.pointerEvents = "none";
     if(clickedRow){
       selectAccount("coa_table", clickedRow.id);
       fillLedger(clickedRow.id);
@@ -206,8 +207,10 @@ if(path.includes("reports.html")){
 
   const table = document.getElementById('coa_table');
 
+  //COA click => ledger + event log + account information
   table.addEventListener("click", function(event){
     const clickedRow = event.target.closest('tr');
+    clickedRow.style.pointerEvents = "none";
     if(clickedRow){
       selectAccount2("coa_table", clickedRow.id);
       fillLedger(clickedRow.id);
@@ -220,7 +223,21 @@ if(path.includes("reports.html")){
   document.getElementById("deSelectAccount").addEventListener("click", function() {
       deselectAccount2("coa_table");
     document.getElementById('ledger-table').innerHTML = "";
+    document.getElementById('EventLog-table').innerHTML = "";
   });
+
+
+  //Event Log click -> Before and After image
+  const eventLog = document.getElementById("EventLog-table");
+  eventLog.addEventListener("click", function(event){
+    const clickedRow = event.target.closest('tr');
+    clickedRow.style.pointerEvents = "none";
+    if(clickedRow){
+      console.log("Clicked" + clickedRow.id);
+    }
+
+  });
+
 
 
 }

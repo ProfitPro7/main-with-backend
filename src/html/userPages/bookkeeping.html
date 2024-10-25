@@ -153,7 +153,16 @@
 
             .closeX:hover, .closeX:focus { color: black; text-decoration: none; cursor: pointer; }
 
-        </style> 
+            .tooltip { position: relative; display: inline-block; border-bottom: 1px dotted black; }
+
+          .tooltip .tooltiptext { visibility: hidden; width: 120px; background-color: black; color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; /* Position the tooltip */ position: absolute; z-index: 1; top: -5px; left: 105%; } 
+          .tooltip:hover .tooltiptext { visibility: visible; }
+
+      </style>
+
+
+
+
       <!--Auto open first tabe script, set all others to inactive-->
 
        <script>
@@ -201,29 +210,66 @@
     <div class="ca-container">
                   <!--Change action link when deploying-->
 
-  
+
         <form id="new-account-form-coa" class='caf' action="http://localhost:5001/profitpro-e81ab/us-central1/addAccountToCOA">
+
+
+
+          <span style='display: inline;'>
             <label class='caf' for="accountName">Account Name:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="tooltipButton" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="tooltipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Enter a descriptive and unique name for the account </div>
+          </div>  
+          </span>
             <input class='caf' type="text" id="accountName" name="accountName" required>
 
                     <br>
                     
+          <span style='display: inline;'>
             <label class='caf' for="accountNum">Account Number:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountNumTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountNumTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Provide the specific number assigned to this account </div>
+          </div>  
+          </span>
+
             <input class='caf' type="text" id="accountNum" name="accountNum" placeholder="e.g. 100, 200, 300... " required>
                     
                     <br>
 
+          <span style='display: inline;'>
             <label class='caf' for="order">Account Order:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountOrderTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountOrderTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Enter the order or position of the account in the ledger. </div>
+          </div>  
+          </span>
+
             <input class='caf' type="text" id="order" name="order" placeholder="e.g. 1, 2, 3... " required>
 
                     <br>
 
+          <span style='display: inline;'>
             <label class='caf' for="accountDesc">Account Description:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountDescTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountDescTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Provide a brief explanation of the purpose of the account </div>
+          </div>  
+          </span>
+
             <textarea id="accountDesc" class='caf' name="accountDesc" rows="3"></textarea>
 
                     <br>
 
+          <span style='display: inline;'>
             <label class='caf' for="accountCategory">Account Category:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountCatTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountCatTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Select the appropriate category for the account </div>
+          </div>  
+          </span>
+
             <select id="accountCategory" class='caf' name="accountCategory" required>
                 <option value="">Select category</option>
                 <option value="Asset">Asset</option>
@@ -234,13 +280,27 @@
             </select>
                     <br><br>
 
+          <span style='display: inline;'>
             <label class='caf' for="accountSubCategory">Account Subcategory:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountSubCatTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountSubCatTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Choose the relevant subcategory based on the account type </div>
+          </div>  
+          </span>
+
             <input class='caf' type="text" id="accountSubCategory" name="accountSubCategory" placeholder="e.g., Current Assets">
 
                     <br>
 
 
+          <span style='display: inline;'>
             <label class='caf' for="normalSide">Normal Side:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountNormTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountNormTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Indicate whether the account normally carries a debit or credit balance </div>
+          </div>  
+          </span>
+
             <select id="normalSide" class='caf' name="normalSide" required>
                 <option value="">Select normal side</option>
                 <option value="Debit">Debit</option>
@@ -258,42 +318,98 @@
                     <br>
                     
   <!--const {accountName, accountNum, accountDesc, normalSide, accountCategory, accountSubCategory, initialBalance, debit, credit, balance, dateAdded, userId, order, statement, comment} = request.query;-->
+
+          <span style='display: inline;'>
             <label class='caf' for="initialBalance">Initial Balance:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountBalTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountBalTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Enter the starting balance of the account when it was created </div>
+          </div>  
+          </span>
+
             <input class='caf' type="text" id="initialBalance" name="initialBalance" required>
 
                     <br>
 
+          <span style='display: inline;'>
             <label class='caf' for="balance">Current Balance:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountCurrBalTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountCurrBalTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Provide the current balance of the account after transactions </div>
+          </div>  
+          </span>
+
             <input class='caf' type="text" id="balance" name="balance" required>
 
                     <br>
 
+          <span style='display: inline;'>
             <label class='caf' for="debit">Debit:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountDebTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountDebTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Specify the amount debited to the account </div>
+          </div>  
+          </span>
+
             <input class='caf' type="text" id="debit" name="debit" required>
 
                     <br>
 
+          <span style='display: inline;'>
             <label class='caf' for="credit">Credit:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountCredTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountCredTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Specify the amount credited to the account </div>
+          </div>  
+          </span>
+
             <input class='caf' type="text" id="credit" name="credit" required>
 
                     <br>
 
+          <span style='display: inline;'>
             <label class='caf' for="statement">Statement Type:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountStatTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountStatTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Select whether the account affects the balance sheet or income statement </div>
+          </div>  
+          </span>
+
             <input class='caf' type="text" id="statement" name="statement"  placeholder="e.g. IS (Income statement), BS (Balance sheet), or RE (Retained Earnings statement)" required>
 
                     <br>
                         
+          <span style='display: inline;'>
             <label class='caf' for="comment">Comment:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountComTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountComTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Add any additional information or notes relevant to the account </div>
+          </div>  
+          </span>
+
             <input class='caf' type="text" id="comment" name="comment" required>
 
                     <br>
 
+          <span style='display: inline;'>
             <label class='caf' for="dateAdded">Current Date:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountDateTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountDateTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Enter today’s date or the date of the transaction </div>
+          </div>  
+          </span>
             <input class='caf' type="date" id="dateAdded" name="dateAdded" required>
 
                     <br>
 
+          <span style='display: inline;'>
             <label class='caf' for="userId">User Id:</label>
+          <div style="display: inline-block; position: relative; font-family: Arial, sans-serif;">
+            <button id="accountUserTip" type='button' style="background-color: #3498db; color: white; border: none; border-radius: 5px; padding: 8px; cursor: pointer; margin-bottom: 20px;"> ? </button>
+            <div id="accountUserTipText" style="display: none; background-color: #f9f9f9; color: #333; padding: 10px; border: 1px solid #ccc; border-radius: 5px; position: absolute; left: 110%; top: 0; z-index: 100; width: 200px;"> Provide the unique ID of the user creating or managing the account </div>
+          </div>  
+          </span>
+
             <input class='caf' type="text" id="userId" name="userId" required>
 
                     <br>
@@ -821,6 +937,61 @@
 
 
   </script>
+<!---->
+<!--<script>-->
+<!--    const tooltipButton = document.getElementById('tooltipButton');-->
+<!--    const tooltipText = document.getElementById('tooltipText');-->
+<!---->
+<!--    tooltipButton.addEventListener('click', () => {-->
+<!--        tooltipText.style.display = tooltipText.style.display === 'none' ? 'block' : 'none';-->
+<!--    });-->
+<!---->
+<!--    // Close the tooltip when clicking outside of it-->
+<!--    document.addEventListener('click', (event) => {-->
+<!--        if (!tooltipButton.contains(event.target)) {-->
+<!--            tooltipText.style.display = 'none';-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+
+<script>
+function createTooltip(buttonId, tooltipTextId) {
+    const tooltipButton = document.getElementById(buttonId);
+    const tooltipText = document.getElementById(tooltipTextId);
+
+    tooltipButton.addEventListener('click', (event) => {
+        tooltipText.style.display = tooltipText.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Close the tooltip when clicking outside of it
+    document.addEventListener('click', (event) => {
+        if (!tooltipButton.contains(event.target)) {
+            tooltipText.style.display = 'none';
+        }
+    });
+}
+
+
+createTooltip("tooltipButton","tooltipText");
+
+createTooltip("accountNumTip", "accountNumTipText");
+createTooltip("accountOrderTip", "accountOrderTipText");
+createTooltip("accountDescTip", "accountDescTipText");
+createTooltip("accountCatTip", "accountCatTipText");
+createTooltip("accountSubCatTip", "accountSubCatTipText");
+createTooltip("accountNormTip", "accountNormTipText");
+createTooltip("accountBalTip", "accountBalTipText");
+createTooltip("accountCurrBalTip", "accountCurrBalTipText");
+createTooltip("accountDebTip", "accountDebTipText");
+createTooltip("accountCredTip", "accountCredTipText");
+createTooltip("accountStatTip", "accountStatTipText");
+createTooltip("accountComTip", "accountComTipText");
+createTooltip("accountDateTip", "accountDatTipText");
+createTooltip("accountUserTip", "accountUserTipText");
+</script>
+
+
+
 
 
 
