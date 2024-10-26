@@ -96,7 +96,9 @@ exports.addAccountToCOA = onRequest( { cors: [/profitpro-e81ab\.web\.app/]}, asy
                         //Don't have to be initialized at firstCreation record => First imageBefore and after will be added upon first update call
                         //imageBefore: "TBI (to be implemented)",
                         //imageAfter:  "TBI (to be implemented)",
-                        userId: `${userId}`
+                        userId: `${userId}`,
+                        beforeImage: "null",
+                        afterImage: 0
                       }
                     ]
 
@@ -322,6 +324,10 @@ exports.modifyAccountInformation = onRequest({ cors: [/profitpro-e81ab\.web\.app
 
       eventLog.changes = eventLogChanges;
       eventLog.description = description;
+
+      const ledger = data.Ledger;
+      eventLog.beforeImage = ledger.length - 1;
+      eventLog.afterImage = ledger.length - 1;
 
 
       //now modifying account
