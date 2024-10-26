@@ -246,8 +246,9 @@ export async function fillEventLog(rowId){
 
     eventLog.forEach((entry, index) => {
       const newRow = document.createElement('tr');
-      newRow.id = `${rowId}-eventLog`;
+      newRow.id = `${index}`;
       newRow.className = 'caf'
+      newRow.classList.add('visible');
       newRow.innerHTML = `
         <td class='caf'>${entry.eventId}</td>
         <td class='caf'>${entry.typeOfChange}</td>
@@ -261,6 +262,7 @@ export async function fillEventLog(rowId){
 
 
   }
+}
 
 
   //******************************************************************************************
@@ -268,101 +270,132 @@ export async function fillEventLog(rowId){
   //******************************************************************************************
 
 
-  //
-  //export async function eventLogBeforeAndAfter(rowId){
-  //
-  //  //****************
-  //  //IMPLEMENT
-  //  //****************
-  //  //need a table for before and after image
-  //  const beforeTable = document.getElementById('');
-  //  const afterTable = document.getElementById('');
-  //
-  //  const Doc = doc(db, "Chart_Of_Accounts", rowId);
-  //  const docSnap = await getDoc(Doc);
-  //  if (docSnap.exists){
-  //
-  //    const data = docSnap.data();
-  //
-  //    const beforeRange = data.EventLog.beforeImage;
-  //    const afterRange = data.EventLog.afterImage;
-  //
-  //    const eventLog = data.EventLog;
-  //
-  //    for(let i = 0; i < beforeRange; i++){
-  //      const newRow = document.createElement('tr');
-  //      newRow.id = `${rowId}-eventLogImage`;
-  //      newRow.className = 'caf'
-  //      newRow.innerHTML = `
-  //        <td class='caf'>${eventLog[i].eventId}</td>
-  //        <td class='caf'>${eventLog[i].typeOfChange}</td>
-  //        <td class='caf' style='width: 300px;'>${eventLog[i].description}</td>
-  //        <td class='caf'>${eventLog[i].dateChanged}</td>
-  //        <td class='caf'>${eventLog[i].timeChanged}</td>
-  //        <td class='caf'>${eventLog[i].userId}</td>`;
-  //      beforeTable.append(newRow);
-  //    });
-  //
-  //
-  //    for(let i = 0; i < afterRange; i++){
-  //      const newRow = document.createElement('tr');
-  //      newRow.id = `${rowId}-eventLogImage`;
-  //      newRow.className = 'caf'
-  //      newRow.innerHTML = `
-  //        <td class='caf'>${eventLog[i].eventId}</td>
-  //        <td class='caf'>${eventLog[i].typeOfChange}</td>
-  //        <td class='caf' style='width: 300px;'>${eventLog[i].description}</td>
-  //        <td class='caf'>${eventLog[i].dateChanged}</td>
-  //        <td class='caf'>${eventLog[i].timeChanged}</td>
-  //        <td class='caf'>${eventLog[i].userId}</td>`;
-  //      afterTable.append(newRow);
-  //    });
-  //
-  //
-  //  }
-  //
-  //}
-  //
-  //
-  ////used for reports.html
-  //export function selectEventLogBeforeAfter(tbodyId, rowId){
-  //  const tableBody = document.getElementById(`${tbodyId}`);
-  //
-  //  const rows = tableBody.querySelectorAll('tr');
-  //
-  //  for(let i = 0; i < rows.length; i++){
-  //    const row = rows[i];
-  //
-  //    if (row.id !== rowId){
-  //      //row.style.display = "none"
-  //      row.classList.remove('visible');
-  //      row.classList.add('hidden');
-  //      setTimeout(() => { row.style.display = "none";}, 500);
-  //    }
-  //  }
-  //  //document.getElementById("ledgerView").style.display = "block";
-  //  document.getElementById("ledgerView").classList.remove("hidden");
-  //  document.getElementById("ledgerView").classList.add("visible");
-  //
-  //  document.getElementById("EventLogView").classList.remove("hidden");
-  //  document.getElementById("EventLogView").classList.add("visible");
-  //
-  //
-  //  document.getElementById("button-list-div").classList.remove("hidden");
-  //  document.getElementById("button-list-div").classList.add("visible");
-  //
-  //  document.getElementById("search").classList.remove("visible");
-  //  document.getElementById("search").classList.add("hidden");
-  //
-  //  setTimeout(() => {
-  //    document.getElementById("ledgerView").style.display = "block";
-  //    document.getElementById("search").style.display = "none";
-  //    document.getElementById("EventLogView").style.display = "block";
-  //    document.getElementById("button-list-div").style.display = "block";
-  //    document.getElementById('coa_title').innerHTML = `Account: ${rowId}`;
-  //
-  //  }, 500);
-  //
-  //}
+  
+//must be called as COA entry is clicked
+//works
+  export async function fillBeforeAfterTables(rowId){
+  
+    //****************
+    //IMPLEMENT
+    //****************
+    //need a table for before and after image
+    const beforeTable = document.getElementById('EventLogBefore-table');
+    const afterTable = document.getElementById('EventLogAfter-table');
+
+    const account = document.getElementById('coa_table');
+    const rows = account.querySelectorAll('tr');
+
+    for(let i = 0; i < rows.length; i++){
+      const row = rows[i];
+      if(row.classList.contains('visible')){
+          var accountDoc = row.id;
+          break;
+        }
+      }
+    
+      const Doc = doc(db, "Chart_Of_Accounts", accountDoc);
+      const docSnap = await getDoc(Doc);
+      if (docSnap.exists){
+  
+      const data = docSnap.data();
+
+      console.log("Doc Retrieved: " + data);
+  
+
+      const eventLog = data.EventLog;
+      const beforeRange = eventLog[rowId].beforeImage;
+      const afterRange =  eventLog[rowId].afterImage;
+  
+      const Ledger = data.Ledger;
+  
+      for(let i = 0; i <= beforeRange; i++){
+        const newRow = document.createElement('tr');
+        newRow.id = `${rowId}-eventBeforeLogImage`;
+        newRow.className = 'caf'
+        newRow.classList.add('visible');
+
+      newRow.innerHTML = `
+        <td class='caf'>${Ledger[i].dateAdded}</td>
+        <td class='caf'>${Ledger[i].description}</td>
+        <td class='caf'>${Ledger[i].debit}</td>
+        <td class='caf'>${Ledger[i].credit}</td>
+        <td class='caf'>${Ledger[i].balance}</td> `;
+
+        beforeTable.append(newRow);
+      }
+  
+  
+      for(let i = 0; i <= afterRange; i++){
+        const newRow = document.createElement('tr');
+        newRow.id = `${rowId}-eventAfterLogImage`;
+        newRow.className = 'caf'
+        newRow.innerHTML = `
+        <td class='caf'>${Ledger[i].dateAdded}</td>
+        <td class='caf'>${Ledger[i].description}</td>
+        <td class='caf'>${Ledger[i].debit}</td>
+        <td class='caf'>${Ledger[i].credit}</td>
+        <td class='caf'>${Ledger[i].balance}</td> `;
+
+        afterTable.append(newRow);
+      }
+  
+  
+    }
+  
+  }
+  
+  export function selectEventLogBeforeAfter(tbodyId, rowId){
+    const tableBody = document.getElementById(`${tbodyId}`);
+  
+    const rows = tableBody.querySelectorAll('tr');
+  
+    for(let i = 0; i < rows.length; i++){
+      const row = rows[i];
+  
+      if (row.id !== rowId){
+        //row.style.display = "none"
+        row.classList.remove('visible');
+        row.classList.add('hidden');
+        setTimeout(() => { row.style.display = "none";}, 500);
+      }
+    }
+  
+    document.getElementById("EventLogImagesView").classList.remove("hidden");
+    document.getElementById("EventLogImagesView").classList.add("visible");
+  
+  setTimeout(() => {
+    document.getElementById("EventLogImagesView").style.display = "block";
+  
+    }, 500);
+  
+  }
+
+export function deSelectBeforeAfter(tbodyId){
+  const tableBody = document.getElementById(`${tbodyId}`);
+  const rows = tableBody.querySelectorAll('tr');
+
+  for(let i = 0; i < rows.length; i++){
+    const row = rows[i];
+    if(row.classList.contains('visible')){
+      row.style.pointerEvents = "auto";
+    }
+    if (row.style.display === "none"){
+      //row.style.display = "";
+      row.classList.remove('hidden');
+      row.classList.add('visible');
+      setTimeout(() => { row.style.display = "";}, 500);
+    }
+
+  }
+  
+  document.getElementById("EventLogImagesView").classList.remove("visible");
+  document.getElementById("EventLogImagesView").classList.add("hidden");
+
+  setTimeout(() => { 
+    document.getElementById("EventLogImagesView").style.display = "none";
+  }, 500);
+
 
 }
+
+

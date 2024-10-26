@@ -4,7 +4,7 @@ import { signInUser } from ".//signIn.js";
 import { getUserName, createUserList, createExpiredPasswordList } from ".//admin.js";
 import { sendPasswordResetEmail } from "firebase/auth";
 
-import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog } from ".//bookkeeping.js";
+import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog, fillBeforeAfterTables, selectEventLogBeforeAfter, deSelectBeforeAfter } from ".//bookkeeping.js";
 
 const path = window.location.pathname;
 
@@ -233,9 +233,17 @@ if(path.includes("reports.html")){
     const clickedRow = event.target.closest('tr');
     clickedRow.style.pointerEvents = "none";
     if(clickedRow){
+      fillBeforeAfterTables(clickedRow.id);
+      selectEventLogBeforeAfter('EventLog-table', clickedRow.id)
       console.log("Clicked" + clickedRow.id);
     }
 
+  });
+
+  document.getElementById("closeBeforeAfter").addEventListener("click", function() {
+    deSelectBeforeAfter('EventLog-table');
+    document.getElementById('EventLogBefore-table').innerHTML = "";
+    document.getElementById('EventLogAfter-table').innerHTML = "";
   });
 
 
