@@ -202,12 +202,17 @@
             #accountsTable tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }
             #eventLogTable tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }
             #delete_Tables tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }
+            /*#journalEntries tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }*/
+
 
             #ledgerView { display: none; margin-top: 30px; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
             #ledgerTitle { color: var(--primary-color); margin-bottom: 15px; }
 
             #EventLogView { display: none; margin-top: 30px; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
             #EventLogTitleTitle { color: var(--primary-color); margin-bottom: 15px; }
+
+            #journalEntries { display: none; margin-top: 30px; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+            #journalEntryTitle { color: var(--primary-color); margin-bottom: 15px; }
 
 
           /*Transition Effects*/
@@ -247,11 +252,12 @@
 <!--Nav bar for the bookkeeping page	-->
     <div class="container">
            <section id="bookkeepersection">
-               <h2>BookKeeping</h2>
+               <h2>Chart of Accounts</h2>
                <div class="services">
                    <div class="tab">
                        <!--<button class="tablinks" onclick="openTab(event, 'Account')" id="defaultOpen">Create Account</button>-->
                        <button class="tablinks" onclick="openTab(event, 'Modify_Account')" id="defaultOpen">Reports</button>
+                       <button class="tablinks" onclick="openTab(event, 'Email')">Email</button>
                    </div>
 
 
@@ -280,9 +286,6 @@
 
 
     <div id='COA_Tables'>
-
-
-
 
     <!--Needs implementation-->
       <h2 id='coa_title'>Select an Account</h2>
@@ -367,6 +370,11 @@
 
                 </div>
 
+
+          <!--***************************-->
+              <!--Report for Account in COA-->
+          <!--***************************-->
+
         <div id='button-list-div' class='hidden' style='text-align: right; display: none; padding: 10px;'>
           <span style='display: inline; padding:10px;'>
             <button id="deSelectAccount" style="border-radius: 25px; color: white; background-color: grey;">Back</button>
@@ -415,6 +423,471 @@
         </div>
 
 
+          <!--***************************-->
+              <!--Journal Entry Table -->
+          <!--***************************-->
+      <div id="journalEntries" class='hidden' style='display: none;'>
+        <h2>Journal Entries</h2>
+
+          <div id='journal-button-list-div' class='hidden' style='text-align: right; display: none; padding: 10px;'>
+            <span style='display: inline; padding:10px;'>
+              <button id="journal-createJEEntry" onclick="showJE_Form()" style="border-radius: 25px; color: white; background-color: green;">Create Journal Entry</button>
+            </span>
+          </div>
+
+                <script>
+                function showJE_Form(){
+                  document.getElementById("journalEntryFormDiv").classList.remove("hidden");
+                  document.getElementById("journalEntryFormDiv").classList.add("visible");
+                  setTimeout(() => {
+                    document.getElementById("journalEntryFormDiv").style.display = "block";
+                  }, 500);
+                }
+                </script>
+
+
+
+        <table id="journalEntriesTable" class='caf' style='text-align: center'>
+          <thead class='caf'>
+            <tr class='caf'>
+              <th class='caf'>Post Reference</th>
+              <th class='caf'>Date</th>
+              <th class='caf'>Description</th>
+              <th class='caf'>Debits</th>
+              <th class='caf'>Credits</th>
+              <th class='caf'>Balance</th>
+              <th class='caf'>Comments</th>
+              <th class='caf'>Status</th>
+              <th class='caf'>Actions</th>
+            </tr>
+          </thead>
+          <tbody id='journal-table'class='caf'>
+                    <!--<tr>-->
+                    <!--  <td>Test</td>-->
+                    <!--  <td>Test</td>-->
+                    <!--  <td>Test</td>-->
+                    <!--  <td>Test</td>-->
+                    <!--  <td>Test</td>-->
+                    <!--  <td>Test</td>-->
+                    <!--  <td>Test</td>-->
+                    <!--  <td>Test</td>-->
+                    <!--  <td>-->
+                    <!--    <span style="display: flex; margin-right: 10px;">-->
+                    <!--      <button style="border-radius: 25px; background-color: green;">Approve</button>-->
+                    <!--      <button style="border-radius: 25px; background-color: red;">Deny</button>-->
+                    <!--    </span>-->
+                    <!--  </td>-->
+                    <!--</tr>-->
+                    <!---->
+            <!-- Accounts will be added here dynamically -->
+          </tbody>
+        </table>
+
+
+      </div>
+    </div>
+
+
+          <!--***************************-->
+              <!--Journal Entry Form -->
+          <!--***************************-->
+
+      <div id="journalEntryFormDiv" class='hidden' style='display: none;'>
+
+              <br>
+              <hr>
+
+        <h2>Create a Entry</h2>
+
+              <div class="container" style='width: auto;'>
+
+          <form id="journalEntryForm" action="http://localhost:5001/profitpro-e81ab/us-central1/createJournalEntry" style="display: flex; flex-direction: column; gap: 15px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+
+            <input type="hidden" id='coa-ledger-source' name='source' value="" style='display:none'>
+
+            <div style="display: flex; gap: 15px; align-items: center; width:100%;/*! margin-left: ; */">
+              <div>
+                <label for="ledger-date" style="display: block; margin-bottom: 5px;">Date:</label>
+                <input type="date" id="journal-date" name="dateAdded" required="" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
+              </div>
+
+            </div>
+            <div>
+              <label for="ledger-desc" style="display: block; margin-bottom: 5px;">Record Description:</label>
+              <textarea id="journal-accountDesc" name="description" required='' rows="3" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+            </div>
+
+
+                  <!--***********Debit and Credit Entries******************-->
+                  <div style="display: flex;text-align: center;">
+
+                    <div style="margin-left: 25%;margin-right: 15px;">
+                      <div id="Debits" style="text-align: center">
+                      <!--Debit + Credit entries will be added here every click of 'Add Entry' button-->
+                    </div>
+
+                    <div style="width: 250px">
+                      <button id="addDebitEntryJE" onclick="addDebitEntry('Debits')" type="button" style="color: white; background-color: grey; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">Add Debit</button>
+                    </div>
+                    </div>
+
+
+                    <div>
+                    <div id="Credits" style="text-align: center;">
+                      <!--Debit + Credit entries will be added here every click of 'Add Entry' button-->
+                    </div>
+
+                    <div style="text-align: center;width: 250px;">
+                      <button id="addCreditEntryJE" onclick="addCreditEntry('Credits')" type="button" style="color: white; background-color: grey; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">Add Credit</button>
+                    </div>
+                    </div>
+                  </div>
+
+
+              <div>
+                <label for="ledger-file" style="display: block; margin-bottom: 5px;">Attach File:</label>
+                <input type="file" accept='.pdf, .docx, .csv, .jpg, .png, .xls' id="ledger-file" name="ledgerFile" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%;">
+              </div>
+
+
+            <span style="display: inline; text-align: center;">
+              <button type="submit" style="color: white; background-color: green; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">Submit</button>
+              <button type="button" onclick='hideJE_Form()' style="color: white; background-color: red; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">× Cancel</button>
+            </span>
+          </form>
+              </div>
+
+
+
+
+          <!--***************************-->
+              <!--Scripts for Journal Entry Section-->
+          <!--***************************-->
+
+    <script>
+
+              //****Created by Erik*****
+
+              let debitCount = 0;
+
+              function addDebitEntry(divId){
+                const entryDiv = document.getElementById(divId);
+
+                const newEntryDiv = document.createElement('div'); 
+                newEntryDiv.id = `DebitDiv-${debitCount}`;
+
+                const input = document.createElement('input');
+
+                input.style.display =  "inline";
+                input.style.width = "200px";
+
+                input.required = "";
+                input.type = 'number';
+                input.step = '0.01';
+                input.required = true;
+                input.name = `Debit-${debitCount}`;
+
+                const removeButton = document.createElement('span');
+                removeButton.textContent = '❌';
+                removeButton.style.cursor = "pointer";
+                removeButton.style.color = "red";
+
+                removeButton.onclick = function() {
+                  console.log(newEntryDiv);
+                    entryDiv.removeChild(newEntryDiv);
+                };
+
+
+                newEntryDiv.appendChild(input);
+                newEntryDiv.appendChild(removeButton);
+
+                entryDiv.appendChild(newEntryDiv);
+                
+                debitCount++;
+
+
+              }
+
+              let creditCount = 0;
+
+              function addCreditEntry(divId){
+                const entryDiv = document.getElementById(divId);
+                const newEntryDiv = document.createElement('div'); 
+                  
+                newEntryDiv.id = `Credit-${creditCount}`;
+
+                const input = document.createElement('input');
+
+                input.style.display = "inline";
+                input.style.width = "200px";
+
+                input.required = "";
+                input.type = 'number';
+                input.step = '0.01';
+                input.required = true;
+                input.name = `Credit-${creditCount}`;
+
+                const removeButton = document.createElement('span');
+                removeButton.textContent = '❌';
+                removeButton.style.cursor = "pointer";
+                removeButton.style.color = "red";
+
+                removeButton.onclick = function() {
+                  console.log(newEntryDiv);
+                    entryDiv.removeChild(newEntryDiv);
+                };
+
+
+                newEntryDiv.appendChild(input);
+                newEntryDiv.appendChild(removeButton);
+
+                entryDiv.appendChild(newEntryDiv);
+
+                creditCount++;
+
+
+              }
+
+
+
+
+
+
+              let entryCount = 0;
+
+              //*****************Not used but maybe need to in the future**************************
+              function addDebitCreditEvent(){
+
+                const entryDiv = document.getElementById('Debits');
+
+                const newTable = document.createElement('table');
+                newTable.id = `EntryCount-${entryCount}`;
+                newTable.innerHTML = `
+                <tbody style="text-align: center;"><tr style="text-align: center;">
+                <th style="text-align: center;">Account</th>
+                <th style="text-align: center;">Debit</th>
+                <th style="text-align: center;">Credit</th>
+                  
+                </tr>
+                <tr style="text-align: center;border-bottom: 100px;">
+                <td style="text-align: center;">322-Liability-TestAccount</td>
+                <td style="text-align: center;"> 
+                    <label for="ledger-debit">Debit Amount:
+                      <input type="text" id="ledger-debit" name="debit" required="" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;"></label>
+                 </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td style="text-align: center;">
+                    <select name="cars" id="cars">
+                      <option value="volvo">Select an Account</option>
+                      <option value="volvo">Account 1</option>
+                      <option value="saab">Account 2</option>
+                      <option value="mercedes">Account 3</option>
+                      <option value="audi">Account 4</option>
+                    </select> 
+                  </td>
+                <td></td>
+                  <td style="text-align: center;">
+                    <label for="ledger-debit">Credit Amount:
+                      <input type="text" id="ledger-debit" name="debit" required="" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;"></label>
+                  </td>
+                   </tr><tr style="background-color: grey;">
+                  <td style="text-align: center;"> Balance:</td>
+                <td></td>
+                <td></td>
+                   </tr>
+                </tbody>`;
+
+
+                entryDiv.append(newTable);
+
+                const hr = document.createElement('hr');
+                entryDiv.append(hr);
+
+                const br = document.createElement('br');
+                entryDiv.append(br);
+
+                entryCount++;
+
+              }
+
+  
+
+
+
+
+                function hideJE_Form(){
+                  document.getElementById("journalEntryForm").classList.remove("visible");
+                  document.getElementById("journalEntryForm").classList.add("hidden");
+                  setTimeout(() => {
+                    document.getElementById("journalEntryForm").style.display = "none";
+                  }, 500);
+                document.getElementById("journalEntryForm").reset();
+                }
+
+
+              //Popup Message controls
+
+              function showPopup() {
+                document.getElementById('popupOverlay').style.display = 'block';
+              }
+
+              function closePopup() {
+                document.getElementById('popupOverlay').style.display = 'none';
+                location.reload(); // Refresh the page
+              }
+
+
+
+
+              //****Created by Erik*****
+
+              </script>
+
+
+
+
+
+              <script>
+
+        let accountBalances = {};
+
+        document.getElementById('journalEntryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            
+            const entry = {
+                source: formData.get('source'),  
+                Date: formData.get('dateAdded'),
+                Description: formData.get('description'),
+                Debits: [],
+                Credits: [],
+                Status: 'Pending',  // Set initial status to Pending
+                Comments: "Awaiting Decision",
+                PostReference: "NA"
+
+            };
+
+          let debits =[];
+          let credits =[];
+
+            // Collect debits and credits
+            const debitDiv = document.getElementById('Debits');
+            debitDiv.querySelectorAll('input').forEach(debitEntry => {
+                entry.Debits.push({
+                    amount: parseFloat(debitEntry.value)
+                });
+            debits.push(debitEntry.value);
+            });
+
+            const creditDiv = document.getElementById('Credits');
+            creditDiv.querySelectorAll('input').forEach(creditEntry => {
+                entry.Credits.push({
+                    amount: parseFloat(creditEntry.value)
+                });
+            credits.push(creditEntry.value);
+            });
+
+            // Validate that debits and credits balance
+            const totalDebits = entry.Debits.reduce((sum, debit) => sum + debit.amount, 0);
+            const totalCredits = entry.Credits.reduce((sum, credit) => sum + credit.amount, 0);
+            if (totalDebits !== totalCredits) {
+                alert('Debits and credits must balance!');
+                return;
+            }
+
+                entry.Balance = totalDebits;
+          entry.Debits = debits;
+          entry.Credits = credits;
+          
+
+                JSON.stringify(entry);
+                const queryParams = new URLSearchParams(entry).toString();
+                const url = `${event.target.action}?${queryParams}`;
+
+                console.log("queryParams: " + queryParams);
+                console.log("url: " + url);
+
+
+              try {
+
+                const API_response = await fetch(url, {
+                  method: "GET"
+                });
+
+                const result = await API_response.json();
+                const message = result.message;
+
+                if (API_response.ok) {
+                  document.getElementById("popUpTitle").innerHTML = "Ledger Entry Added";
+                  document.getElementById("popUpMessage").innerHTML = `${message}`;
+                  showModifyPopup();
+                }else{
+                  document.getElementById("popUpTitle").innerHTML = "Ledger Entry Denied";
+                  document.getElementById("popUpMessage").innerHTML = `${message}`;
+                  document.getElementById("overlayButton").style.backgroundColor = "#e33030";
+                  showModifyPopup();
+                }
+
+              }catch(e){
+                console.log(e);
+              }
+
+
+          console.log(debits);
+          console.log(credits);
+
+            // Clear the form
+            e.target.reset();
+        });
+
+        function showModifyPopup() {
+          document.getElementById('popupOverlay').style.display = 'block';
+        }
+            
+
+
+
+
+
+
+
+    </script>
+
+
+              <!--****************-->
+              <!--End Journal Entry portion-->
+              <!--****************-->
+
+
+
+
+
+
+
+      </div>
+
+
+              <!--****************-->
+              <!--Popup message div-->
+              <!--****************-->
+
+            <div id="popupOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;">
+              <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 2; border-radius: 5px; text-align: center;">
+                <h2 id="popUpTitle">User Created</h2>
+                <p id="popUpMessage">Account has been created for the Chart of Accounts</p>
+                <button id="overlayButton" class="close-button" onclick="closePopup()" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
+              </div>
+            </div>
+
+
+
+
+
+          <!--***************************-->
+              <!--Event Log Table -->
+          <!--***************************-->
 
         <div id="EventLogView" class='hidden'>
             <h2>Event Log</h2>
@@ -435,7 +908,11 @@
                     <!-- Ledger entries will be added here dynamically -->
                 </tbody>
             </table>
+    </div>
 
+          <!--***************************-->
+              <!--Before and After Event tables-->
+          <!--***************************-->
 
         <div id="EventLogImagesView" class='hidden' style='display: none;'>
                 <br><hr><br>
@@ -498,6 +975,89 @@
   <!--end of site div-->
   </div>
 
+          <!--***************************-->
+              <!--Email Tab and form-->
+          <!--***************************-->
+
+
+  <div id="Email" class="tabcontent">
+
+    <h3>Email</h3>
+
+<!--http://127.0.0.1:5001/profitpro-e81ab/us-central1/sendMail-->
+<!--https://sendmail-hbs3oxnkoa-uc.a.run.app/sendMail-->
+    <form id='send-Email'
+      action="http://127.0.0.1:5001/profitpro-e81ab/us-central1/sendMail" method="GET" style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+      <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Send Email</h2>
+
+      <!-- To Field -->
+      <label for="to" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;">To:</label>
+      <input type="email" id="to" name="to" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+      <!-- Subject Field -->
+      <label for="subject" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;">Subject:</label>
+      <input type="text" id="subject" name="subject" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+
+      <!-- Message
+        Body
+      -->
+      <label for="body" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;">Message:</label>
+      <textarea id="body" name="message" required rows="8" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"></textarea>
+
+      <!-- Submit Button -->
+      <button type="submit" style="width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;"> Send Email </button>
+    </form>
+
+      <div id="email-popupOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;">
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 2; border-radius: 5px; text-align: center;">
+          <h2>Email Sent</h2>
+          <button class="close-button" onclick="closePopup()" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
+        </div>
+      </div>
+
+      <script>
+        async function handleEmailSend(formId) {
+          const form = document.getElementById(formId);
+
+          form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const input = new FormData(event.target);
+            const queryParams = new URLSearchParams(input).toString();
+            const url = `${event.target.action}?${queryParams}`;
+
+            try {
+              const API_response = await fetch(url, {
+                method: "GET"
+              });
+
+              if (API_response.status === 200) {
+                showEmailPopup();
+              }
+            } catch (e) {
+              console.log(e);
+            }
+
+          });
+        }
+
+        function showEmailPopup() {
+          document.getElementById('email-popupOverlay').style.display = 'block';
+        }
+
+        function closePopup() {
+          document.getElementById('email-popupOverlay').style.display = 'none';
+          location.reload(); // Refresh the page
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+          handleEmailSend('send-Email');
+        });
+      </script>
+
+  </div>
+
+
+
 
   <!-- footer section -->
   <section class="container-fluid footer_section">
@@ -507,6 +1067,11 @@
   </section>
   <!-- footer section -->
 </div>
+
+
+          <!--***************************-->
+              <!--Search bar script-->
+          <!--***************************-->
 
 
     <script>
@@ -541,6 +1106,9 @@
         });
     </script>
 
+          <!--***************************-->
+              <!--Calendar script-->
+          <!--***************************-->
 <script>
 
       let date = new Date();

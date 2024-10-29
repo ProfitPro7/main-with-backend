@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal Entries</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Additional styles for the ledger page */
+        .entry-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .entry-form button {
+            grid-column: span 2;
+        }
+        #entriesTable {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .account-entries {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .account-entry {
+            display: flex;
+            gap: 10px;
+        }
+        .remove-entry {
+            cursor: pointer;
+            color: red;
+        }
+        .status-pending {
+            color: orange;
+            font-weight: bold;
+        }
+        .status-approved {
+            color: green;
+        }
+        .status-denied {
+            color: red;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        .deny-reason {
+            display: none;
+            margin-top: 5px;
+        }
+        .post-reference { cursor: pointer; color: blue; text-decoration: underline; }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .balance-positive { color: green; }
+        .balance-negative { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Journal Entries</h1>
+
+        <form id="journalEntryForm" class="entry-form">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+
+            <div class="account-entries">
+                <h3>Debits</h3>
+                <div id="debitEntries"></div>
+                <button type="button" onclick="addAccountEntry('debit')">Add Debit</button>
+            </div>
+
+            <div class="account-entries">
+                <h3>Credits</h3>
+                <div id="creditEntries"></div>
+                <button type="button" onclick="addAccountEntry('credit')">Add Credit</button>
+            </div>
+
+            <button type="submit">Add Journal Entry</button>
+        </form>
+
+        <h2>Entries</h2>
+        <table id="entriesTable">
+            <thead>
+                <tr>
+                    <th>Post Reference</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Debits</th>
+                    <th>Credits</th>
+                    <th>Balance</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Journal entries will be added here dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for entry details -->
+    <div id="entryModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Journal Entry Details</h2>
+            <div id="entryDetails"></div>
+        </div>
+    </div>
+
+    <script>
+        let accountBalances = {};
+
+        // Load account balances from localStorage
+        function loadAccountBalances() {
+            accountBalances = JSON.parse(localStorage.getItem('accountBalances')) || {};
+        }
+
+        // Save account balances to localStorage
+        function saveAccountBalances() {
+            localStorage.setItem('accountBalances', JSON.stringify(accountBalances));
+        }
+
+        // Update account balances based on a journal entry
+        function updateAccountBalances(entry) {
+            entry.debits.forEach(debit => {
+                accountBalances[debit.account] = (accountBalances[debit.account] || 0) + debit.amount;
+            });
+            entry.credits.forEach(credit => {
+                accountBalances[credit.account] = (accountBalances[credit.account] || 0) - credit.amount;
+            });
+            saveAccountBalances();
+        }
+
+        // Calculate total balance after an entry
+        function calculateTotalBalance(entry) {
+            let totalBalance = 0;
+            entry.debits.forEach(debit => {
+                totalBalance += accountBalances[debit.account] || 0;
+            });
+            entry.credits.forEach(credit => {
+                totalBalance += accountBalances[credit.account] || 0;
+            });
+            return totalBalance;
+        }
+
+        // Load accounts from localStorage
+        function loadAccounts() {
+            return JSON.parse(localStorage.getItem('accounts')) || [];
+        }
+
+        // Create account select options
+        function createAccountSelect() {
+            const accounts = loadAccounts();
+            const select = document.createElement('select');
+            select.required = true;
+            accounts.forEach(account => {
+                const option = new Option(account.accountName, account.accountNumber);
+                select.add(option);
+            });
+            return select;
+        }
+
+        // Add a new account entry (debit or credit)
+        function addAccountEntry(type) {
+            const entriesDiv = document.getElementById(`${type}Entries`);
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'account-entry';
+
+            const accountSelect = createAccountSelect();
+            accountSelect.name = `${type}Account`;
+
+            const amountInput = document.createElement('input');
+            amountInput.type = 'number';
+            amountInput.step = '0.01';
+            amountInput.required = true;
+            amountInput.name = `${type}Amount`;
+
+            const removeButton = document.createElement('span');
+            removeButton.textContent = '❌';
+            removeButton.className = 'remove-entry';
+            removeButton.onclick = function() {
+                entriesDiv.removeChild(entryDiv);
+            };
+
+            entryDiv.appendChild(accountSelect);
+            entryDiv.appendChild(amountInput);
+            entryDiv.appendChild(removeButton);
+            entriesDiv.appendChild(entryDiv);
+        }
+
+        // Handle form submission
+        document.getElementById('journalEntryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            
+            const entry = {
+                date: formData.get('date'),
+                description: formData.get('description'),
+                debits: [],
+                credits: [],
+                status: 'Pending'  // Set initial status to Pending
+            };
+
+            // Collect debits and credits
+            document.querySelectorAll('#debitEntries .account-entry').forEach(debitEntry => {
+                entry.debits.push({
+                    account: debitEntry.querySelector('select').value,
+                    amount: parseFloat(debitEntry.querySelector('input').value)
+                });
+            });
+
+            document.querySelectorAll('#creditEntries .account-entry').forEach(creditEntry => {
+                entry.credits.push({
+                    account: creditEntry.querySelector('select').value,
+                    amount: parseFloat(creditEntry.querySelector('input').value)
+                });
+            });
+
+            // Validate that debits and credits balance
+            const totalDebits = entry.debits.reduce((sum, debit) => sum + debit.amount, 0);
+            const totalCredits = entry.credits.reduce((sum, credit) => sum + credit.amount, 0);
+            if (totalDebits !== totalCredits) {
+                alert('Debits and credits must balance!');
+                return;
+            }
+
+            // Save the entry
+            const entries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+            entries.push(entry);
+            localStorage.setItem('journalEntries', JSON.stringify(entries));
+
+            // Add the entry to the table
+            addEntryToTable(entry);
+
+            // Clear the form
+            e.target.reset();
+            document.getElementById('debitEntries').innerHTML = '';
+            document.getElementById('creditEntries').innerHTML = '';
+        });
+
+        // Function to add an entry to the table
+        function addEntryToTable(entry, index) {
+            const tableBody = document.querySelector('#entriesTable tbody');
+            const row = document.createElement('tr');
+            
+            const debitsHtml = entry.debits.map(debit => 
+                `${getAccountName(debit.account)}: $${debit.amount.toFixed(2)}`
+            ).join('<br>');
+
+            const creditsHtml = entry.credits.map(credit => 
+                `${getAccountName(credit.account)}: $${credit.amount.toFixed(2)}`
+            ).join('<br>');
+
+            updateAccountBalances(entry);
+            const totalBalance = calculateTotalBalance(entry);
+
+            row.innerHTML = `
+                <td><span class="post-reference" onclick="showEntryDetails(${index})">JE-${index + 1}</span></td>
+                <td>${entry.date}</td>
+                <td>${entry.description}</td>
+                <td>${debitsHtml}</td>
+                <td>${creditsHtml}</td>
+                <td class="balance-${totalBalance >= 0 ? 'positive' : 'negative'}">$${totalBalance.toFixed(2)}</td>
+                <td class="status-${entry.status.toLowerCase()}">${entry.status}</td>
+                <td>
+                    <div class="action-buttons">
+                        ${entry.status === 'Pending' ? `
+                            <button onclick="approveEntry(${index})">Approve</button>
+                            <button onclick="showDenyReason(${index})">Deny</button>
+                        ` : ''}
+                    </div>
+                    <div class="deny-reason" id="denyReason-${index}">
+                        <input type="text" placeholder="Reason for denial" id="denyReasonInput-${index}">
+                        <button onclick="denyEntry(${index})">Confirm Denial</button>
+                    </div>
+                </td>
+            `;
+
+            tableBody.appendChild(row);
+        }
+
+        function showEntryDetails(index) {
+            const entries = JSON.parse(localStorage.getItem('journalEntries'));
+            const entry = entries[index];
+            
+            const debitsHtml = entry.debits.map(debit => 
+                `<li>${getAccountName(debit.account)}: $${debit.amount.toFixed(2)}</li>`
+            ).join('');
+
+            const creditsHtml = entry.credits.map(credit => 
+                `<li>${getAccountName(credit.account)}: $${credit.amount.toFixed(2)}</li>`
+            ).join('');
+
+            const totalBalance = calculateTotalBalance(entry);
+
+            const detailsHtml = `
+                <p><strong>Post Reference:</strong> JE-${index + 1}</p>
+                <p><strong>Date:</strong> ${entry.date}</p>
+                <p><strong>Description:</strong> ${entry.description}</p>
+                <p><strong>Status:</strong> ${entry.status}</p>
+                <h3>Debits:</h3>
+                <ul>${debitsHtml}</ul>
+                <h3>Credits:</h3>
+                <ul>${creditsHtml}</ul>
+                <p><strong>Balance after entry:</strong> $${totalBalance.toFixed(2)}</p>
+                ${entry.denyReason ? `<p><strong>Denial Reason:</strong> ${entry.denyReason}</p>` : ''}
+            `;
+
+            document.getElementById('entryDetails').innerHTML = detailsHtml;
+            document.getElementById('entryModal').style.display = 'block';
+        }
+
+        // Close modal when clicking on <span> (x)
+        document.querySelector('.close').onclick = function() {
+            document.getElementById('entryModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('entryModal')) {
+                document.getElementById('entryModal').style.display = 'none';
+            }
+        }
+
+        // Helper function to get account name from account number
+        function getAccountName(accountNumber) {
+            const accounts = loadAccounts();
+            const account = accounts.find(a => a.accountNumber === accountNumber);
+            return account ? account.accountName : accountNumber;
+        }
+
+        // Function to load existing journal entries
+        function loadJournalEntries() {
+            const entries = JSON.parse(localStorage.getItem('journalEntries')) || [];
+            entries.forEach((entry, index) => addEntryToTable(entry, index));
+        }
+
+        // Function to approve an entry
+        function approveEntry(index) {
+            const entries = JSON.parse(localStorage.getItem('journalEntries'));
+            entries[index].status = 'Approved';
+            localStorage.setItem('journalEntries', JSON.stringify(entries));
+            refreshTable();
+        }
+
+        // Function to show deny reason for an entry
+        function showDenyReason(index) {
+            document.getElementById(`denyReason-${index}`).style.display = 'block';
+        }
+
+        // Function to deny an entry
+        function denyEntry(index) {
+            const reason = document.getElementById(`denyReasonInput-${index}`).value;
+            if (!reason) {
+                alert('Please provide a reason for denial.');
+                return;
+            }
+            const entries = JSON.parse(localStorage.getItem('journalEntries'));
+            entries[index].status = 'Denied';
+            entries[index].denyReason = reason;
+            localStorage.setItem('journalEntries', JSON.stringify(entries));
+            refreshTable();
+        }
+
+        // Function to refresh the table
+        function refreshTable() {
+            const tableBody = document.querySelector('#entriesTable tbody');
+            tableBody.innerHTML = '';
+            accountBalances = {};  // Reset account balances
+            loadJournalEntries();
+        }
+
+        // Load existing entries when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAccountBalances();
+            loadJournalEntries();
+            // Add initial debit and credit entries
+            addAccountEntry('debit');
+            addAccountEntry('credit');
+        });
+    </script>
+</body>
+</html>

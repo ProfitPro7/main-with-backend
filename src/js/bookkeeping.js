@@ -135,6 +135,12 @@ export function selectAccount2(tbodyId, rowId){
   document.getElementById("button-list-div").classList.remove("hidden");
   document.getElementById("button-list-div").classList.add("visible");
 
+  document.getElementById("journalEntries").classList.remove("hidden");
+  document.getElementById("journalEntries").classList.add("visible");
+  document.getElementById("journal-button-list-div").classList.remove("hidden");
+  document.getElementById("journal-button-list-div").classList.add("visible");
+
+
   document.getElementById("search").classList.remove("visible");
   document.getElementById("search").classList.add("hidden");
 
@@ -143,6 +149,8 @@ export function selectAccount2(tbodyId, rowId){
     document.getElementById("search").style.display = "none";
     document.getElementById("EventLogView").style.display = "block";
     document.getElementById("button-list-div").style.display = "block";
+  document.getElementById("journalEntries").style.display = "block";
+  document.getElementById("journal-button-list-div").style.display = "block";
     document.getElementById('coa_title').innerHTML = `Account: ${rowId}`;
 
   }, 500);
@@ -178,6 +186,11 @@ export function deselectAccount2(tbodyId){
   document.getElementById("button-list-div").classList.remove("visible");
   document.getElementById("button-list-div").classList.add("hidden");
 
+  document.getElementById("journalEntries").classList.remove("visible");
+  document.getElementById("journalEntries").classList.add("hidden");
+  document.getElementById("journal-button-list-div").classList.remove("visible");
+  document.getElementById("journal-button-list-div").classList.add("hidden");
+
   document.getElementById("search").classList.remove("hidden");
   document.getElementById("search").classList.add("visible");
 
@@ -186,6 +199,9 @@ export function deselectAccount2(tbodyId){
     document.getElementById("search").style.display = "block";
     document.getElementById("EventLogView").style.display = "none";
     document.getElementById("button-list-div").style.display = "none";
+  document.getElementById("journalEntries").style.display = "none";
+  document.getElementById("journal-button-list-div").style.display = "none";
+
     document.getElementById('coa_title').innerHTML = `Account Information`;
 
   }, 500);
@@ -397,5 +413,112 @@ export function deSelectBeforeAfter(tbodyId){
 
 
 }
+
+
+
+  //******************************************************************************************
+  //      Journal Entry implementation JS
+  //******************************************************************************************
+
+//used for reports + bookkeeping html files
+export async function fillJournal(rowId){
+
+  const tableBody = document.getElementById('journal-table');
+
+  const Doc = doc(db, "Chart_Of_Accounts", rowId);
+  const docSnap = await getDoc(Doc);
+  if (docSnap.exists){
+
+    const data = docSnap.data();
+    const journal = data.Journal;
+
+    journal.forEach((entry, index) => {
+      const debits = entry.Debits;
+      let debitString = ``;
+      debits.forEach((entry, index) => {
+          debitString += `${entry}\n`;
+        });
+
+      const credits = entry.Credits;
+      let creditString = ``;
+      credits.forEach((entry, index) => {
+          creditString += `${entry}\n`;
+        });
+
+      const newRow = document.createElement('tr');
+      newRow.id = `${index}`;
+      newRow.className = 'caf'
+      newRow.classList.add('visible');
+      newRow.innerHTML = `
+        <td class='caf'>${entry.PostReference}</td>
+        <td class='caf'>${entry.Date}</td>
+        <td class='caf' style='width: 300px;'>${entry.Description}</td>
+        <td class='caf'>${debitString}</td>
+        <td class='caf'>${creditString}</td>
+        <td class='caf'>${entry.Balance}</td>
+        <td class='caf'>${entry.Comments}</td>
+        `;
+
+      //Status decides font color: (Pending: yellow: Accepted: Green, Denied: red)
+      switch(entry.Status){
+        case "Pending":
+          newRow.innerHTML += `<td class='caf' style='color: orange;'>${entry.Status}</td>`; 
+          console.log(entry.Status);
+          break;
+        case "Approved":
+          newRow.innerHTML += `<td class='caf' style='color: green;'>${entry.Status}</td>`; 
+          console.log(entry.Status);
+          break;
+        case "Denied":
+          newRow.innerHTML += `<td class='caf' style='color: red;'>${entry.Status}</td>`; 
+          console.log(entry.Status);
+          break;
+        default:
+          console.log(entry.Status);
+          newRow.innerHTML += `<td class='caf' style='color: red;'>Didn't work</td>`;
+        break;
+      }
+
+      //action buttons only if user is manager/admin, else if accountant => action column = none
+
+
+  onAuthStateChanged(auth, async (user) => {
+    if(user){
+          console.log("User found" + user.email);
+      const Email = user.email;
+      const userDoc = doc(db, "Users", Email);
+      const userDocSnap = await getDoc(userDoc);
+          console.log("Made it here" + userDocSnap);
+      if (userDocSnap.exists){
+        const UserData = userDocSnap.data();
+          console.log("User Data: " + JSON.stringify(UserData));
+        const accountType = UserData.accountType;
+          console.log("Users accountType: " + accountType);
+
+        if(accountType === "Admin" || accountType === "Manager"){
+              if(entry.Status !== "Approved" && entry.Status !== "Denied"){ 
+                    newRow.innerHTML += `
+                          <td class='caf'>
+                          <span style='display: flex'>
+                          <button style="border-radius: 25px; background-color: green; margin-right: 10px;">Approve</button>
+                          <button style="border-radius: 25px; background-color: red;">Deny</button>
+                          </span>
+                          </td>`;
+              }else{
+                    newRow.innerHTML += `<td class='caf'>Action already made</td>`;
+              }
+        }else{
+          newRow.innerHTML += `<td class='caf'>Manager Needed</td>`;
+        }
+      }
+    }
+  });
+      tableBody.append(newRow);
+    });
+
+
+  }
+}
+
 
 

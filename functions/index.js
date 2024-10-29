@@ -9,6 +9,7 @@ const emailFunctions = require('./funcs/email');
 const adminFunctions = require('./funcs/admin');
 const passwordFunctions = require('./funcs/password');
 const bookkeepingFunctions = require('./funcs/bookkeeping.js');
+const reportsFunctions = require('./funcs/reports.js');
 
 
 exports.accountApproval = emailFunctions.accountApproval;
@@ -26,3 +27,5 @@ exports.addAccountToCOA = bookkeepingFunctions.addAccountToCOA;
 exports.modifyAccountInformation = bookkeepingFunctions.modifyAccountInformation;
 exports.deactivateAccountCOA  = bookkeepingFunctions.deactivateAccountCOA;
 exports.modifyAccountLedger  = bookkeepingFunctions.modifyAccountLedger;
+
+exports.createJournalEntry = reportsFunctions.createJournalEntry;

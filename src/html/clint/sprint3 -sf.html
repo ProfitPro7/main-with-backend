@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal Entries</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        select, input, button {
+            padding: 8px;
+            margin-right: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Journal Entries</h1>
+        <div class="filters">
+            <select id="statusFilter">
+                <option value="all">All</option>
+                <option value="pending">Pending Approval</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Search...">
+            <input type="date" id="dateFilter">
+        </div>
+        <table id="journalTable">
+            <thead>
+                <tr>
+                    <th>Account Number</th>
+                    <th>Account Name</th>
+                    <th>Amount</th>
+                    <th>Balance</th>
+                    <th>Category</th>
+                    <th>Subcategory</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="journalEntries">
+                <!-- Journal entries will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // account class
+        class Account {
+            constructor(accountNumber, accountName, balance, category, subcategory) {
+                this.accountNumber = accountNumber;
+                this.accountName = accountName;
+                this.balance = balance;
+                this.category = category;
+                this.subcategory = subcategory;
+            }
+        }
+
+        // chart-of-accounts class
+        class ChartOfAccounts {
+            constructor() {
+                this.accounts = [];
+            }
+
+            addAccount(account) {
+                this.accounts.push(account);
+            }
+
+            getAllAccounts() {
+                return this.accounts;
+            }
+
+            filterByName(name) {
+                return this.accounts.filter(account => 
+                    account.accountName.toLowerCase().includes(name.toLowerCase())
+                );
+            }
+
+            filterByCategory(category) {
+                return this.accounts.filter(account => 
+                    account.category.toLowerCase() === category.toLowerCase()
+                );
+            }
+        }
+
+        // sample data
+        const journalEntries = [
+            { id: 1, accountNumber: '1001', accountName: 'Cash', amount: 1000, balance: 5000, date: '2023-10-15', category: 'Assets', subcategory: 'Current Assets', status: 'pending' },
+            { id: 2, accountNumber: '2001', accountName: 'Accounts Payable', amount: 500, balance: 2500, date: '2023-10-16', category: 'Liabilities', subcategory: 'Current Liabilities', status: 'approved' },
+            { id: 3, accountNumber: '3001', accountName: 'Sales Revenue', amount: 750, balance: 10000, date: '2023-10-17', category: 'Revenue', subcategory: 'Operating Revenue', status: 'rejected' },
+            { id: 4, accountNumber: '4001', accountName: 'Salaries Expense', amount: 2000, balance: 3000, date: '2023-10-18', category: 'Expenses', subcategory: 'Operating Expenses', status: 'pending' },
+            { id: 5, accountNumber: '1002', accountName: 'Accounts Receivable', amount: 300, balance: 1500, date: '2023-10-19', category: 'Assets', subcategory: 'Current Assets', status: 'approved' },
+        ];
+
+        const statusFilter = document.getElementById('statusFilter');
+        const searchInput = document.getElementById('searchInput');
+        const dateFilter = document.getElementById('dateFilter');
+        const journalEntriesTable = document.getElementById('journalEntries');
+
+        function renderJournalEntries(entries) {
+            journalEntriesTable.innerHTML = '';
+            entries.forEach(entry => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.accountNumber}</td>
+                    <td>${entry.accountName}</td>
+                    <td>$${entry.amount.toFixed(2)}</td>
+                    <td>$${entry.balance.toFixed(2)}</td>
+                    <td>${entry.category}</td>
+                    <td>${entry.subcategory}</td>
+                    <td>${entry.date}</td>
+                    <td>${entry.status}</td>
+                `;
+                journalEntriesTable.appendChild(row);
+            });
+        }
+
+        function filterEntries() {
+            const status = statusFilter.value;
+            const searchTerm = searchInput.value.toLowerCase();
+            const date = dateFilter.value;
+
+            const filteredEntries = journalEntries.filter(entry => {
+                const statusMatch = status === 'all' || entry.status === status;
+                const searchMatch = Object.values(entry).some(value => 
+                    value.toString().toLowerCase().includes(searchTerm)
+                );
+                const dateMatch = !date || entry.date === date;
+
+                return statusMatch && searchMatch && dateMatch;
+            });
+
+            renderJournalEntries(filteredEntries);
+        }
+
+        statusFilter.addEventListener('change', filterEntries);
+        searchInput.addEventListener('input', filterEntries);
+        dateFilter.addEventListener('change', filterEntries);
+
+        // sample data into chart-of-accounts
+        const chartOfAccounts = new ChartOfAccounts();
+        journalEntries.forEach(entry => {
+            const account = new Account(entry.accountNumber, entry.accountName, entry.balance, entry.category, entry.subcategory);
+            chartOfAccounts.addAccount(account);
+        });
+
+        // render
+        renderJournalEntries(journalEntries);
+    </script>
+</body>
+</html>

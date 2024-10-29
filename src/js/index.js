@@ -4,7 +4,7 @@ import { signInUser } from ".//signIn.js";
 import { getUserName, createUserList, createExpiredPasswordList } from ".//admin.js";
 import { sendPasswordResetEmail } from "firebase/auth";
 
-import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog, fillBeforeAfterTables, selectEventLogBeforeAfter, deSelectBeforeAfter } from ".//bookkeeping.js";
+import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog, fillBeforeAfterTables, selectEventLogBeforeAfter, deSelectBeforeAfter, fillJournal, createJEButton } from ".//bookkeeping.js";
 
 const path = window.location.pathname;
 
@@ -215,6 +215,16 @@ if(path.includes("reports.html")){
       selectAccount2("coa_table", clickedRow.id);
       fillLedger(clickedRow.id);
       fillEventLog(clickedRow.id);
+      fillJournal(clickedRow.id);
+      //sets Journal entry hidden source value to the clicked row of the COA
+      console.log("clicked row: " + clickedRow.id);
+      try{
+      document.getElementById('coa-ledger-source').value = `${clickedRow.id}`;
+      }catch(e){
+        console.log(e);
+      }
+      console.log(document.getElementById('coa-ledger-source').value );
+
       //populateEventLog
     }
 
@@ -224,6 +234,7 @@ if(path.includes("reports.html")){
       deselectAccount2("coa_table");
     document.getElementById('ledger-table').innerHTML = "";
     document.getElementById('EventLog-table').innerHTML = "";
+    document.getElementById('journal-table').innerHTML = "";
   });
 
 
@@ -245,6 +256,7 @@ if(path.includes("reports.html")){
     document.getElementById('EventLogBefore-table').innerHTML = "";
     document.getElementById('EventLogAfter-table').innerHTML = "";
   });
+
 
 
 
