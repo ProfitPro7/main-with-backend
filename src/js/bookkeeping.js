@@ -150,7 +150,7 @@ export function selectAccount2(tbodyId, rowId){
     document.getElementById("EventLogView").style.display = "block";
     document.getElementById("button-list-div").style.display = "block";
   document.getElementById("journalEntries").style.display = "block";
-  document.getElementById("journal-button-list-div").style.display = "block";
+  document.getElementById("journal-button-list-div").style.display = "flex";
     document.getElementById('coa_title').innerHTML = `Account: ${rowId}`;
 
   }, 500);
@@ -500,8 +500,18 @@ export async function fillJournal(rowId){
                     newRow.innerHTML += `
                           <td class='caf'>
                           <span style='display: flex'>
-                          <button style="border-radius: 25px; background-color: green; margin-right: 10px;">Approve</button>
-                          <button style="border-radius: 25px; background-color: red;">Deny</button>
+
+                        <form id='approveJEForm-${index}' action='http://localhost:5001/profitpro-e81ab/us-central1/approveJournalEntry' onsubmit="event.preventDefault(); handleApproveDenyForm(event, 'approveJEForm-${index}');">
+                            <input type='hidden' style='display: none' name='account' value='${rowId}'>
+                            <input type='hidden' style='display: none' name='JEindex' value='${index}'>
+                          <button type='submit' style="border-radius: 25px; background-color: green; margin-right: 10px; width: 90px;">Approve</button>
+                        </form>
+
+                        <form id='denyJEForm-${index}' action='http://localhost:5001/profitpro-e81ab/us-central1/denyJournalEntry' onsubmit="event.preventDefault(); handleApproveDenyForm(event, 'denyJEForm-${index}');">
+                            <input type='hidden' style='display: none' name='account' value='${rowId}'>
+                            <input type='hidden' style='display: none' name='JEindex' value='${index}'>
+                          <button style="border-radius: 25px; width:90px; background-color: red;">Deny</button>
+                        </form>
                           </span>
                           </td>`;
               }else{

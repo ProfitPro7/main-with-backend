@@ -1,5 +1,5 @@
 
-const { getFirestore, FieldValue} = require("firebase-admin/firestore");
+const { getFirestore, FieldValue, doc, getDoc} = require("firebase-admin/firestore");
 const { admin } = require("firebase-admin");
 const db = getFirestore();
 
@@ -83,5 +83,145 @@ exports.createJournalEntry = onRequest( { cors: [/profitpro-e81ab\.web\.app/]}, 
 
 });
 
+
+
+
+
+exports.approveJournalEntry = onRequest( { cors: [/profitpro-e81ab\.web\.app/]}, async(request, res) => {
+
+  let message = "";
+
+  const {account, JEindex} = request.query;
+
+  console.log(account + ", " + JEindex);
+
+  try{
+    const docRef = db.collection("Chart_Of_Accounts").doc(`${account}`);
+    const docSnap = await docRef.get();
+
+    const data = docSnap.data();
+
+    const currDate = new Date().toJSON().slice(0,10);
+    const currentTime = new Date().toLocaleTimeString("en-US", {timeZone: "America/New_York"});
+
+    const journal = data.Journal; // replace with your array field name
+    const eventLog = data.EventLog;
+
+    let credits = "";
+    for(let i = 0; i < journal[JEindex].Credits.length; i++){
+      credits += journal[JEindex].Credits[i] + ", ";
+    }
+
+    let debits = "";
+    for(let i = 0; i < journal[JEindex].Debits.length; i++){
+      debits += journal[JEindex].Debits[i] + ", ";
+    }
+
+    const eventLogSize =  eventLog.length; 
+
+    const newEvent = {
+      beforeImage: `${eventLogSize - 1}`,
+      afterImage: `${eventLogSize}`,
+      eventId: `Journal Entry-${currDate}`,
+      changes: `Journal entry added by JTonnesen-09-24`,
+      dateChanged: `${currDate}`,
+      description: `${journal[JEindex].Description}`,
+      timeChanged: `${currentTime}`,
+      typeOfChange: `Journal Entry`,
+      userId: `JTonnesen-09-24`
+    };
+
+    const newLedger = {
+      balance: `${journal[JEindex].Balance}`,
+      credit: `${credits}`,
+      dateAdded: `${journal[JEindex].Date}`,
+      debit: `${debits}`,
+      description: `${journal[JEindex].Description}`
+    };
+
+    await docRef.update({
+      EventLog: FieldValue.arrayUnion(newEvent),
+      Ledger: FieldValue.arrayUnion(newLedger)
+    });
+
+
+    journal[JEindex].Status = "Approved"; // Update the field
+
+    await docRef.set({ Journal: journal }, { merge: true });
+
+    res.status(200).json({message: 'Journal Entry Approved'});
+
+  }catch(e){
+    console.log(e);
+    res.status(400).json({message: 'Failed'});
+  }
+
+});
+
+
+exports.denyJournalEntry = onRequest( { cors: [/profitpro-e81ab\.web\.app/]}, async(request, res) => {
+
+  let message = "";
+
+  const {account, JEindex} = request.query;
+
+  console.log(account + ", " + JEindex);
+
+  try {
+    // Step 1: Retrieve the document
+
+      const docRef = db.collection("Chart_Of_Accounts").doc(`${account}`);
+
+      const docSnap = await docRef.get();
+
+    if (!docSnap.exists) {
+      res.status(400).json({message: 'no doc'});
+    }
+
+    const data = docSnap.data();
+    console.log(data);
+    const yourArray = data.Journal; // replace with your array field name
+    console.log(yourArray);
+
+    // Step 2: Modify the array
+    if (yourArray && yourArray[JEindex]) {
+      yourArray[JEindex].Status = "Denied"; // Update the field
+      console.log(yourArray[JEindex].Status);
+    } else {
+      res.status(400).json({message: 'index bork'});
+    }
+
+    // Step 3: Write the updated array back
+    await docRef.set({ Journal: yourArray }, { merge: true });
+
+      res.status(200).json({message: 'Status Changed'});
+  } catch (error) {
+    console.error('Error updating document:', error);
+      res.status(400).json({message: 'Error uploading'});
+  }
+  //try{
+  //  const doc = await db.collection("").doc(`${account}`).update({
+  //    Journal.
+  //  });
+
+
+      //.get();
+
+
+    //const data = doc.data(); 
+    //
+    //const journalEntry = data.Journal[`${JEindex}`];
+    //
+    //journalEntry.update({
+    //  Status: "Denied"
+    //});
+    //
+  //}catch(e){
+  //  console.log(e);
+  //  response.status(400).json({message: "Failed at Journal Entry Denial"});
+  //
+  //}
+
+});
 
 

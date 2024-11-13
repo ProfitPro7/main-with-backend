@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FReports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .controls {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        .statement-container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .action-buttons {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    </style>
+
+    <!-- Add Firebase SDK before closing head tag -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Initialize Firebase (add your config)
+        const firebaseConfig = {
+            // Add your Firebase configuration here
+            apiKey: "your-api-key",
+            authDomain: "your-auth-domain",
+            projectId: "your-project-id",
+            storageBucket: "your-storage-bucket",
+            messagingSenderId: "your-messaging-sender-id",
+            appId: "your-app-id"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        async function generateStatement() {
+            const statementType = document.getElementById('statement-type').value;
+            const outputDiv = document.getElementById('statement-output');
+            
+            try {
+                // Fetch data from Firestore
+                const snapshot = await db.collection('accounts').get();
+                const accounts = [];
+                
+                snapshot.forEach(doc => {
+                    accounts.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Filter and format data based on statement type
+                let tableRows = '';
+                let totalDebit = 0;
+                let totalCredit = 0;
+
+                // Add your data rows here
+
+                let content = `<h2>${formatTitle(statementType)}</h2>
+                              <table>
+                                  <thead>
+                                      <tr>
+                                          <th>Account</th>
+                                          <th>Debit</th>
+                                          <th>Credit</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <!-- Add your data rows here -->
+                                  </tbody>
+                              </table>`;
+                
+                outputDiv.innerHTML = content;
+            } catch (error) {
+                console.error('Error generating statement:', error);
+            }
+        }
+
+        function formatTitle(statementType) {
+            return statementType.split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+
+        function saveStatement() {
+            // Implement save functionality
+            alert('Save functionality to be implemented');
+        }
+
+        function emailStatement() {
+            // Implement email functionality
+            alert('Email functionality to be implemented');
+        }
+
+        function printStatement() {
+            window.print();
+        }
+    </script>
+</head>
+<body>
+    <h1>Reports</h1>
+    
+    <div class="controls">
+        <label for="statement-type">Select Statement Type:</label>
+        <select id="statement-type">
+            <option value="trial-balance">Trial Balance</option>
+            <option value="income-statement">Income Statement</option>
+            <option value="balance-sheet">Balance Sheet</option>
+            <option value="retained-earnings">Retained Earnings Statement</option>
+        </select>
+        <button onclick="generateStatement()">Generate Statement</button>
+    </div>
+
+    <div class="statement-container" id="statement-output">
+        <!-- Statement will be generated here -->
+    </div>
+
+    <div class="action-buttons">
+        <button onclick="saveStatement()">Save</button>
+        <button onclick="emailStatement()">Email</button>
+        <button onclick="printStatement()">Print</button>
+    </div>
+</body>
+</html>

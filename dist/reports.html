@@ -429,10 +429,18 @@
       <div id="journalEntries" class='hidden' style='display: none;'>
         <h2>Journal Entries</h2>
 
-          <div id='journal-button-list-div' class='hidden' style='text-align: right; display: none; padding: 10px;'>
-            <span style='display: inline; padding:10px;'>
-              <button id="journal-createJEEntry" onclick="showJE_Form()" style="border-radius: 25px; color: white; background-color: green;">Create Journal Entry</button>
-            </span>
+          <div id='journal-button-list-div' class='hidden' style='display: none; display: flex; justify-content: space-between; margin-bottom: 20px;'>
+                  <select id="statusFilter" style="width:  150px;">
+                    <option value="all">All</option>
+                    <option value="pending">Pending Approval</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                  </select>
+                  <input type="text" id="searchInput" placeholder="Search...">
+                  <input type="date" id="dateFilter">
+                  <span style="display: inline; padding:10px;">
+                    <button id="journal-createJEEntry" onclick="showJE_Form()" style="border-radius: 25px; color: white; background-color: green;">Create Journal Entry</button>
+                  </span>
           </div>
 
                 <script>
@@ -749,6 +757,7 @@
 
 
 
+              <!--Handle Journal entry form submission-->
               <script>
 
         let accountBalances = {};
@@ -848,6 +857,42 @@
             
 
 
+        async function handleApproveDenyForm(event, formId){
+          event.preventDefault();
+
+          const form = event.target;
+          const formData = new FormData(form);
+
+          const queryParams = new URLSearchParams(formData).toString();
+
+          const url = `${event.target.action}?${queryParams}`;
+
+          try {
+
+            const API_response = await fetch(url, {
+              method: "GET"
+            });
+
+            const result = await API_response.json();
+            const message = result.message;
+
+            if (API_response.ok) {
+              document.getElementById("popUpTitle").innerHTML = "Account Status set to Denied";
+              document.getElementById("popUpMessage").innerHTML = `${message}`;
+              showModifyPopup();
+            }else{
+              document.getElementById("popUpTitle").innerHTML = "Error";
+              document.getElementById("popUpMessage").innerHTML = `${message}`;
+              document.getElementById("overlayButton").style.backgroundColor = "#e33030";
+              showModifyPopup();
+            }
+
+          }catch(e){
+            console.log(e);
+          }
+
+
+        }
 
 
 
@@ -1105,6 +1150,89 @@
             });
         });
     </script>
+
+
+          <!--***************************-->
+              <!--Search bar script for sprint 3-->
+          <!--***************************-->
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Get the filter elements
+      const statusFilter = document.getElementById('statusFilter');
+      const searchInput = document.getElementById('searchInput');
+      const dateFilter = document.getElementById('dateFilter');
+
+      // Get the table body where journal entries will be displayed
+      const journalTableBody = document.getElementById('journal-table');
+
+      // Add event listeners to each filter
+      statusFilter.addEventListener('change', filterJournalEntries);
+      searchInput.addEventListener('input', filterJournalEntries);
+      dateFilter.addEventListener('change', filterJournalEntries);
+
+      function filterJournalEntries() {
+        const statusValue = statusFilter.value.toLowerCase();
+        const searchValue = searchInput.value.toLowerCase();
+        const dateValue = dateFilter.value;
+
+        // Get all rows from the table
+        const rows = journalTableBody.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+          let row = rows[i];
+          let showRow = true;
+
+          // Filter by status
+          const statusText = row.querySelector('td:nth-child(8)').textContent.toLowerCase();
+          if (statusValue !== 'all' && statusText !== statusValue) {
+            showRow = false;
+          }
+
+          // Filter by search input (searches across all <td> elements)
+          if (searchValue) {
+            const cells = row.getElementsByTagName('td');
+            let found = false;
+
+            // Loop through each cell in the row and check if it contains the search value
+            for (let j = 0; j < cells.length; j++) {
+              const cellText = cells[j].textContent.toLowerCase();
+              if (cellText.includes(searchValue)) {
+                found = true;
+                break;
+              }
+            }
+
+            if (!found) {
+              showRow = false;
+            }
+          }
+
+          // Filter by date (assumes the date format is YYYY-MM-DD in the table)
+          const dateText = row.querySelector('td:nth-child(2)').textContent;
+          if (dateValue && dateText !== dateValue) {
+            showRow = false;
+          }
+
+          // Show or hide the row based on the filters
+          row.style.display = showRow ? '' : 'none';
+        }
+      }
+    });
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
 
           <!--***************************-->
               <!--Calendar script-->

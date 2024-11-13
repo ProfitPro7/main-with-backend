@@ -23,9 +23,13 @@ exports.addPasswordToDatabase = passwordFunctions.addPasswordToDatabase;
 exports.resetPassword = passwordFunctions.resetPassword;
 exports.updatePassword = passwordFunctions.updatePassword;
 
+//bookkeeping functions
 exports.addAccountToCOA = bookkeepingFunctions.addAccountToCOA;
 exports.modifyAccountInformation = bookkeepingFunctions.modifyAccountInformation;
 exports.deactivateAccountCOA  = bookkeepingFunctions.deactivateAccountCOA;
 exports.modifyAccountLedger  = bookkeepingFunctions.modifyAccountLedger;
 
+//reports functions
 exports.createJournalEntry = reportsFunctions.createJournalEntry;
+exports.denyJournalEntry = reportsFunctions.denyJournalEntry;
+exports.approveJournalEntry = reportsFunctions.approveJournalEntry;

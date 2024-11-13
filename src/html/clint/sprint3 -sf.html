@@ -25,9 +25,7 @@
             color: #333;
         }
         .filters {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
+            display: flex; justify-content: space-between; margin-bottom: 20px;
         }
         select, input, button {
             padding: 8px;
@@ -54,7 +52,7 @@
 <body>
     <div class="container">
         <h1>Journal Entries</h1>
-        <div class="filters">
+        <div class="filters" style='display: flex; justify-content: space-between; margin-bottom: 20px;'>
             <select id="statusFilter">
                 <option value="all">All</option>
                 <option value="pending">Pending Approval</option>
