@@ -234,6 +234,7 @@ export async function fillLedger(rowId){
       newRow.className = 'caf'
       console.log(entry.dateAdded, + ", " + entry.description + ", " + entry.debit + ", " + entry.credit + ", " + entry.balance);
       newRow.innerHTML = `
+        <td class='caf'><a href="javascript:;" onclick="directTo(${entry.postReference});">PR</a></td>
         <td class='caf'>${entry.dateAdded}</td>
         <td class='caf'>${entry.description}</td>
         <td class='caf'>${entry.debit}</td>
@@ -450,7 +451,6 @@ export async function fillJournal(rowId){
       newRow.className = 'caf'
       newRow.classList.add('visible');
       newRow.innerHTML = `
-        <td class='caf'>${entry.PostReference}</td>
         <td class='caf'>${entry.Date}</td>
         <td class='caf' style='width: 300px;'>${entry.Description}</td>
         <td class='caf'>${debitString}</td>

@@ -42,7 +42,6 @@ exports.createJournalEntry = onRequest( { cors: [/profitpro-e81ab\.web\.app/]}, 
     Balance: Balance,
     Comments: Comments, 
     Status: Status,
-    PostReference: PostReference
   };
 
   try{
@@ -132,6 +131,7 @@ exports.approveJournalEntry = onRequest( { cors: [/profitpro-e81ab\.web\.app/]},
     };
 
     const newLedger = {
+      postReference: `${JEindex}`,
       balance: `${journal[JEindex].Balance}`,
       credit: `${credits}`,
       dateAdded: `${journal[JEindex].Date}`,

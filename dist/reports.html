@@ -266,7 +266,6 @@
 
 
 
-
 <!--Styling and divs for Users management page on AdminPage-->
   <div id="Account" class="tabcontent">
     <div id="mainContainer-accountCreation">
@@ -403,12 +402,55 @@
 
 
 
+              <!--***************************-->
+              <!--Journal Entry Style for PostRef -->
+              <!--***************************-->
+              <style>
+              @keyframes highlight {
+              0% {
+                background: grey;
+              }
+              100% {
+                background: none;
+              }
+              }
+
+              .highlight {animation: highlight 3s;}
+
+              </style>
+
+
+
+              <!--######################### #########################-->
+              <!--Script for Post Reference highlighting and directing-->
+              <!--######################### #########################-->
+
+              <script>
+
+
+              //Need to implement Script where you add class then direct to link within the site
+
+              function directTo(destination){
+
+                window.location = `#${destination}`; 
+
+                document.getElementById(destination).classList.add("highlight");
+                setTimeout(() => { document.getElementById(destination).classList.remove("highlight");}, 10000);
+              }
+
+              </script>
+
+
+
+
+
         <div id="ledgerView" class='hidden'>
             <h2>Account Ledger</h2>
             <h3 id="ledgerTitle"></h3>
             <table id="ledgerTable" class='caf'>
                 <thead class='caf'>
                     <tr class='caf'>
+                        <th class='caf'>Post Reference</th>
                         <th class='caf'>Date</th>
                         <th class='caf'>Description</th>
                         <th class='caf'>Debit</th>
@@ -426,6 +468,9 @@
           <!--***************************-->
               <!--Journal Entry Table -->
           <!--***************************-->
+
+
+
       <div id="journalEntries" class='hidden' style='display: none;'>
         <h2>Journal Entries</h2>
 
@@ -434,7 +479,7 @@
                     <option value="all">All</option>
                     <option value="pending">Pending Approval</option>
                     <option value="approved">Approved</option>
-                    <option value="rejected">Rejected</option>
+                    <option value="denied">Denied</option>
                   </select>
                   <input type="text" id="searchInput" placeholder="Search...">
                   <input type="date" id="dateFilter">
@@ -458,7 +503,6 @@
         <table id="journalEntriesTable" class='caf' style='text-align: center'>
           <thead class='caf'>
             <tr class='caf'>
-              <th class='caf'>Post Reference</th>
               <th class='caf'>Date</th>
               <th class='caf'>Description</th>
               <th class='caf'>Debits</th>
@@ -1385,6 +1429,10 @@
           });
         });
     </script>
+
+
+
+
 
 
   <script type='module' src='main.js'></script>
