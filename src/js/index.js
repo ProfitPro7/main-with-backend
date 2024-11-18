@@ -6,6 +6,8 @@ import { sendPasswordResetEmail } from "firebase/auth";
 
 import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog, fillBeforeAfterTables, selectEventLogBeforeAfter, deSelectBeforeAfter, fillJournal, createJEButton } from ".//bookkeeping.js";
 
+import {generateStatement} from "./report.js";
+
 const path = window.location.pathname;
 
 
@@ -260,6 +262,13 @@ if(path.includes("reports.html")){
 
 
 
+}
+
+
+if(path.includes("trialbalance.html")){
+  document.getElementById("generateButton").addEventListener("click", function() {
+    generateStatement();
+  });
 }
 
 

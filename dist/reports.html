@@ -256,10 +256,20 @@
                <div class="services">
                    <div class="tab">
                        <!--<button class="tablinks" onclick="openTab(event, 'Account')" id="defaultOpen">Create Account</button>-->
-                       <button class="tablinks" onclick="openTab(event, 'Modify_Account')" id="defaultOpen">Reports</button>
+                       <button class="tablinks" onclick="openTab(event, 'Modify_Account')" id="defaultOpen">Accounts</button>
                        <button class="tablinks" onclick="openTab(event, 'Email')">Email</button>
+                       <button class="tablinks" onclick="goToReports();">Create Reports</button>
                    </div>
 
+
+            <script>
+            function goToReports(){
+              window.open("trialbalance.html", "_blank");
+            }
+
+
+
+            </script>
 
 
 
@@ -435,7 +445,7 @@
                 window.location = `#${destination}`; 
 
                 document.getElementById(destination).classList.add("highlight");
-                setTimeout(() => { document.getElementById(destination).classList.remove("highlight");}, 10000);
+                setTimeout(() => { document.getElementById(destination).classList.remove("highlight");}, 3000);
               }
 
               </script>
@@ -792,6 +802,16 @@
 
 
 
+              function showErrorPopup() {
+                document.getElementById('Error-popupOverlay').style.display = 'block';
+              }
+
+              function closeErrorPopup() {
+                document.getElementById('Error-popupOverlay').style.display = 'none';
+              }
+
+
+
 
               //****Created by Erik*****
 
@@ -846,7 +866,16 @@
             const totalDebits = entry.Debits.reduce((sum, debit) => sum + debit.amount, 0);
             const totalCredits = entry.Credits.reduce((sum, credit) => sum + credit.amount, 0);
             if (totalDebits !== totalCredits) {
-                alert('Debits and credits must balance!');
+
+            document.getElementById("Error-popUpTitle").innerHTML = "Error";
+            document.getElementById("Error-popUpTitle").style.color = "#e33030";
+
+            document.getElementById("Error-popUpMessage").innerHTML = `Debits and credits must balance!`;
+            document.getElementById("Error-popUpMessage").style.color = "#e33030";
+
+            document.getElementById("Error-overlayButton").style.backgroundColor = "#e33030";
+            showErrorPopup();
+
                 return;
             }
 
@@ -898,6 +927,9 @@
         function showModifyPopup() {
           document.getElementById('popupOverlay').style.display = 'block';
         }
+        function ErrorshowModifyPopup() {
+          document.getElementById('Error-popupOverlay').style.display = 'block';
+        }
             
 
 
@@ -921,7 +953,7 @@
             const message = result.message;
 
             if (API_response.ok) {
-              document.getElementById("popUpTitle").innerHTML = "Account Status set to Denied";
+              document.getElementById("popUpTitle").innerHTML = "Account Status set to Approved";
               document.getElementById("popUpMessage").innerHTML = `${message}`;
               showModifyPopup();
             }else{
@@ -967,6 +999,15 @@
                 <h2 id="popUpTitle">User Created</h2>
                 <p id="popUpMessage">Account has been created for the Chart of Accounts</p>
                 <button id="overlayButton" class="close-button" onclick="closePopup()" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
+              </div>
+            </div>
+
+
+            <div id="Error-popupOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;">
+              <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 2; border-radius: 5px; text-align: center;">
+                <h2 id="Error-popUpTitle">User Created</h2>
+                <p id="Error-popUpMessage">Account has been created for the Chart of Accounts</p>
+                <button id="Error-overlayButton" class="close-button" onclick="closeErrorPopup()" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
               </div>
             </div>
 
