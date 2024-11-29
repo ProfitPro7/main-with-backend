@@ -212,6 +212,41 @@ export function deselectAccount2(tbodyId){
 
 
 
+//used for bookkeeping.html as that page does not need a post Reference tab like reports.html does
+export async function fillLedgerBookkeeping(rowId){
+
+  const tableBody = document.getElementById('ledger-table');
+
+
+
+  const Doc = doc(db, "Chart_Of_Accounts", rowId);
+  const docSnap = await getDoc(Doc);
+  if (docSnap.exists){
+
+    const data = docSnap.data();
+    const ledger = data.Ledger;
+    console.log(ledger);
+
+    ledger.forEach((entry, index) => {
+      const newRow = document.createElement('tr');
+      newRow.id = `${rowId}-ledger`;
+      newRow.className = 'caf'
+      console.log(entry.dateAdded, + ", " + entry.description + ", " + entry.debit + ", " + entry.credit + ", " + entry.balance);
+      newRow.innerHTML = `
+        <td class='caf'>${entry.dateAdded}</td>
+        <td class='caf'>${entry.description}</td>
+        <td class='caf'>${entry.debit}</td>
+        <td class='caf'>${entry.credit}</td>
+        <td class='caf'>${entry.balance}</td>
+    `;
+      tableBody.append(newRow);
+    });
+
+
+  }
+
+}
+
 
 //used for reports + bookkeeping html files
 export async function fillLedger(rowId){

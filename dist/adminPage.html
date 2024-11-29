@@ -47,7 +47,7 @@
             <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
               <ul class="navbar-nav  ">
                 <li class="nav-item">
-                  <a class="nav-link" href="index.html">Home </a>
+                  <a class="nav-link" href="homeLanding.html">Home </a>
                 </li>
                 <li class="nav-item ">
                   <a class="nav-link" href="bookkeeping.html"> Bookkeeping </a>
@@ -55,11 +55,11 @@
                 <li class="nav-item">
                   <a class="nav-link" href="reports.html"> Reports </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    <span>User Settings</span> 
-                  </a>
-                </li>
+                <!--<li class="nav-item">-->
+                <!--  <a class="nav-link" href="#">-->
+                <!--    <span>User Settings</span> -->
+                <!--  </a>-->
+                <!--</li>-->
                 <li class="nav-item active">
                   <!--Change later to only appear if user's account is
                     a Manager type-->
@@ -68,7 +68,7 @@
                   <!--Change later to only appear if user's account is
                     a Admin type-->
                 <li class="nav-item">
-                  <a class="nav-link" href="#" id='adminPage-userName'> User Name</a>
+                  <a class="nav-link" href="#" id='auto-pop-username'></a>
                 </li>
                </ul>
               <div class="user_option">
@@ -438,28 +438,30 @@
   <div id="Create_User" class="tabcontent">
 
     <h3>Create User</h3>
-    <form action="http://localhost:5001/profitpro-e81ab/us-central1/updateUserDoc" method="GET" style="display: inline-block; width: 300px;">
-      <input type="text" id="firstName" name="firstName" required placeholder="First Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid # ccc;">      
-      <input type="text" id="lastName" name="lastName" required placeholder="Last Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
-      <input type="email" id="email" name="email" required placeholder="Email" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
-      <input type="password" id="password" name="password" required placeholder="Password" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
-      <input type="text" id="address" name="address" required placeholder="Address" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
-      <input type="date" id="DOB" name="DOB" required placeholder="Date of Birth" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+        <div style='text-align: center'>
+          <h6>User Information</h6>
+          <form action="http://localhost:5001/profitpro-e81ab/us-central1/updateUserDoc" method="GET" style="display: inline-block; width: 300px;">
+            <input type="text" id="firstName" name="firstName" required placeholder="First Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid # ccc;">      
+            <input type="text" id="lastName" name="lastName" required placeholder="Last Name" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <input type="email" id="email" name="email" required placeholder="Email" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <input type="password" id="password" name="password" required placeholder="Password" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <input type="text" id="address" name="address" required placeholder="Address" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <input type="date" id="DOB" name="DOB" required placeholder="Date of Birth" style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
 
-      <select name="accountType" id="accountType" required style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
-        <option value="" disabled selected>Select Account Type</option>
-        <option value="Admin">Admin</option>
-        <option value="Manager">Manager</option>
-        <option value="Regular-User">Regular User</option>
-      </select>
+            <select name="accountType" id="accountType" required style="padding: 10px; width: 100%; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+              <option value="" disabled selected>Select Account Type</option>
+              <option value="Admin">Admin</option>
+              <option value="Manager">Manager</option>
+              <option value="Regular-User">Regular User</option>
+            </select>
 
-      <p>Security Question: What is your favorite color?</p>
+            <p>What is the User's favorite color?</p>
 
-      <input type="text" id="securityQuestion" name="securityQuestion" required placeholder="Answer to Security Question" 
-                                                                                style="padding: 10px; width: 100%; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ccc;">
+            <input type="text" id="securityQuestion" name="securityQuestion" required placeholder="Answer to Security Question" style="padding: 10px; width: 100%; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ccc;">
 
-      <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
-    </form>
+            <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
+          </form>
+        </div>
 
   </div>
 

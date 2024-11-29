@@ -4,11 +4,23 @@ import { signInUser } from ".//signIn.js";
 import { getUserName, createUserList, createExpiredPasswordList } from ".//admin.js";
 import { sendPasswordResetEmail } from "firebase/auth";
 
-import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog, fillBeforeAfterTables, selectEventLogBeforeAfter, deSelectBeforeAfter, fillJournal, createJEButton } from ".//bookkeeping.js";
+import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog, fillBeforeAfterTables, selectEventLogBeforeAfter, deSelectBeforeAfter, fillJournal, createJEButton, fillLedgerBookkeeping } from ".//bookkeeping.js";
 
 import {generateStatement} from "./report.js";
 
 const path = window.location.pathname;
+
+
+if(!path.includes("index.html")){
+  getUserName()
+    .then((userName) => {
+      document.getElementById('auto-pop-username').innerText = userName;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+
+}
 
 
 //signIn / Up Page
@@ -91,13 +103,13 @@ document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
 
 //admin page javascript
 if(path.includes("adminPage.html")){
-  getUserName()
-    .then((userName) => {
-      document.getElementById('adminPage-userName').innerText = userName;
-    })
-  .catch((e) => {
-    console.log(e);
-  });
+  //getUserName()
+  //  .then((userName) => {
+  //    document.getElementById('adminPage-userName').innerText = userName;
+  //  })
+  //.catch((e) => {
+  //  console.log(e);
+  //});
 
   createUserList('userTableContainer');
   createExpiredPasswordList('expired-password-list');
@@ -189,7 +201,7 @@ if(path.includes("bookkeeping.html")){
     clickedRow.style.pointerEvents = "none";
     if(clickedRow){
       selectAccount("coa_table", clickedRow.id);
-      fillLedger(clickedRow.id);
+      fillLedgerBookkeeping(clickedRow.id);
     }
 
   });
@@ -271,6 +283,15 @@ if(path.includes("trialbalance.html")){
   });
 }
 
-
-
+//
+//if(path.includes("homeLanding.html")){
+//  getUserName()
+//    .then((userName) => {
+//      document.getElementById('landingPage-userName').innerText = userName;
+//    })
+//    .catch((e) => {
+//      console.log(e);
+//    });
+//}
+//
 

@@ -32,9 +32,13 @@ module.exports = {
         //Sprint 4 
         {from: "./src/html/clint/trialbalance.html", to: "trialbalance.html"},
 
+        //Sprint 5 
+        {from: "./src/html/userPages/homeLanding.html", to: "homeLanding.html"},
+
         //styling
         {from: "./src/css/styles.css", to: "styles.css"},
         {from: "./src/css/adminPage_user_table.css", to: "adminPage_user_table.css"},
+
         //directories
         {
           from: path.resolve(__dirname, './src/js/js-for-index'),
