@@ -1,6 +1,7 @@
 import { auth, db } from ".//firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { assign } from "lodash";
 
 
 //                          Description
@@ -15,7 +16,7 @@ import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 //Strategy
 //1. Find params: 
 //  a. find revenue = look through COA for all accounts containing the word "income" or "revenue" and total balances
-//  b. find Net Income = look for all expense accounts (from the expense category) 
+//  b. find Net Income =  Revenue - (look for all expense accounts (from the expense category))
 //2. Calculate using the formula
 
 //Thresholds
@@ -80,18 +81,110 @@ import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 
 
 
-//Revenue, Total Expenses, Assets, Liabiliites, Debt, Equity
-export function calculateRatios() {
+//##################################  METHOD EXPLANATION ########################################
+//Will return [Array containing ratios in specific order ]
+//      
+//      [Net Profit Margin, Current Ratio, Asset Turnover Ratio, Debt-to-Equity Ratio]
+//
+//
+//Dependencies: 
+//  For debts to be counted in equation, liability account must have "Debt" subcategory
+//
+//
+//##################################  METHOD EXPLANATION ########################################
 
-  //category arrays 
-  let revenues = [];
-  let expenses = [];
-  let assets = [];
-  let liabilities = [];
-  let debt = [];
-  let equity = [];
+
+export async function calculateRatios() {
+
+  //Chart of Accounts: Balance totals by category
+  let revenues = 0;
+  let expenses = 0;
+  let assets = 0;
+  let liabilities = 0;
+  let equity = 0;
+  let debt = 0;
 
 
+
+  //used for average Assets
+  let assetCount = 0;
   //Sorting chart of accounts for all accounts needed
+  try {
+    const querySnapshot = await getDocs(collection(db, "Chart_Of_Accounts"));
+    querySnapshot.forEach((doc) => {
+      //setting vars from Doc
+      let data = doc.data();
+      let totalBalance = 0;
+
+      let ledger = data.Ledger;
+
+      //getting total Balance for account
+      for (let i = 0; i < ledger.length; i++) {
+        //converting from formatted String (Ex: data stroed as "10,000.00") to float to add to totalBalance
+        let balance = ledger[i].balance;
+        let cleanedBalance = balance.replace(/,/g, '');
+        let convertToFloat = parseFloat(cleanedBalance);
+
+        totalBalance += convertToFloat;
+      }
+
+      //diffirentiate debt from subcategory from Liabilities
+      if (data.accountCategory == "Liability" && data.accountSubCategory == "Debt") {
+        debt += totalBalance;
+      }
+
+
+      //add totalBalance of account to correct category value
+      switch (data.accountCategory) {
+        case "Revenue":
+          revenues += totalBalance;
+          break;
+        case "Expense":
+          expenses += totalBalance;
+          break;
+        case "Asset":
+          assets += totalBalance;
+          assetCount++;
+          break;
+        case "Liability":
+          liabilities += totalBalance;
+          break;
+        case "Equity":
+          equity += totalBalance;
+          break;
+        default:
+          break;
+      }
+
+    });
+
+  } catch (e) {
+    console.log("database fail");
+    console.log(e);
+  }
+
+  //at this point all values are ready to be plugged into formulas
+
+  //####### Net Profit Margin = (Net Income / Reveneue) x 100 ############
+  // 1. Net Income =  Total Revenue - Total Expenses
+  // 2. Revenue = total income generated from sales before any expenses are deducted
+  let netIncome = revenues - expenses;
+  let NetProfitMargin = (netIncome / revenues) * 100;
+
+  //########## Current Ratio = (Current Assets / Current Liabilities) x 100 ##########
+
+  let currentRatio = assets / liabilities;
+
+
+  //############ Asset Turnover Ratio = Revenue / Average Total Assets #############
+
+  let averageAssets = assets / assetCount;
+  let assetTurnoverRatio = revenues / averageAssets;
+
+  //############ Debt to Equity Ratio = Total Debt / Total Equity ############
+  let debtToEquity = debt / equity;
+
+
+  return [NetProfitMargin, currentRatio, assetTurnoverRatio, debtToEquity];
 
 }

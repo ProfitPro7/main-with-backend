@@ -6,12 +6,13 @@ import { sendPasswordResetEmail } from "firebase/auth";
 
 import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog, fillBeforeAfterTables, selectEventLogBeforeAfter, deSelectBeforeAfter, fillJournal, createJEButton, fillLedgerBookkeeping } from ".//bookkeeping.js";
 
-import {generateStatement} from "./report.js";
+import { generateStatement } from "./report.js";
+import { calculateRatios } from "./homeLanding.js";
 
 const path = window.location.pathname;
 
 
-if(!path.includes("index.html")){
+if (!path.includes("index.html")) {
   getUserName()
     .then((userName) => {
       document.getElementById('auto-pop-username').innerText = userName;
@@ -24,7 +25,7 @@ if(!path.includes("index.html")){
 
 
 //signIn / Up Page
-if(path.includes("signIn.html")){
+if (path.includes("signIn.html")) {
   //signInUser upon submit button click on sign in page
   document.getElementById('sign-in-user').addEventListener("click", () => {
     const email = document.getElementById('signin-email').value;
@@ -36,73 +37,73 @@ if(path.includes("signIn.html")){
 
 
 
-//signUpUser upon submit button click on sign up page
-document.getElementById('create-new-user').addEventListener("click", (e) => {
-  e.preventDefault();
-  const email = document.getElementById('signup-email').value;
-  const password = document.getElementById('signup-password').value;
-  const firstName = document.getElementById('signup-firstname').value;
-  const lastName = document.getElementById('signup-lastname').value;
-  const address = document.getElementById('signup-address').value;
-  const DOB = document.getElementById('signup-DOB').value;
+  //signUpUser upon submit button click on sign up page
+  document.getElementById('create-new-user').addEventListener("click", (e) => {
+    e.preventDefault();
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+    const firstName = document.getElementById('signup-firstname').value;
+    const lastName = document.getElementById('signup-lastname').value;
+    const address = document.getElementById('signup-address').value;
+    const DOB = document.getElementById('signup-DOB').value;
 
-  let formFilled = true; 
+    let formFilled = true;
 
-  var inputs = document.getElementById('account-creation').querySelectorAll("input, textarea");
+    var inputs = document.getElementById('account-creation').querySelectorAll("input, textarea");
 
-  inputs.forEach(function(input) {
-    if (input.value.trim() === "") {
-      formFilled = false;
-      input.style.border = "1px solid red";
-    } else {
-      input.style.border = "";
+    inputs.forEach(function(input) {
+      if (input.value.trim() === "") {
+        formFilled = false;
+        input.style.border = "1px solid red";
+      } else {
+        input.style.border = "";
+      }
+    });
+
+    const ValidPasswordRegex = /^[A-Za-z](?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/;
+
+
+    if (!formFilled) {
+      document.getElementById('createAccount-error').innerText = 'Please fill out the form fully';
+      document.getElementById('createAccount-error').style.display = 'contents';
     }
+    else if (!ValidPasswordRegex.test(password)) {
+      alert('Invalid Password. A password must: \n - Start with a letter \n - Have at least 8 characters \n - Have a letter \n - Have a number \n - Have a special character');
+
+    } else {
+      signUpUser(email, password, firstName, lastName, DOB, address);
+    }
+
+
+
   });
 
-  const ValidPasswordRegex = /^[A-Za-z](?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/;
 
 
-  if(!formFilled){
-    document.getElementById('createAccount-error').innerText = 'Please fill out the form fully';
-    document.getElementById('createAccount-error').style.display = 'contents'; 
-  }
-  else if(!ValidPasswordRegex.test(password)){
-    alert('Invalid Password. A password must: \n - Start with a letter \n - Have at least 8 characters \n - Have a letter \n - Have a number \n - Have a special character');
+  //index.js homepage transition
+  const registerButton = document.getElementById('register');
+  const loginButton = document.getElementById('login');
+  const container = document.getElementById('container');
 
-  }else{
-    signUpUser(email, password, firstName, lastName, DOB, address);
-  }
+  registerButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    container.classList.add("active");
+  });
 
+  loginButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    container.classList.remove("active");
+  });
 
-
-});
-
-
-
-//index.js homepage transition
-const registerButton = document.getElementById('register');
-const loginButton = document.getElementById('login');
-const container = document.getElementById('container');
-
-registerButton.addEventListener('click', (e)=> {
-  e.preventDefault();
-  container.classList.add("active");
-});
-
-loginButton.addEventListener('click', (e)=> {
-  e.preventDefault();
-  container.classList.remove("active");
-});
-
-document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
-  e.preventDefault(); 
-  window.location.href = 'forgot-password.html';
-});
+  document.getElementById('forgotPasswordLink').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = 'forgot-password.html';
+  });
 }
 
 
 //admin page javascript
-if(path.includes("adminPage.html")){
+if (path.includes("adminPage.html")) {
   //getUserName()
   //  .then((userName) => {
   //    document.getElementById('adminPage-userName').innerText = userName;
@@ -113,7 +114,7 @@ if(path.includes("adminPage.html")){
 
   createUserList('userTableContainer');
   createExpiredPasswordList('expired-password-list');
-    
+
 
 
 
@@ -125,7 +126,7 @@ if(path.includes("adminPage.html")){
 
 
 
-if(path.includes("forgot-password.html")){
+if (path.includes("forgot-password.html")) {
   async function handleFormSubmission(formId) {
     const form = document.getElementById(formId);
 
@@ -143,7 +144,7 @@ if(path.includes("forgot-password.html")){
         });
 
         const result = await API_response.json();
-      const email = event.target.email.value;
+        const email = event.target.email.value;
 
         const message = result.message;
         if (message.includes("correct")) {
@@ -151,9 +152,9 @@ if(path.includes("forgot-password.html")){
             .then(() => {
               showPopup();
             })
-          .catch((error)=> {
-            console.log(error);
-          });
+            .catch((error) => {
+              console.log(error);
+            });
         }
       } catch (e) {
         showWrongPopup();
@@ -173,7 +174,7 @@ if(path.includes("forgot-password.html")){
 
   function closePopup() {
     document.getElementById('popupOverlay').style.display = 'none';
-    window.location.href='signIn.html';
+    window.location.href = 'signIn.html';
   }
   function closeWrongPopup() {
     document.getElementById('wrong-popupOverlay').style.display = 'none';
@@ -190,16 +191,16 @@ if(path.includes("forgot-password.html")){
 
 
 
-if(path.includes("bookkeeping.html")){
+if (path.includes("bookkeeping.html")) {
   populateChartOfAccountsTable("coa_table");
   //populateChartOfAccountsTable("delete_table");
 
   const table = document.getElementById('coa_table');
 
-  table.addEventListener("click", function(event){
+  table.addEventListener("click", function(event) {
     const clickedRow = event.target.closest('tr');
     clickedRow.style.pointerEvents = "none";
-    if(clickedRow){
+    if (clickedRow) {
       selectAccount("coa_table", clickedRow.id);
       fillLedgerBookkeeping(clickedRow.id);
     }
@@ -207,7 +208,7 @@ if(path.includes("bookkeeping.html")){
   });
 
   document.getElementById("deSelectAccount").addEventListener("click", function() {
-      deselectAccount("coa_table");
+    deselectAccount("coa_table");
     document.getElementById('ledger-table').innerHTML = "";
   });
 
@@ -215,29 +216,29 @@ if(path.includes("bookkeeping.html")){
 }
 
 
-if(path.includes("reports.html")){
+if (path.includes("reports.html")) {
   populateChartOfAccountsTable("coa_table");
   //populateChartOfAccountsTable("delete_table");
 
   const table = document.getElementById('coa_table');
 
   //COA click => ledger + event log + account information
-  table.addEventListener("click", function(event){
+  table.addEventListener("click", function(event) {
     const clickedRow = event.target.closest('tr');
     clickedRow.style.pointerEvents = "none";
-    if(clickedRow){
+    if (clickedRow) {
       selectAccount2("coa_table", clickedRow.id);
       fillLedger(clickedRow.id);
       fillEventLog(clickedRow.id);
       fillJournal(clickedRow.id);
       //sets Journal entry hidden source value to the clicked row of the COA
       console.log("clicked row: " + clickedRow.id);
-      try{
-      document.getElementById('coa-ledger-source').value = `${clickedRow.id}`;
-      }catch(e){
+      try {
+        document.getElementById('coa-ledger-source').value = `${clickedRow.id}`;
+      } catch (e) {
         console.log(e);
       }
-      console.log(document.getElementById('coa-ledger-source').value );
+      console.log(document.getElementById('coa-ledger-source').value);
 
       //populateEventLog
     }
@@ -245,7 +246,7 @@ if(path.includes("reports.html")){
   });
 
   document.getElementById("deSelectAccount").addEventListener("click", function() {
-      deselectAccount2("coa_table");
+    deselectAccount2("coa_table");
     document.getElementById('ledger-table').innerHTML = "";
     document.getElementById('EventLog-table').innerHTML = "";
     document.getElementById('journal-table').innerHTML = "";
@@ -254,10 +255,10 @@ if(path.includes("reports.html")){
 
   //Event Log click -> Before and After image
   const eventLog = document.getElementById("EventLog-table");
-  eventLog.addEventListener("click", function(event){
+  eventLog.addEventListener("click", function(event) {
     const clickedRow = event.target.closest('tr');
     clickedRow.style.pointerEvents = "none";
-    if(clickedRow){
+    if (clickedRow) {
       fillBeforeAfterTables(clickedRow.id);
       selectEventLogBeforeAfter('EventLog-table', clickedRow.id)
       console.log("Clicked" + clickedRow.id);
@@ -277,21 +278,84 @@ if(path.includes("reports.html")){
 }
 
 
-if(path.includes("trialbalance.html")){
+if (path.includes("trialbalance.html")) {
   document.getElementById("generateButton").addEventListener("click", function() {
     generateStatement();
   });
 }
 
-//
-//if(path.includes("homeLanding.html")){
-//  getUserName()
-//    .then((userName) => {
-//      document.getElementById('landingPage-userName').innerText = userName;
-//    })
-//    .catch((e) => {
-//      console.log(e);
-//    });
-//}
-//
+
+
+if (path.includes("homeLanding.html")) {
+  calculateRatios()
+    .then((ratios) => {
+      //Net Profit Margin
+      let NetProfitMargin = ratios[0].toFixed(0);
+      document.getElementById("netProfitMargin").innerText = `${NetProfitMargin}%`;
+
+      if (NetProfitMargin < 5) {
+        document.getElementById("netProfitMargin").style.color = "red";
+
+      } else if (NetProfitMargin < 10) {
+        document.getElementById("netProfitMargin").style.color = "orange";
+
+      } else {
+        document.getElementById("netProfitMargin").style.color = "green";
+
+      }
+
+      //Current Ratio
+      let currentRatio = ratios[1].toFixed(2);
+      document.getElementById("currentRatio").innerText = currentRatio;
+
+      if (currentRatio < 1.0) {
+        document.getElementById("currentRatio").style.color = "red";
+
+      } else if (currentRatio < 1.5) {
+        document.getElementById("currentRatio").style.color = "orange";
+
+      } else {
+        document.getElementById("currentRatio").style.color = "green";
+
+      }
+
+      //Asset Turnover Ratio
+      let assetTurnover = ratios[2].toFixed(2);
+      document.getElementById("assetTurnover").innerText = assetTurnover;
+
+      if (assetTurnover < 0.5) {
+        document.getElementById("assetTurnover").style.color = "red";
+
+      } else if (assetTurnover < 1.0) {
+        document.getElementById("assetTurnover").style.color = "orange";
+
+      } else {
+        document.getElementById("assetTurnover").style.color = "green";
+
+      }
+      //Debt-To-Equity Ratio
+      let debtToEquity = ratios[3].toFixed(2);
+      document.getElementById("debtToEquity").innerText = debtToEquity
+
+      if (debtToEquity < 1.0) {
+        document.getElementById("debtToEquity").style.color = "red";
+
+      } else if (debtToEquity < 2.0) {
+        document.getElementById("debtToEquity").style.color = "orange";
+
+      } else {
+        document.getElementById("debtToEquity").style.color = "green";
+
+      }
+
+      console.log(ratios);
+    })
+    .catch((e) => {
+      console.log(e);
+    });;
+
+
+
+}
+
 
