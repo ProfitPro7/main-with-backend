@@ -188,3 +188,62 @@ export async function calculateRatios() {
   return [NetProfitMargin, currentRatio, assetTurnoverRatio, debtToEquity];
 
 }
+
+
+
+
+export async function fillPendingJournal() {
+
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "Chart_Of_Accounts"));
+    querySnapshot.forEach((doc) => {
+      //setting vars from Doc
+      let data = doc.data();
+
+      if (data.Journal) {
+        let journal = data.Journal;
+
+        //getting total Balance for account
+        for (let i = 0; i < journal.length; i++) {
+          //converting from formatted String (Ex: data stroed as "10,000.00") to float to add to totalBalance
+          if (journal[i].Status == "Pending") {
+            let entry = journal[i];
+
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+          <td class='caf'>${doc.id}</td>
+          <td class='caf' style='width: 300px;'>${entry.Description}</td>
+          <td class='caf'>${entry.Comments}</td>
+          <td class='caf' style='color: orange;'>${entry.Status}</td>
+          <td class='caf'>Awaiting Decision</td>
+          `;
+
+
+            document.getElementById("pendingTableBody").append(newRow);
+          }
+        }
+      }
+
+    });
+
+  } catch (e) {
+    console.log("database fail");
+    console.log(e);
+  }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

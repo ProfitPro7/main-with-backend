@@ -7,7 +7,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog, fillBeforeAfterTables, selectEventLogBeforeAfter, deSelectBeforeAfter, fillJournal, createJEButton, fillLedgerBookkeeping } from ".//bookkeeping.js";
 
 import { generateStatement } from "./report.js";
-import { calculateRatios } from "./homeLanding.js";
+import { calculateRatios, fillPendingJournal } from "./homeLanding.js";
 
 const path = window.location.pathname;
 
@@ -355,6 +355,16 @@ if (path.includes("homeLanding.html")) {
     });;
 
 
+
+  document.addEventListener("DOMContentLoaded", function() {
+    fillPendingJournal()
+      .then(() => {
+        if (document.querySelector(`#pendingTable tbody`).innerHTML.trim() === "") {
+          console.log("reached the point");
+          document.getElementById("pendingTableSection").style.display = "none";
+        }
+      });
+  });
 
 }
 
