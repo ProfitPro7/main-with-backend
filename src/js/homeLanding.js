@@ -3,8 +3,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 
 
-
-
+//                          Description
+//                        +++++++++++++++
 
 //####### Net Profit Margin = (Net Income / Reveneue) x 100 ############
 
@@ -23,13 +23,6 @@ import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 //Medium: 5% < ratio < 10%
 //Good: 10% < ratio
 
-//####### Net Profit Margin ############
-
-
-
-
-
-
 //########## Current Ratio = (Current Assets / Current Liabilities) x 100 ##########
 
 //Params; 
@@ -46,14 +39,6 @@ import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 //Medium: 1.0 < ratio < 1.5
 //Good: 1.5 < ratio < 2.0
 //Great: 2.0 < ratio
-
-//########## Current Ratio ##########
-
-
-
-
-
-
 
 
 //############ Asset Turnover Ratio = Revenue / Average Total Assets #############
@@ -72,18 +57,41 @@ import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 //Medium: 0.5 < ratio < 1.0 
 //Good:  1.0 < ratio
 
-//############ Asset Turnover Ratio #############
-
-
-
-
-
 //############ Debt to Equity Ratio = Total Debt / Total Equity ############
 
 //Params
+//1. Total Debt = Short-term Debt + Long-term Debt 
+//2. Total Equity = sum of all accounts in Equity category
 
 //Strategy
+//1. use the equation
 
 //Thresholds
+//Bad: ratio < 1.0
+//Medium: 1.0 < ratio < 2.0 
+//Good: 2.0 < ratio
 
 //############ Debt to Equity Ratio ############
+
+
+
+
+
+
+
+
+//Revenue, Total Expenses, Assets, Liabiliites, Debt, Equity
+export function calculateRatios() {
+
+  //category arrays 
+  let revenues = [];
+  let expenses = [];
+  let assets = [];
+  let liabilities = [];
+  let debt = [];
+  let equity = [];
+
+
+  //Sorting chart of accounts for all accounts needed
+
+}
