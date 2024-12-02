@@ -106,7 +106,7 @@
         Financial Ratios
       </h2>
     </div>
-    <div class="how_container">
+    <div class="how_container" style="padding: 0px; padding-top: 90px;">
       <div class="box">
         <div class="img-box" style='cursor: pointer;'>
             <p id="netProfitMargin" style='font-size: 50px; margin-top: 20%;'></p>
@@ -162,7 +162,7 @@
       </div>
     </div>
     <div class="btn-box">
-      <a href="">
+      <a href="ratioData.html" target="_blank">
             See Data
       </a>
     </div>
@@ -172,36 +172,32 @@
 
       <!-- journal entries awaiting approval -->
 
-  <section id="pendingTableSection" class="how_section layout_padding">
+  <section id="pendingTableSection" class="how_section" style="margin-bottom: 100px;">
     <div class="heading_container">
       <h2 style="background-color: rgba(255,255,255,0.7);">
         Pending Journal Entries
       </h2>
     </div>
-      <div style="padding-left: 10%;padding-top: 30px;">
-            <!--insert here-->
-        <div style="width: 1500px;background-color: #f6f5f7;padding: 30px;border-radius: 25px;" class="">
-            <div id="journalEntries" class="visible" style="display: block;">
+        <!--insert here-->
+        <div id="journalEntries" class="visible" style="display: block; margin-top: 30px;">
 
-              <table id="pendingTable" class="caf" style="text-align: center">
-                <thead class="caf">
-                  <tr class="caf">
-                    <th class="caf">Account</th>
-                    <th class="caf">Description</th>
-                    <th class="caf">Comments</th>
-                    <th class="caf">Status</th>
-                    <th class="caf">Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="pendingTableBody" class="caf">
+          <table id="pendingTable" class="caf" style="width: auto; border-radius: 5px; text-align: center; background-color: #f6f5f7; padding: 10px; margin-left: auto; margin-right: auto;">
+            <thead class="caf">
+              <tr class="caf">
+                <th class="caf">Account</th>
+                <th class="caf">Description</th>
+                <th class="caf">Comments</th>
+                <th class="caf">Status</th>
+                <th class="caf">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="pendingTableBody" class="caf">
 
-                </tbody>
+            </tbody>
 
-              </table>
-              </div>
-            </div>
+          </table>
+        </div>
 
-      </div>
     <div class="btn-box" style='margin-top: 70px;'>
       <a href="reports.html">
             To Accounts
@@ -410,6 +406,7 @@
            tr { border-bottom: 1px solid black; width: 100%; }
            td { text-align: center; }
            table { width: 100%; }
+           th, td{padding: 15px;}
 
        </style>
 

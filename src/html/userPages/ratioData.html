@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Profit Pro</title>
+        </hdead>
+        <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <style>
+
+        div{
+            border-radius: 10px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: left;
+        }
+        .formula {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+        }
+        .data-section {
+            flex: 1;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        .data-section h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: lightblue; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: var(--primary-color); }
+        td{background-color: white;}
+
+        table, th, td{border: 1px solid black;}
+        </style>
+    <body>
+        <div id='npm' style="background-color: gainsboro;padding: 20px;margin: 50px;">
+            <h1>Net Profit Margin Data</h1>
+            <div class="formula">
+                <h2>\[ Net\: Profit\: Margin = \left( \frac{Total\: Revenue}{Income} \right) \times 100 \]</h2>
+            </div>
+            <div class="container">
+                <div class="data-section">
+                    <h2>Total Revenue</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Origin Account</th>
+                                <th>Ledger Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="totalRevenueNPM">
+                            <!--insert here-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="data-section">
+                    <h2>Income</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Origin Account</th>
+                                <th>Ledger Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="incomeNPM">
+                            <!--insert here-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id='npm' style="background-color: gainsboro;padding: 20px;margin: 50px;">
+            <h1>Current Ratio Data</h1>
+            <div class="formula">
+                <h2>\[Current\: Ratio = \left( \frac{Current\: Assets}{Current\: Liabilities} \right) \times 100 \]</h2>
+            </div>
+            <div class="container">
+                <div class="data-section">
+                    <h2>Current Assets</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Origin Account</th>
+                                <th>Ledger Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="currentAssetsCR">
+                            <!--insert here-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="data-section">
+                    <h2>Current Liabilities</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Origin Account</th>
+                                <th>Ledger Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="currentLiabilitiesCR">
+                            <!--insert here-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id='npm' style="background-color: gainsboro;padding: 20px;margin: 50px;">
+            <h1>Asset Turnover Ratio Data</h1>
+            <div class="formula">
+                <h2>\[ Asset\: Turnover\: Ratio = \left( \frac{Revenue}{Average\: Total\: Assets } \right) \]</h2>
+            </div>
+            <div class="container">
+                <div class="data-section">
+                    <h2>Revenue</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Origin Account</th>
+                                <th>Ledger Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="revenueATR">
+                            <!--insert here-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="data-section">
+                    <h2>Average Total Assets</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Origin Account</th>
+                                <th>Ledger Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="averageAssetsATR">
+                            <!--insert here-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id='npm' style="background-color: gainsboro;padding: 20px;margin: 50px;">
+            <h1>Debt to Equity Data</h1>
+            <div class="formula">
+                <h2>\[ Debt\: to\: Equity \: Ratio = \left( \frac{Total\: Debt}{Total \: Equity} \right) \]</h2>
+            </div>
+            <div class="container">
+                <div class="data-section">
+                    <h2>Total Debt</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Origin Account</th>
+                                <th>Ledger Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="totalDebtDED">
+                            <!--insert here-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="data-section">
+                    <h2>Total Equity</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Origin Account</th>
+                                <th>Ledger Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="totalEquityDED">
+                            <!--insert here-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+  <script type='module' src='main.js'></script>
+</body>
+</html>
+

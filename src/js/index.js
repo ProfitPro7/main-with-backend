@@ -7,12 +7,12 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog, fillBeforeAfterTables, selectEventLogBeforeAfter, deSelectBeforeAfter, fillJournal, createJEButton, fillLedgerBookkeeping } from ".//bookkeeping.js";
 
 import { generateStatement } from "./report.js";
-import { calculateRatios, fillPendingJournal } from "./homeLanding.js";
+import { calculateRatios, fillPendingJournal, fillRatioData } from "./homeLanding.js";
 
 const path = window.location.pathname;
 
 
-if (!path.includes("index.html")) {
+if (!path.includes("index.html") && !path.includes("ratioData.html")) {
   getUserName()
     .then((userName) => {
       document.getElementById('auto-pop-username').innerText = userName;
@@ -366,6 +366,10 @@ if (path.includes("homeLanding.html")) {
       });
   });
 
+}
+
+if (path.includes("ratioData.html")) {
+  fillRatioData();
 }
 
 

@@ -1,7 +1,7 @@
-import { auth, db } from ".//firebaseConfig.js";
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
-import { assign } from "lodash";
+import { /*auth,*/ db } from ".//firebaseConfig.js";
+//import { onAuthStateChanged } from "firebase/auth";
+import { /*doc, getDoc,*/ collection, getDocs } from "firebase/firestore";
+//import { assign } from "lodash";
 
 
 //                          Description
@@ -118,7 +118,7 @@ export async function calculateRatios() {
 
       let ledger = data.Ledger;
 
-      //getting total Balance for account
+      // getting total Balance for account
       for (let i = 0; i < ledger.length; i++) {
         //converting from formatted String (Ex: data stroed as "10,000.00") to float to add to totalBalance
         let balance = ledger[i].balance;
@@ -126,6 +126,7 @@ export async function calculateRatios() {
         let convertToFloat = parseFloat(cleanedBalance);
 
         totalBalance += convertToFloat;
+
       }
 
       //diffirentiate debt from subcategory from Liabilities
@@ -239,6 +240,77 @@ export async function fillPendingJournal() {
 
 
 
+
+export async function fillRatioData() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "Chart_Of_Accounts"));
+    querySnapshot.forEach((doc) => {
+      //setting vars from Doc
+      let data = doc.data();
+
+      let ledger = data.Ledger;
+
+      if (data.accountCategory == "Revenue" || data.accountCategory == "Expense" || data.accountCategory == "Asset" || data.accountCategory == "Liability" || data.accountCategory == "Equity") {
+        //populating data tables for ratioData.html
+        for (let i = 0; i < ledger.length; i++) {
+
+          const newRow = document.createElement('tr');
+          newRow.innerHTML = `
+          <td class='caf'>${doc.id}</td>
+          <td class='caf' style='width: 300px;'>${ledger[i].description}</td>
+          <td class='caf'>${ledger[i].balance}</td>
+          `;
+
+
+
+
+          switch (data.accountCategory) {
+            case "Revenue":
+              //if two places where newRow needs to be added, must create a duplicate node
+              const copyRow = newRow.cloneNode(true);
+              document.getElementById("totalRevenueNPM").append(newRow);
+
+              document.getElementById("revenueATR").append(copyRow);
+              break;
+            case "Expense":
+              document.getElementById("incomeNPM").append(newRow);
+              break;
+            case "Asset":
+              //if two places where newRow needs to be added, must create a duplicate node
+              const copyRow2 = newRow.cloneNode(true);
+              document.getElementById("currentAssetsCR").append(newRow);
+              document.getElementById("averageAssetsATR").append(copyRow2);
+              break;
+            case "Liability":
+
+              if (data.accountSubCategory == "Debt") {
+                document.getElementById("totalDebtDED").append(newRow);
+              } else {
+                document.getElementById("currentLiabilitiesCR").append(newRow);
+              }
+
+
+              break;
+            case "Equity":
+              document.getElementById("totalEquityDED").append(newRow);
+              break;
+            default:
+              break;
+          }
+
+
+
+
+        }
+      }
+
+
+    });
+  } catch (e) {
+    console.log("populate ratioData.html fail");
+    console.log(e);
+  }
+}
 
 
 
