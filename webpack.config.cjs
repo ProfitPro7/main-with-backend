@@ -27,7 +27,7 @@ module.exports = {
         { from: "./src/html/clint/coa.html", to: "coa.html" },
         { from: "./src/html/clint/ledger.html", to: "ledger.html" },
         { from: "./src/html/clint/search.html", to: "search.html" },
-        { from: "./src/html/clint/coa.html", to: "coa.html" },
+        //{ from: "./src/html/clint/coa.html", to: "coa.html" },
 
         //Sprint 4 
         { from: "./src/html/clint/trialbalance.html", to: "trialbalance.html" },
@@ -35,6 +35,7 @@ module.exports = {
         //Sprint 5 
         { from: "./src/html/userPages/homeLanding.html", to: "homeLanding.html" },
         { from: "./src/html/userPages/ratioData.html", to: "ratioData.html" },
+        { from: "./src/html/clint/ratios.html", to: "ratios.html" },
 
         //styling
         { from: "./src/css/styles.css", to: "styles.css" },
