@@ -17,7 +17,6 @@ module.exports = {
         { from: "./src/html/index.html", to: "index.html" },
         { from: "./src/html/signIn.html", to: "signIn.html" },
         { from: "./src/html/forgot-password.html", to: "forgot-password.html" },
-        { from: "./src/html/userPages/regUser.html", to: "regUser.html" },
         { from: "./src/html/userPages/adminPage.html", to: "adminPage.html" },
         { from: "./src/html/userPages/account-created-confirmation.html", to: "account-created-confirmation.html" },
         //Sprint 2 
@@ -27,7 +26,6 @@ module.exports = {
         { from: "./src/html/clint/coa.html", to: "coa.html" },
         { from: "./src/html/clint/ledger.html", to: "ledger.html" },
         { from: "./src/html/clint/search.html", to: "search.html" },
-        //{ from: "./src/html/clint/coa.html", to: "coa.html" },
 
         //Sprint 4 
         { from: "./src/html/clint/trialbalance.html", to: "trialbalance.html" },

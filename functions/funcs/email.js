@@ -7,14 +7,14 @@
 const { getFirestore } = require("firebase-admin/firestore");
 const db = getFirestore();
 
-const {onRequest} = require("firebase-functions/v2/https");
+const { onRequest } = require("firebase-functions/v2/https");
 
-exports.accountApproval = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
+exports.accountApproval = onRequest({ cors: [/profitpro-e81ab\.web\.app/] }, async (request, response) => {
 
   const email = request.query.email;
   const approval = request.query.approval;
 
-  if (approval == 'approved'){
+  if (approval == 'approved') {
 
     db.doc(`Users/${email}`).update({
       active: true
@@ -24,11 +24,11 @@ exports.accountApproval = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, asyn
 
     db.collection("mail")
       .add({
-            to: `${email}`,
-            message: {
-                    subject: "Your Profit Pro Account has been Approved!",
-                    text: "Approved Account",
-                    html: `
+        to: `${email}`,
+        message: {
+          subject: "Your Profit Pro Account has been Approved!",
+          text: "Approved Account",
+          html: `
                     <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
 
                     <!-- Email container -->
@@ -63,8 +63,8 @@ exports.accountApproval = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, asyn
                     </div>
 
               `,
-                  },
-          })
+        },
+      })
       .then(() => console.log("Queued email for delivery!"));
 
     response.send(`
@@ -75,7 +75,7 @@ exports.accountApproval = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, asyn
                  </div>
                  </body>
                    `);
-  }else if(approval == 'denied'){
+  } else if (approval == 'denied') {
     response.send(`
                    <body style="margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
                    <div style="background-color: white; padding: 40px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); text-align: center;">
@@ -89,14 +89,14 @@ exports.accountApproval = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, asyn
 
 
 
-exports.securityQuestion = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
+exports.securityQuestion = onRequest({ cors: [/profitpro-e81ab\.web\.app/] }, async (request, response) => {
 
   const email = request.query.email;
   const answer = request.query.answer;
 
-    db.doc(`Users/${email}`).update({
-      securityQuestionAnswer: answer
-    });
+  db.doc(`Users/${email}`).update({
+    securityQuestionAnswer: answer
+  });
 
   response.send(`
           <body style="text-align: center; font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
@@ -117,10 +117,10 @@ exports.securityQuestion = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, asy
 });
 
 
-exports.sendMail = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(request, response) => {
-  const {to, subject, message} = request.query;
+exports.sendMail = onRequest({ cors: [/profitpro-e81ab\.web\.app/] }, async (request, response) => {
+  const { to, subject, message } = request.query;
 
-  if (to && subject && message){
+  if (to && subject && message) {
     db.collection("mail").add({
       to: `${to}`,
       message: {
@@ -130,14 +130,14 @@ exports.sendMail = onRequest({ cors: [/profitpro-e81ab\.web\.app/]}, async(reque
       },
     })
       .then(() => {
-        response.send(200).json({message: "Email Sent"});
+        response.send(200).json({ message: "Email Sent" });
       })
-        .catch((e) => {
-          response.send(500).json({message: "Email Could not Send"});
-        });
+      .catch((e) => {
+        response.send(500).json({ message: "Email Could not Send" });
+      });
 
-  } else{
-    response.status(500).json({message: "Not all Fields are Filled"});
+  } else {
+    response.status(500).json({ message: "Not all Fields are Filled" });
   }
 
 });

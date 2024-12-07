@@ -4,7 +4,7 @@ import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 
 
 
-export async function populateChartOfAccountsTable(tableBodyId){
+export async function populateChartOfAccountsTable(tableBodyId) {
 
   const snapshot = await getDocs(collection(db, "Chart_Of_Accounts"));
   snapshot.forEach((doc) => {
@@ -23,7 +23,7 @@ export async function populateChartOfAccountsTable(tableBodyId){
 `;
 
     document.getElementById(`${tableBodyId}`).append(newRow);
-    
+
   });
 
 
@@ -32,19 +32,19 @@ export async function populateChartOfAccountsTable(tableBodyId){
 
 
 //used for bookkeeping.html
-export function selectAccount(tbodyId, rowId){
+export function selectAccount(tbodyId, rowId) {
   const tableBody = document.getElementById(`${tbodyId}`);
 
   const rows = tableBody.querySelectorAll('tr');
 
-  for(let i = 0; i < rows.length; i++){
+  for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
 
-    if (row.id !== rowId){
+    if (row.id !== rowId) {
       //row.style.display = "none"
       row.classList.remove('visible');
       row.classList.add('hidden');
-      setTimeout(() => { row.style.display = "none";}, 500);
+      setTimeout(() => { row.style.display = "none"; }, 500);
     }
   }
   //document.getElementById("ledgerView").style.display = "block";
@@ -62,28 +62,28 @@ export function selectAccount(tbodyId, rowId){
 
   }, 500);
 
-    document.getElementById('modify-source').value = rowId;
-    document.getElementById('ledger-source').value = rowId;
-    document.getElementById('deleteAccountButton').value = rowId;
+  document.getElementById('modify-source').value = rowId;
+  document.getElementById('ledger-source').value = rowId;
+  document.getElementById('deleteAccountButton').value = rowId;
 
 }
 
 
 //used for bookkeeping.html
-export function deselectAccount(tbodyId){
+export function deselectAccount(tbodyId) {
   const tableBody = document.getElementById(`${tbodyId}`);
   const rows = tableBody.querySelectorAll('tr');
 
-  for(let i = 0; i < rows.length; i++){
+  for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
-    if(row.classList.contains('visible')){
+    if (row.classList.contains('visible')) {
       row.style.pointerEvents = "auto";
     }
-    if (row.style.display === "none"){
+    if (row.style.display === "none") {
       //row.style.display = "";
       row.classList.remove('hidden');
       row.classList.add('visible');
-      setTimeout(() => { row.style.display = "";}, 500);
+      setTimeout(() => { row.style.display = ""; }, 500);
     }
 
   }
@@ -95,7 +95,7 @@ export function deselectAccount(tbodyId){
   document.getElementById("button-list-div").classList.remove("visible");
   document.getElementById("button-list-div").classList.add("hidden");
 
-  setTimeout(() => { 
+  setTimeout(() => {
     document.getElementById("ledgerView").style.display = "none";
     document.getElementById("button-list-div").style.display = "none";
     document.getElementById('coa_title').innerHTML = `Account Information`;
@@ -109,19 +109,19 @@ export function deselectAccount(tbodyId){
 
 
 //used for reports.html
-export function selectAccount2(tbodyId, rowId){
+export function selectAccount2(tbodyId, rowId) {
   const tableBody = document.getElementById(`${tbodyId}`);
 
   const rows = tableBody.querySelectorAll('tr');
 
-  for(let i = 0; i < rows.length; i++){
+  for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
 
-    if (row.id !== rowId){
+    if (row.id !== rowId) {
       //row.style.display = "none"
       row.classList.remove('visible');
       row.classList.add('hidden');
-      setTimeout(() => { row.style.display = "none";}, 500);
+      setTimeout(() => { row.style.display = "none"; }, 500);
     }
   }
   //document.getElementById("ledgerView").style.display = "block";
@@ -149,8 +149,8 @@ export function selectAccount2(tbodyId, rowId){
     document.getElementById("search").style.display = "none";
     document.getElementById("EventLogView").style.display = "block";
     document.getElementById("button-list-div").style.display = "block";
-  document.getElementById("journalEntries").style.display = "block";
-  document.getElementById("journal-button-list-div").style.display = "flex";
+    document.getElementById("journalEntries").style.display = "block";
+    document.getElementById("journal-button-list-div").style.display = "flex";
     document.getElementById('coa_title').innerHTML = `Account: ${rowId}`;
 
   }, 500);
@@ -158,27 +158,27 @@ export function selectAccount2(tbodyId, rowId){
 }
 
 //used for reports.html
-export function deselectAccount2(tbodyId){
+export function deselectAccount2(tbodyId) {
   const tableBody = document.getElementById(`${tbodyId}`);
   const rows = tableBody.querySelectorAll('tr');
 
-  for(let i = 0; i < rows.length; i++){
+  for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
-    if(row.classList.contains('visible')){
+    if (row.classList.contains('visible')) {
       row.style.pointerEvents = "auto";
     }
-    if (row.style.display === "none"){
+    if (row.style.display === "none") {
       //row.style.display = "";
       row.classList.remove('hidden');
       row.classList.add('visible');
-      setTimeout(() => { row.style.display = "";}, 500);
+      setTimeout(() => { row.style.display = ""; }, 500);
     }
 
   }
   //document.getElementById("ledgerView").style.display = "none";
   document.getElementById("ledgerView").classList.remove("visible");
   document.getElementById("ledgerView").classList.add("hidden");
-  
+
   document.getElementById("EventLogView").classList.remove("visible");
   document.getElementById("EventLogView").classList.add("hidden");
 
@@ -194,13 +194,13 @@ export function deselectAccount2(tbodyId){
   document.getElementById("search").classList.remove("hidden");
   document.getElementById("search").classList.add("visible");
 
-  setTimeout(() => { 
+  setTimeout(() => {
     document.getElementById("ledgerView").style.display = "none";
     document.getElementById("search").style.display = "block";
     document.getElementById("EventLogView").style.display = "none";
     document.getElementById("button-list-div").style.display = "none";
-  document.getElementById("journalEntries").style.display = "none";
-  document.getElementById("journal-button-list-div").style.display = "none";
+    document.getElementById("journalEntries").style.display = "none";
+    document.getElementById("journal-button-list-div").style.display = "none";
 
     document.getElementById('coa_title').innerHTML = `Account Information`;
 
@@ -213,7 +213,7 @@ export function deselectAccount2(tbodyId){
 
 
 //used for bookkeeping.html as that page does not need a post Reference tab like reports.html does
-export async function fillLedgerBookkeeping(rowId){
+export async function fillLedgerBookkeeping(rowId) {
 
   const tableBody = document.getElementById('ledger-table');
 
@@ -221,7 +221,7 @@ export async function fillLedgerBookkeeping(rowId){
 
   const Doc = doc(db, "Chart_Of_Accounts", rowId);
   const docSnap = await getDoc(Doc);
-  if (docSnap.exists){
+  if (docSnap.exists) {
 
     const data = docSnap.data();
     const ledger = data.Ledger;
@@ -249,7 +249,7 @@ export async function fillLedgerBookkeeping(rowId){
 
 
 //used for reports + bookkeeping html files
-export async function fillLedger(rowId){
+export async function fillLedger(rowId) {
 
   const tableBody = document.getElementById('ledger-table');
 
@@ -257,7 +257,7 @@ export async function fillLedger(rowId){
 
   const Doc = doc(db, "Chart_Of_Accounts", rowId);
   const docSnap = await getDoc(Doc);
-  if (docSnap.exists){
+  if (docSnap.exists) {
 
     const data = docSnap.data();
     const ledger = data.Ledger;
@@ -285,13 +285,13 @@ export async function fillLedger(rowId){
 }
 
 //used for reports + bookkeeping html files
-export async function fillEventLog(rowId){
+export async function fillEventLog(rowId) {
 
   const tableBody = document.getElementById('EventLog-table');
 
   const Doc = doc(db, "Chart_Of_Accounts", rowId);
   const docSnap = await getDoc(Doc);
-  if (docSnap.exists){
+  if (docSnap.exists) {
 
     const data = docSnap.data();
     const eventLog = data.EventLog;
@@ -317,54 +317,54 @@ export async function fillEventLog(rowId){
 }
 
 
-  //******************************************************************************************
-  //      Event Log before and After images implementation
-  //******************************************************************************************
+//******************************************************************************************
+//      Event Log before and After images implementation
+//******************************************************************************************
 
 
-  
+
 //must be called as COA entry is clicked
 //works
-  export async function fillBeforeAfterTables(rowId){
-  
-    //****************
-    //IMPLEMENT
-    //****************
-    //need a table for before and after image
-    const beforeTable = document.getElementById('EventLogBefore-table');
-    const afterTable = document.getElementById('EventLogAfter-table');
+export async function fillBeforeAfterTables(rowId) {
 
-    const account = document.getElementById('coa_table');
-    const rows = account.querySelectorAll('tr');
+  //****************
+  //IMPLEMENT
+  //****************
+  //need a table for before and after image
+  const beforeTable = document.getElementById('EventLogBefore-table');
+  const afterTable = document.getElementById('EventLogAfter-table');
 
-    for(let i = 0; i < rows.length; i++){
-      const row = rows[i];
-      if(row.classList.contains('visible')){
-          var accountDoc = row.id;
-          break;
-        }
-      }
-    
-      const Doc = doc(db, "Chart_Of_Accounts", accountDoc);
-      const docSnap = await getDoc(Doc);
-      if (docSnap.exists){
-  
-      const data = docSnap.data();
+  const account = document.getElementById('coa_table');
+  const rows = account.querySelectorAll('tr');
 
-      console.log("Doc Retrieved: " + data);
-  
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    if (row.classList.contains('visible')) {
+      var accountDoc = row.id;
+      break;
+    }
+  }
 
-      const eventLog = data.EventLog;
-      const beforeRange = eventLog[rowId].beforeImage;
-      const afterRange =  eventLog[rowId].afterImage;
-  
-      const Ledger = data.Ledger;
-  
-      for(let i = 0; i <= beforeRange; i++){
-        const newRow = document.createElement('tr');
-        newRow.id = `${rowId}-eventBeforeLogImage`;
-        newRow.className = 'caf'
-        newRow.classList.add('visible');
+  const Doc = doc(db, "Chart_Of_Accounts", accountDoc);
+  const docSnap = await getDoc(Doc);
+  if (docSnap.exists) {
+
+    const data = docSnap.data();
+
+    console.log("Doc Retrieved: " + data);
+
+
+    const eventLog = data.EventLog;
+    const beforeRange = eventLog[rowId].beforeImage;
+    const afterRange = eventLog[rowId].afterImage;
+
+    const Ledger = data.Ledger;
+
+    for (let i = 0; i <= beforeRange; i++) {
+      const newRow = document.createElement('tr');
+      newRow.id = `${rowId}-eventBeforeLogImage`;
+      newRow.className = 'caf'
+      newRow.classList.add('visible');
 
       newRow.innerHTML = `
         <td class='caf'>${Ledger[i].dateAdded}</td>
@@ -373,77 +373,77 @@ export async function fillEventLog(rowId){
         <td class='caf'>${Ledger[i].credit}</td>
         <td class='caf'>${Ledger[i].balance}</td> `;
 
-        beforeTable.append(newRow);
-      }
-  
-  
-      for(let i = 0; i <= afterRange; i++){
-        const newRow = document.createElement('tr');
-        newRow.id = `${rowId}-eventAfterLogImage`;
-        newRow.className = 'caf'
-        newRow.innerHTML = `
+      beforeTable.append(newRow);
+    }
+
+
+    for (let i = 0; i <= afterRange; i++) {
+      const newRow = document.createElement('tr');
+      newRow.id = `${rowId}-eventAfterLogImage`;
+      newRow.className = 'caf'
+      newRow.innerHTML = `
         <td class='caf'>${Ledger[i].dateAdded}</td>
         <td class='caf'>${Ledger[i].description}</td>
         <td class='caf'>${Ledger[i].debit}</td>
         <td class='caf'>${Ledger[i].credit}</td>
         <td class='caf'>${Ledger[i].balance}</td> `;
 
-        afterTable.append(newRow);
-      }
-  
-  
+      afterTable.append(newRow);
     }
-  
-  }
-  
-  export function selectEventLogBeforeAfter(tbodyId, rowId){
-    const tableBody = document.getElementById(`${tbodyId}`);
-  
-    const rows = tableBody.querySelectorAll('tr');
-  
-    for(let i = 0; i < rows.length; i++){
-      const row = rows[i];
-  
-      if (row.id !== rowId){
-        //row.style.display = "none"
-        row.classList.remove('visible');
-        row.classList.add('hidden');
-        setTimeout(() => { row.style.display = "none";}, 500);
-      }
-    }
-  
-    document.getElementById("EventLogImagesView").classList.remove("hidden");
-    document.getElementById("EventLogImagesView").classList.add("visible");
-  
-  setTimeout(() => {
-    document.getElementById("EventLogImagesView").style.display = "block";
-  
-    }, 500);
-  
+
+
   }
 
-export function deSelectBeforeAfter(tbodyId){
+}
+
+export function selectEventLogBeforeAfter(tbodyId, rowId) {
+  const tableBody = document.getElementById(`${tbodyId}`);
+
+  const rows = tableBody.querySelectorAll('tr');
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+
+    if (row.id !== rowId) {
+      //row.style.display = "none"
+      row.classList.remove('visible');
+      row.classList.add('hidden');
+      setTimeout(() => { row.style.display = "none"; }, 500);
+    }
+  }
+
+  document.getElementById("EventLogImagesView").classList.remove("hidden");
+  document.getElementById("EventLogImagesView").classList.add("visible");
+
+  setTimeout(() => {
+    document.getElementById("EventLogImagesView").style.display = "block";
+
+  }, 500);
+
+}
+
+export function deSelectBeforeAfter(tbodyId) {
   const tableBody = document.getElementById(`${tbodyId}`);
   const rows = tableBody.querySelectorAll('tr');
 
-  for(let i = 0; i < rows.length; i++){
+  for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
-    if(row.classList.contains('visible')){
+    if (row.classList.contains('visible')) {
       row.style.pointerEvents = "auto";
     }
-    if (row.style.display === "none"){
+    if (row.style.display === "none") {
       //row.style.display = "";
       row.classList.remove('hidden');
       row.classList.add('visible');
-      setTimeout(() => { row.style.display = "";}, 500);
+      setTimeout(() => { row.style.display = ""; }, 500);
     }
 
   }
-  
+
   document.getElementById("EventLogImagesView").classList.remove("visible");
   document.getElementById("EventLogImagesView").classList.add("hidden");
 
-  setTimeout(() => { 
+  setTimeout(() => {
     document.getElementById("EventLogImagesView").style.display = "none";
   }, 500);
 
@@ -452,18 +452,18 @@ export function deSelectBeforeAfter(tbodyId){
 
 
 
-  //******************************************************************************************
-  //      Journal Entry implementation JS
-  //******************************************************************************************
+//******************************************************************************************
+//      Journal Entry implementation JS
+//******************************************************************************************
 
 //used for reports + bookkeeping html files
-export async function fillJournal(rowId){
+export async function fillJournal(rowId) {
 
   const tableBody = document.getElementById('journal-table');
 
   const Doc = doc(db, "Chart_Of_Accounts", rowId);
   const docSnap = await getDoc(Doc);
-  if (docSnap.exists){
+  if (docSnap.exists) {
 
     const data = docSnap.data();
     const journal = data.Journal;
@@ -472,14 +472,14 @@ export async function fillJournal(rowId){
       const debits = entry.Debits;
       let debitString = ``;
       debits.forEach((entry, index) => {
-          debitString += `${entry}\n`;
-        });
+        debitString += `${entry}\n`;
+      });
 
       const credits = entry.Credits;
       let creditString = ``;
       credits.forEach((entry, index) => {
-          creditString += `${entry}\n`;
-        });
+        creditString += `${entry}\n`;
+      });
 
       const newRow = document.createElement('tr');
       newRow.id = `${index}`;
@@ -495,69 +495,69 @@ export async function fillJournal(rowId){
         `;
 
       //Status decides font color: (Pending: yellow: Accepted: Green, Denied: red)
-      switch(entry.Status){
+      switch (entry.Status) {
         case "Pending":
-          newRow.innerHTML += `<td class='caf' style='color: orange;'>${entry.Status}</td>`; 
+          newRow.innerHTML += `<td class='caf' style='color: orange;'>${entry.Status}</td>`;
           console.log(entry.Status);
           break;
         case "Approved":
-          newRow.innerHTML += `<td class='caf' style='color: green;'>${entry.Status}</td>`; 
+          newRow.innerHTML += `<td class='caf' style='color: green;'>${entry.Status}</td>`;
           console.log(entry.Status);
           break;
         case "Denied":
-          newRow.innerHTML += `<td class='caf' style='color: red;'>${entry.Status}</td>`; 
+          newRow.innerHTML += `<td class='caf' style='color: red;'>${entry.Status}</td>`;
           console.log(entry.Status);
           break;
         default:
           console.log(entry.Status);
           newRow.innerHTML += `<td class='caf' style='color: red;'>Didn't work</td>`;
-        break;
+          break;
       }
 
       //action buttons only if user is manager/admin, else if accountant => action column = none
 
 
-  onAuthStateChanged(auth, async (user) => {
-    if(user){
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
           console.log("User found" + user.email);
-      const Email = user.email;
-      const userDoc = doc(db, "Users", Email);
-      const userDocSnap = await getDoc(userDoc);
+          const Email = user.email;
+          const userDoc = doc(db, "Users", Email);
+          const userDocSnap = await getDoc(userDoc);
           console.log("Made it here" + userDocSnap);
-      if (userDocSnap.exists){
-        const UserData = userDocSnap.data();
-          console.log("User Data: " + JSON.stringify(UserData));
-        const accountType = UserData.accountType;
-          console.log("Users accountType: " + accountType);
+          if (userDocSnap.exists) {
+            const UserData = userDocSnap.data();
+            console.log("User Data: " + JSON.stringify(UserData));
+            const accountType = UserData.accountType;
+            console.log("Users accountType: " + accountType);
 
-        if(accountType === "Admin" || accountType === "Manager"){
-              if(entry.Status !== "Approved" && entry.Status !== "Denied"){ 
-                    newRow.innerHTML += `
+            if (accountType === "Admin" || accountType === "Manager") {
+              if (entry.Status !== "Approved" && entry.Status !== "Denied") {
+                newRow.innerHTML += `
                           <td class='caf'>
                           <span style='display: flex'>
 
-                        <form id='approveJEForm-${index}' action='http://localhost:5001/profitpro-e81ab/us-central1/approveJournalEntry' onsubmit="event.preventDefault(); handleApproveDenyForm(event, 'approveJEForm-${index}');">
+                        <form id='approveJEForm-${index}' action='https://approvejournalentry-hbs3oxnkoa-uc.a.run.app' onsubmit="event.preventDefault(); handleApproveDenyForm(event, 'approveJEForm-${index}');">
                             <input type='hidden' style='display: none' name='account' value='${rowId}'>
                             <input type='hidden' style='display: none' name='JEindex' value='${index}'>
                           <button type='submit' style="border-radius: 25px; background-color: green; margin-right: 10px; width: 90px;">Approve</button>
                         </form>
 
-                        <form id='denyJEForm-${index}' action='http://localhost:5001/profitpro-e81ab/us-central1/denyJournalEntry' onsubmit="event.preventDefault(); handleApproveDenyForm(event, 'denyJEForm-${index}');">
+                        <form id='denyJEForm-${index}' action='https://denyjournalentry-hbs3oxnkoa-uc.a.run.app' onsubmit="event.preventDefault(); handleApproveDenyForm(event, 'denyJEForm-${index}');">
                             <input type='hidden' style='display: none' name='account' value='${rowId}'>
                             <input type='hidden' style='display: none' name='JEindex' value='${index}'>
                           <button style="border-radius: 25px; width:90px; background-color: red;">Deny</button>
                         </form>
                           </span>
                           </td>`;
-              }else{
-                    newRow.innerHTML += `<td class='caf'>Action already made</td>`;
+              } else {
+                newRow.innerHTML += `<td class='caf'>Action already made</td>`;
               }
-        }else{
-          newRow.innerHTML += `<td class='caf'>Manager Needed</td>`;
+            } else {
+              newRow.innerHTML += `<td class='caf'>Manager Needed</td>`;
+            }
+          }
         }
-      }
-    }
-  });
+      });
       tableBody.append(newRow);
     });
 
