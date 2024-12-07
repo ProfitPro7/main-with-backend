@@ -6,7 +6,9 @@ export async function getUserName() {
   return new Promise((resolve, reject) => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log(user)
         const email = user.email;
+        console.log(email);
         getData(email)
           .then((userName) => {
             resolve(userName);
@@ -20,6 +22,44 @@ export async function getUserName() {
     });
   });
 }
+
+export async function getAccountType() {
+  return new Promise((resolve, reject) => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user)
+        const email = user.email;
+        console.log(email);
+        getDataAccountType(email)
+          .then((type) => {
+            resolve(type);
+          })
+          .catch((e) => {
+            reject(e);
+          })
+      } else {
+        resolve(null);
+      }
+    });
+  });
+}
+
+async function getDataAccountType(email) {
+  const docRef = doc(db, "Users", email);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    const type = docSnap.data().accountType;
+    return type;
+
+  } else {
+    return null;
+
+  }
+
+
+}
+
 
 async function getData(email) {
   const docRef = doc(db, "Users", email);

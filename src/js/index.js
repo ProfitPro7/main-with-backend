@@ -12,7 +12,23 @@ import { calculateRatios, fillPendingJournal, fillRatioData } from "./homeLandin
 const path = window.location.pathname;
 
 
-if (!path.includes("index.html") && !path.includes("ratioData.html")) {
+if (!path.includes("index.html") && !path.includes("ratioData.html") && !path.includes("signIn.html")) {
+
+
+  getAccountType()
+    .then((accountType) => {
+      console.log("This is the type: " + accountType);
+      if (accountType == "Admin") {
+        if (document.getElementById("adminViewLink")) {
+          document.getElementById("adminViewLink").style.display = "block";
+        }
+      } else {
+        if (document.getElementById("adminViewLink")) {
+          document.getElementById("adminViewLink").style.display = "none";
+
+        }
+      }
+    });
 
   getUserName()
     .then((userName) => {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!-- Basic -->
   <meta charset="utf-8" />
@@ -13,7 +14,7 @@
   <title>ProfitPro</title>
 
   <!-- bootstrap core css -->
-    <!--Find out why this is not working-->
+  <!--Find out why this is not working-->
   <link rel="stylesheet" type="text/css" href="/index-css/bootstrap.css" />
   <link rel="stylesheet" type="text/css" href="adminPage_user_table.css" />
 
@@ -23,8 +24,8 @@
   <link href="index-css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="index-css/responsive.css" rel="stylesheet" />
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 </head>
 
 
@@ -32,7 +33,8 @@
 
 
 
-  <!--Beginning of Page content-->
+<!--Beginning of Page content-->
+
 <body style="padding: 0px;">
 
 
@@ -43,25 +45,25 @@
     <header class="header_section">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-            <p class='navbar-brand'>
-            <span >
+          <p class='navbar-brand'>
+            <span>
               ProfitPro
             </span>
-            </p>
+          </p>
 
-            <button id="openCalendar" type='button' style="margin-left: 20px;">📅</button>
+          <button id="openCalendar" type='button' style="margin-left: 20px;">📅</button>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
-            <!--Nav Bar creation-->
+          <!--Nav Bar creation-->
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
               <ul class="navbar-nav  ">
                 <li class="nav-item">
-                    <!--Need a home-->
+                  <!--Need a home-->
                   <a class="nav-link" href="homeLanding.html">Home </a>
                 </li>
                 <li class="nav-item ">
@@ -75,18 +77,18 @@
                 <!--    <span>User Settings</span> -->
                 <!--  </a>-->
                 <!--</li>-->
-                <li class="nav-item">
+                <li id="adminViewLink" class="nav-item">
                   <!--Change later to only appear if user's account is
                     a Manager type-->
                   <a class="nav-link" href="adminPage.html"> Administrator <span class="sr-only">(current)</span></a>
                 </li>
-                  <!--Change later to only appear if user's account is
+                <!--Change later to only appear if user's account is
                     a Admin type-->
                 <li class="nav-item">
-                    <!--Change to be able to click on UsersName and change settings-->
-                    <a class="nav-link" href="#" id='auto-pop-username'>User Name</a>
+                  <!--Change to be able to click on UsersName and change settings-->
+                  <a class="nav-link" href="#" id='auto-pop-username'>User Name</a>
                 </li>
-               </ul>
+              </ul>
               <div class="user_option">
                 <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
                   <button class="btn  my-2 my-sm-0 nav_search-btn" type="button"></button>
@@ -99,238 +101,587 @@
     </header>
     <!-- end header section -->
 
-<div id='overlay' style="display: none;">
-  <style>
-      .calendar * { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-      .calendar body { display: flex; background: #ef62da; min-height: 100vh; padding: 0 10px; align-items: center; justify-content: center; }
-      .calendar-container { background: #fff; width: 450px; border-radius: 10px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12); }
-      .calendar-container header { display: flex; align-items: center; padding: 25px 30px 10px; justify-content: space-between; }
-      header .calendar-navigation { display: flex; }
-      header .calendar-navigation span { height: 38px; width: 38px; margin: 0 1px; cursor: pointer; text-align: center; line-height: 38px; border-radius: 50%; user-select: none; color: #aeabab; font-size: 1.9rem; }
-      .calendar-navigation span:last-child { margin-right: -10px; }
-      header .calendar-navigation span:hover { background: #f2f2f2; }
-      header .calendar-current-date { font-weight: 500; font-size: 1.45rem; }
-      .calendar-body { padding: 20px; }
-      .calendar-body ul { list-style: none; flex-wrap: wrap; display: flex; text-align: center; }
-      .calendar-body .calendar-dates { margin-bottom: 20px; }
-      .calendar-body li { width: calc(100% / 7); font-size: 1.07rem; color: #414141; }
-      .calendar-body .calendar-weekdays li { cursor: default; font-weight: 500; }
-      .calendar-body .calendar-dates li { margin-top: 30px; position: relative; z-index: 1; cursor: pointer; }
-      .calendar-dates li.inactive { color: #aaa; }
-      .calendar-dates li.active { color: #fff; }
-      .calendar-dates li::before { position: absolute; content: ""; z-index: -1; top: 50%; left: 50%; width: 40px; height: 40px; border-radius: 50%; transform: translate(-50%, -50%); }
-      .calendar-dates li.active::before { background: #6332c5; }
-      .calendar-dates li:not(.active):hover::before { background: #e4e1e1; }
-      #overlay {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */ z-index: 999; /* On top of other elements */ display: flex; /* Use flexbox to center contents */ align-items: center; /* Vertically center */ justify-content: center; /* Horizontally center */ }
-      #calendar {width: auto;top: 50%; left: 50%; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); z-index: 1000; /* On top of the overlay */ padding: 20px; }
-    </style>
+    <div id='overlay' style="display: none;">
+      <style>
+        .calendar * {
+          margin: 0;
+          padding: 0;
+          font-family: 'Poppins', sans-serif;
+        }
+
+        .calendar body {
+          display: flex;
+          background: #ef62da;
+          min-height: 100vh;
+          padding: 0 10px;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .calendar-container {
+          background: #fff;
+          width: 450px;
+          border-radius: 10px;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .calendar-container header {
+          display: flex;
+          align-items: center;
+          padding: 25px 30px 10px;
+          justify-content: space-between;
+        }
+
+        header .calendar-navigation {
+          display: flex;
+        }
+
+        header .calendar-navigation span {
+          height: 38px;
+          width: 38px;
+          margin: 0 1px;
+          cursor: pointer;
+          text-align: center;
+          line-height: 38px;
+          border-radius: 50%;
+          user-select: none;
+          color: #aeabab;
+          font-size: 1.9rem;
+        }
+
+        .calendar-navigation span:last-child {
+          margin-right: -10px;
+        }
+
+        header .calendar-navigation span:hover {
+          background: #f2f2f2;
+        }
+
+        header .calendar-current-date {
+          font-weight: 500;
+          font-size: 1.45rem;
+        }
+
+        .calendar-body {
+          padding: 20px;
+        }
+
+        .calendar-body ul {
+          list-style: none;
+          flex-wrap: wrap;
+          display: flex;
+          text-align: center;
+        }
+
+        .calendar-body .calendar-dates {
+          margin-bottom: 20px;
+        }
+
+        .calendar-body li {
+          width: calc(100% / 7);
+          font-size: 1.07rem;
+          color: #414141;
+        }
+
+        .calendar-body .calendar-weekdays li {
+          cursor: default;
+          font-weight: 500;
+        }
+
+        .calendar-body .calendar-dates li {
+          margin-top: 30px;
+          position: relative;
+          z-index: 1;
+          cursor: pointer;
+        }
+
+        .calendar-dates li.inactive {
+          color: #aaa;
+        }
+
+        .calendar-dates li.active {
+          color: #fff;
+        }
+
+        .calendar-dates li::before {
+          position: absolute;
+          content: "";
+          z-index: -1;
+          top: 50%;
+          left: 50%;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        .calendar-dates li.active::before {
+          background: #6332c5;
+        }
+
+        .calendar-dates li:not(.active):hover::before {
+          background: #e4e1e1;
+        }
+
+        #overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.7);
+          /* Semi-transparent background */
+          z-index: 999;
+          /* On top of other elements */
+          display: flex;
+          /* Use flexbox to center contents */
+          align-items: center;
+          /* Vertically center */
+          justify-content: center;
+          /* Horizontally center */
+        }
+
+        #calendar {
+          width: auto;
+          top: 50%;
+          left: 50%;
+          border-radius: 10px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+          z-index: 1000;
+          /* On top of the overlay */
+          padding: 20px;
+        }
+      </style>
 
 
-        <div id="calendar" style="display: block; right: 50%; position: relative; top: 40%; left: 50%; transform: translate(-50%, -50%); padding: 20px; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px; z-index: 1000;">              <div class="calendar-container">
+      <div id="calendar"
+        style="display: block; right: 50%; position: relative; top: 40%; left: 50%; transform: translate(-50%, -50%); padding: 20px; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px; z-index: 1000;">
+        <div class="calendar-container">
           <header class="calendar-header">
-            <button id='closeCalendar' class="calendar-container" style="width:auto;cursor: pointer;background-color: transparent;border: 0px solid #3498db;">❌</button>
-                  <p class="calendar-current-date"></p>
-                  <div class="calendar-navigation">
-                    <span id="calendar-prev"
-                      class="material-symbols-rounded">
-                      chevron_left
-                    </span>
-                    <span id="calendar-next"
-                      class="material-symbols-rounded">
-                      chevron_right
-                    </span>
-                  </div>
-                </header>
-
-                <div class="calendar-body">
-                  <ul class="calendar-weekdays">
-                    <li>Sun</li>
-                    <li>Mon</li>
-                    <li>Tue</li>
-                    <li>Wed</li>
-                    <li>Thu</li>
-                    <li>Fri</li>
-                    <li>Sat</li>
-                  </ul>
-                  <ul class="calendar-dates"></ul>
-                </div>
-              </div>
-
+            <button id='closeCalendar' class="calendar-container"
+              style="width:auto;cursor: pointer;background-color: transparent;border: 0px solid #3498db;">❌</button>
+            <p class="calendar-current-date"></p>
+            <div class="calendar-navigation">
+              <span id="calendar-prev" class="material-symbols-rounded">
+                chevron_left
+              </span>
+              <span id="calendar-next" class="material-symbols-rounded">
+                chevron_right
+              </span>
             </div>
+          </header>
+
+          <div class="calendar-body">
+            <ul class="calendar-weekdays">
+              <li>Sun</li>
+              <li>Mon</li>
+              <li>Tue</li>
+              <li>Wed</li>
+              <li>Thu</li>
+              <li>Fri</li>
+              <li>Sat</li>
+            </ul>
+            <ul class="calendar-dates"></ul>
+          </div>
         </div>
 
+      </div>
+    </div>
 
 
-      <!--Styling for website theme-->
+
+    <!--Styling for website theme-->
     <style>
-           body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
-           header { background: blue; color: #ffffff;  text-align: center; }
-           nav { margin-bottom: 10px }
-           nav a { color: #ffffff; margin: 0 15px; text-decoration: none; }
-           .container { width: 80%; margin: auto; overflow: hidden; }
-           footer { background: blue; color: #ffffff; text-align: center; padding: 10px 0; position: relative; bottom: 0; width: 100%; }
-           .administratorsection { display: flex; justify-content: space-around; margin: 20px 0; }
-           .tab { overflow: hidden; border: 1px solid #ccc; background-color: #f1f1f1; }
-           .tab button { background-color: inherit; float: left; border: none; outline: none; cursor: pointer; padding: 14px 16px; transition: 0.3s; }
-           .tab button:hover { background-color: #ddd; }
-           .tab button.active { background-color: #ccc; }
-           .tabcontent { display: none; padding: 6px 12px; border: 1px solid #ccc; border-top: none; background-color: #f1f1f1; }
-           fieldset { margin-bottom: 30px; }
-           input { height: auto; display: block; width: 20%; margin: 5px; }
-           input[id="bodyEmail"]{ width: 75%; padding: 60px; }
-           tr { border-bottom: 1px solid black; width: 100%; }
-           td { text-align: center; }
-           table { width: 100%; }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
 
-       </style>
+      header {
+        background: blue;
+        color: #ffffff;
+        text-align: center;
+      }
 
-      <!--Styling for Clint's HTML-->
-        <style>
-            :root { --primary-color: #3498db; --secondary-color: #2c3e50; --background-color: #ecf0f1; --text-color: #34495e; --border-color: #bdc3c7; }
-            .caf body { font-family: 'Arial', sans-serif; line-height: 1.6; color: var(--text-color); background-color: var(--background-color); margin: 0; padding: 20px; }
-            .ca-container { max-width: 1000px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-            .caf h1, h2 { color: var(--secondary-color); margin-bottom: 20px; }
-            .caf form { display: grid; gap: 15px; margin-bottom: 30px; }
-            .caf label { font-weight: bold; }
-            .caf input, select, textarea { width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px; }
-            .caf button { background-color: var(--primary-color); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s; width: 100%; }
-            .caf button:hover { background-color: #2980b9; }
-            .caf table { width: 100%; border-collapse: collapse; margin-top: 20px; background-color: white; }
-            .caf th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
-            .caf th { background-color: var(--primary-color); color: white; }
-            #delete_Tables .caf th { background-color: red; color: white; }
-            #accountsTable tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }
-            #eventLogTable tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }
-            #delete_Tables tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }
-            /*#journalEntries tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }*/
+      nav {
+        margin-bottom: 10px
+      }
+
+      nav a {
+        color: #ffffff;
+        margin: 0 15px;
+        text-decoration: none;
+      }
+
+      .container {
+        width: 80%;
+        margin: auto;
+        overflow: hidden;
+      }
+
+      footer {
+        background: blue;
+        color: #ffffff;
+        text-align: center;
+        padding: 10px 0;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .administratorsection {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+      }
+
+      .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+      }
+
+      .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+      }
+
+      .tab button:hover {
+        background-color: #ddd;
+      }
+
+      .tab button.active {
+        background-color: #ccc;
+      }
+
+      .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+        background-color: #f1f1f1;
+      }
+
+      fieldset {
+        margin-bottom: 30px;
+      }
+
+      input {
+        height: auto;
+        display: block;
+        width: 20%;
+        margin: 5px;
+      }
+
+      input[id="bodyEmail"] {
+        width: 75%;
+        padding: 60px;
+      }
+
+      tr {
+        border-bottom: 1px solid black;
+        width: 100%;
+      }
+
+      td {
+        text-align: center;
+      }
+
+      table {
+        width: 100%;
+      }
+    </style>
+
+    <!--Styling for Clint's HTML-->
+    <style>
+      :root {
+        --primary-color: #3498db;
+        --secondary-color: #2c3e50;
+        --background-color: #ecf0f1;
+        --text-color: #34495e;
+        --border-color: #bdc3c7;
+      }
+
+      .caf body {
+        font-family: 'Arial', sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: var(--background-color);
+        margin: 0;
+        padding: 20px;
+      }
+
+      .ca-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .caf h1,
+      h2 {
+        color: var(--secondary-color);
+        margin-bottom: 20px;
+      }
+
+      .caf form {
+        display: grid;
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .caf label {
+        font-weight: bold;
+      }
+
+      .caf input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .caf button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+        width: 100%;
+      }
+
+      .caf button:hover {
+        background-color: #2980b9;
+      }
+
+      .caf table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: white;
+      }
+
+      .caf th,
+      td {
+        border: 1px solid var(--border-color);
+        padding: 12px;
+        text-align: left;
+      }
+
+      .caf th {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      #delete_Tables .caf th {
+        background-color: red;
+        color: white;
+      }
+
+      #accountsTable tbody tr:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+      }
+
+      #eventLogTable tbody tr:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+      }
+
+      #delete_Tables tbody tr:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+      }
+
+      /*#journalEntries tbody tr:hover { background-color: #f5f5f5; cursor: pointer; }*/
 
 
-            #ledgerView { display: none; margin-top: 30px; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-            #ledgerTitle { color: var(--primary-color); margin-bottom: 15px; }
+      #ledgerView {
+        display: none;
+        margin-top: 30px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
 
-            #EventLogView { display: none; margin-top: 30px; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-            #EventLogTitleTitle { color: var(--primary-color); margin-bottom: 15px; }
+      #ledgerTitle {
+        color: var(--primary-color);
+        margin-bottom: 15px;
+      }
 
-            #journalEntries { display: none; margin-top: 30px; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-            #journalEntryTitle { color: var(--primary-color); margin-bottom: 15px; }
+      #EventLogView {
+        display: none;
+        margin-top: 30px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
 
+      #EventLogTitleTitle {
+        color: var(--primary-color);
+        margin-bottom: 15px;
+      }
 
-          /*Transition Effects*/
+      #journalEntries {
+        display: none;
+        margin-top: 30px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
 
-            .hidden { opacity: 0; visibility: hidden; transition: opacity 0.5s ease-out, visibility 0.5s ease-out; }
-
-            .visible { opacity: 1; visibility: visible; transition: opacity 0.5s ease-in, visibility 0.5s ease-in; }
-
-
-
-        </style> 
-      <!--Auto open first tabe script, set all others to inactive-->
-
-       <script>
-         document.addEventListener("DOMContentLoaded", function() {
-           document.getElementById("defaultOpen").click();
-         });
-           function openTab(evt, cityName) {
-               var i, tabcontent, tablinks;
-               tabcontent = document.getElementsByClassName("tabcontent");
-               for (i = 0; i < tabcontent.length; i++) {
-                   tabcontent[i].style.display = "none";
-               }
-
-               tablinks = document.getElementsByClassName("tablinks");
-               for (i = 0; i < tablinks.length; i++) {
-                   tablinks[i].className = tablinks[i].className.replace(" active", "");
-               }
-
-               document.getElementById(cityName).style.display = "block";
-               evt.currentTarget.className += " active";
-           }
-       </script>
+      #journalEntryTitle {
+        color: var(--primary-color);
+        margin-bottom: 15px;
+      }
 
 
+      /*Transition Effects*/
 
-<!--Nav bar for the bookkeeping page	-->
+      .hidden {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+      }
+
+      .visible {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.5s ease-in, visibility 0.5s ease-in;
+      }
+    </style>
+    <!--Auto open first tabe script, set all others to inactive-->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("defaultOpen").click();
+      });
+      function openTab(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+    </script>
+
+
+
+    <!--Nav bar for the bookkeeping page	-->
     <div class="container">
-           <section id="bookkeepersection">
-               <h2>Chart of Accounts</h2>
-               <div class="services">
-                   <div class="tab">
-                       <!--<button class="tablinks" onclick="openTab(event, 'Account')" id="defaultOpen">Create Account</button>-->
-                       <button class="tablinks" onclick="openTab(event, 'Modify_Account')" id="defaultOpen">Accounts</button>
-                       <button class="tablinks" onclick="openTab(event, 'Email')">Email</button>
-                       <button class="tablinks" onclick="goToReports();">Create Reports</button>
-                   </div>
+      <section id="bookkeepersection">
+        <h2>Chart of Accounts</h2>
+        <div class="services">
+          <div class="tab">
+            <!--<button class="tablinks" onclick="openTab(event, 'Account')" id="defaultOpen">Create Account</button>-->
+            <button class="tablinks" onclick="openTab(event, 'Modify_Account')" id="defaultOpen">Accounts</button>
+            <button class="tablinks" onclick="openTab(event, 'Email')">Email</button>
+            <button class="tablinks" onclick="goToReports();">Create Reports</button>
+          </div>
 
 
-            <script>
-            function goToReports(){
+          <script>
+            function goToReports() {
               window.open("trialbalance.html", "_blank");
             }
 
 
 
-            </script>
+          </script>
 
 
 
 
 
 
-<!--Styling and divs for Users management page on AdminPage-->
-  <div id="Account" class="tabcontent">
-    <div id="mainContainer-accountCreation">
+          <!--Styling and divs for Users management page on AdminPage-->
+          <div id="Account" class="tabcontent">
+            <div id="mainContainer-accountCreation">
 
-    </div>
+            </div>
 
-<!--End of Manage users Tab-->
-  </div> 
-</div>
-
-
-  <!--Update with table from adminPage-->
-  <div id="Modify_Account" class="tabcontent">
+            <!--End of Manage users Tab-->
+          </div>
+        </div>
 
 
-    <div id="mainContainer-accountLedger">
+        <!--Update with table from adminPage-->
+        <div id="Modify_Account" class="tabcontent">
 
 
-    <div id='COA_Tables'>
+          <div id="mainContainer-accountLedger">
 
-    <!--Needs implementation-->
-      <h2 id='coa_title'>Select an Account</h2>
 
-                <div id='search' class='visible'>
+            <div id='COA_Tables'>
 
-                  <style>
+              <!--Needs implementation-->
+              <h2 id='coa_title'>Select an Account</h2>
+
+              <div id='search' class='visible'>
+
+                <style>
                   body {
                     font-family: Arial, sans-serif;
                     line-height: 1.6;
                     padding: 20px;
                     background-color: #f4f4f4;
                   }
+
                   #searchBar {
                     width: 100%;
                     padding: 10px;
                     margin-bottom: 20px;
                     font-size: 16px;
                   }
+
                   table {
                     width: 100%;
                     border-collapse: collapse;
                     background-color: #fff;
                   }
-                  th, td {
+
+                  th,
+                  td {
                     padding: 12px;
                     text-align: left;
                     border-bottom: 1px solid #ddd;
                   }
+
                   th {
                     background-color: #f2f2f2;
                   }
+
                   tr: hover {
                     background-color: #f5f5f5;
                     cursor: pointer;
                   }
+
                   .modal {
                     display: none;
                     position: fixed;
@@ -340,8 +691,9 @@
                     width: 100%;
                     height: 100%;
                     overflow: auto;
-                    background-color: rgba(0,0,0,0.4);
+                    background-color: rgba(0, 0, 0, 0.4);
                   }
+
                   .modal-content {
                     background-color: #fefefe;
                     margin: 15% auto;
@@ -350,297 +702,315 @@
                     width: 80%;
                     max-width: 600px;
                   }
+
                   .close {
                     color: #aaa;
                     float: right;
                     font-size: 28px;
                     font-weight: bold;
                   }
+
                   .close:hover,
                   .close:focus {
                     color: black;
                     text-decoration: none;
                     cursor: pointer;
                   }
-                  </style>
+                </style>
 
 
 
-                  <input type="text" id="searchBar" placeholder="Search for accounts...">
+                <input type="text" id="searchBar" placeholder="Search for accounts...">
 
 
-                  <div id="accountModal" class="modal">
-                    <div class="modal-content">
-                      <span class="close">&times;</span>
-                      <h2>Account Details</h2>
-                      <p id="accountDetails"></p>
-                    </div>
+                <div id="accountModal" class="modal">
+                  <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Account Details</h2>
+                    <p id="accountDetails"></p>
                   </div>
-
                 </div>
 
+              </div>
 
-          <!--***************************-->
+
+              <!--***************************-->
               <!--Report for Account in COA-->
-          <!--***************************-->
-
-        <div id='button-list-div' class='hidden' style='text-align: right; display: none; padding: 10px;'>
-          <span style='display: inline; padding:10px;'>
-            <button id="deSelectAccount" style="border-radius: 25px; color: white; background-color: grey;">Back</button>
-          </span>
-        </div>
-
-
-
-      <table id="accountsTable" class='caf'>
-        <thead class='caf'>
-          <tr class='caf'>
-            <th class='caf'>Account Number</th>
-            <th class='caf'>Account Name</th>
-            <th class='caf'>Description</th>
-            <th class='caf'>Normal Side</th>
-            <th class='caf'>Category</th>
-            <th class='caf'>Subcategory</th>
-          </tr>
-        </thead>
-        <tbody id='coa_table'class='caf'>
-
-          <!-- Accounts will be added here dynamically -->
-        </tbody>
-      </table>
-    </div>
-
-
-
               <!--***************************-->
-              <!--Journal Entry Style for PostRef -->
-              <!--***************************-->
-              <style>
+
+              <div id='button-list-div' class='hidden' style='text-align: right; display: none; padding: 10px;'>
+                <span style='display: inline; padding:10px;'>
+                  <button id="deSelectAccount"
+                    style="border-radius: 25px; color: white; background-color: grey;">Back</button>
+                </span>
+              </div>
+
+
+
+              <table id="accountsTable" class='caf'>
+                <thead class='caf'>
+                  <tr class='caf'>
+                    <th class='caf'>Account Number</th>
+                    <th class='caf'>Account Name</th>
+                    <th class='caf'>Description</th>
+                    <th class='caf'>Normal Side</th>
+                    <th class='caf'>Category</th>
+                    <th class='caf'>Subcategory</th>
+                  </tr>
+                </thead>
+                <tbody id='coa_table' class='caf'>
+
+                  <!-- Accounts will be added here dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+
+
+            <!--***************************-->
+            <!--Journal Entry Style for PostRef -->
+            <!--***************************-->
+            <style>
               @keyframes highlight {
-              0% {
-                background: grey;
+                0% {
+                  background: grey;
+                }
+
+                100% {
+                  background: none;
+                }
               }
-              100% {
-                background: none;
+
+              .highlight {
+                animation: highlight 3s;
               }
-              }
-
-              .highlight {animation: highlight 3s;}
-
-              </style>
+            </style>
 
 
 
-              <!--######################### #########################-->
-              <!--Script for Post Reference highlighting and directing-->
-              <!--######################### #########################-->
+            <!--######################### #########################-->
+            <!--Script for Post Reference highlighting and directing-->
+            <!--######################### #########################-->
 
-              <script>
+            <script>
 
 
               //Need to implement Script where you add class then direct to link within the site
 
-              function directTo(destination){
+              function directTo(destination) {
 
-                window.location = `#${destination}`; 
+                window.location = `#${destination}`;
 
                 document.getElementById(destination).classList.add("highlight");
-                setTimeout(() => { document.getElementById(destination).classList.remove("highlight");}, 3000);
+                setTimeout(() => {document.getElementById(destination).classList.remove("highlight");}, 3000);
               }
 
-              </script>
+            </script>
 
 
 
 
 
-        <div id="ledgerView" class='hidden'>
-            <h2>Account Ledger</h2>
-            <h3 id="ledgerTitle"></h3>
-            <table id="ledgerTable" class='caf'>
+            <div id="ledgerView" class='hidden'>
+              <h2>Account Ledger</h2>
+              <h3 id="ledgerTitle"></h3>
+              <table id="ledgerTable" class='caf'>
                 <thead class='caf'>
-                    <tr class='caf'>
-                        <th class='caf'>Post Reference</th>
-                        <th class='caf'>Date</th>
-                        <th class='caf'>Description</th>
-                        <th class='caf'>Debit</th>
-                        <th class='caf'>Credit</th>
-                        <th class='caf'>Balance</th>
-                    </tr>
+                  <tr class='caf'>
+                    <th class='caf'>Post Reference</th>
+                    <th class='caf'>Date</th>
+                    <th class='caf'>Description</th>
+                    <th class='caf'>Debit</th>
+                    <th class='caf'>Credit</th>
+                    <th class='caf'>Balance</th>
+                  </tr>
                 </thead>
                 <tbody id='ledger-table'>
-                    <!-- Ledger entries will be added here dynamically -->
+                  <!-- Ledger entries will be added here dynamically -->
                 </tbody>
-            </table>
-        </div>
+              </table>
+            </div>
 
 
-          <!--***************************-->
-              <!--Journal Entry Table -->
-          <!--***************************-->
+            <!--***************************-->
+            <!--Journal Entry Table -->
+            <!--***************************-->
 
 
 
-      <div id="journalEntries" class='hidden' style='display: none;'>
-        <h2>Journal Entries</h2>
+            <div id="journalEntries" class='hidden' style='display: none;'>
+              <h2>Journal Entries</h2>
 
-          <div id='journal-button-list-div' class='hidden' style='display: none; display: flex; justify-content: space-between; margin-bottom: 20px;'>
-                  <select id="statusFilter" style="width:  150px;">
-                    <option value="all">All</option>
-                    <option value="pending">Pending Approval</option>
-                    <option value="approved">Approved</option>
-                    <option value="denied">Denied</option>
-                  </select>
-                  <input type="text" id="searchInput" placeholder="Search...">
-                  <input type="date" id="dateFilter">
-                  <span style="display: inline; padding:10px;">
-                    <button id="journal-createJEEntry" onclick="showJE_Form()" style="border-radius: 25px; color: white; background-color: green;">Create Journal Entry</button>
-                  </span>
-          </div>
+              <div id='journal-button-list-div' class='hidden'
+                style='display: none; display: flex; justify-content: space-between; margin-bottom: 20px;'>
+                <select id="statusFilter" style="width:  150px;">
+                  <option value="all">All</option>
+                  <option value="pending">Pending Approval</option>
+                  <option value="approved">Approved</option>
+                  <option value="denied">Denied</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Search...">
+                <input type="date" id="dateFilter">
+                <span style="display: inline; padding:10px;">
+                  <button id="journal-createJEEntry" onclick="showJE_Form()"
+                    style="border-radius: 25px; color: white; background-color: green;">Create Journal Entry</button>
+                </span>
+              </div>
 
-                <script>
-                function showJE_Form(){
+              <script>
+                function showJE_Form() {
                   document.getElementById("journalEntryFormDiv").classList.remove("hidden");
                   document.getElementById("journalEntryFormDiv").classList.add("visible");
                   setTimeout(() => {
                     document.getElementById("journalEntryFormDiv").style.display = "block";
                   }, 500);
                 }
-                </script>
+              </script>
 
 
 
-        <table id="journalEntriesTable" class='caf' style='text-align: center'>
-          <thead class='caf'>
-            <tr class='caf'>
-              <th class='caf'>Date</th>
-              <th class='caf'>Description</th>
-              <th class='caf'>Debits</th>
-              <th class='caf'>Credits</th>
-              <th class='caf'>Balance</th>
-              <th class='caf'>Comments</th>
-              <th class='caf'>Status</th>
-              <th class='caf'>Actions</th>
-            </tr>
-          </thead>
-          <tbody id='journal-table'class='caf'>
-                    <!--<tr>-->
-                    <!--  <td>Test</td>-->
-                    <!--  <td>Test</td>-->
-                    <!--  <td>Test</td>-->
-                    <!--  <td>Test</td>-->
-                    <!--  <td>Test</td>-->
-                    <!--  <td>Test</td>-->
-                    <!--  <td>Test</td>-->
-                    <!--  <td>Test</td>-->
-                    <!--  <td>-->
-                    <!--    <span style="display: flex; margin-right: 10px;">-->
-                    <!--      <button style="border-radius: 25px; background-color: green;">Approve</button>-->
-                    <!--      <button style="border-radius: 25px; background-color: red;">Deny</button>-->
-                    <!--    </span>-->
-                    <!--  </td>-->
-                    <!--</tr>-->
-                    <!---->
-            <!-- Accounts will be added here dynamically -->
-          </tbody>
-        </table>
+              <table id="journalEntriesTable" class='caf' style='text-align: center'>
+                <thead class='caf'>
+                  <tr class='caf'>
+                    <th class='caf'>Date</th>
+                    <th class='caf'>Description</th>
+                    <th class='caf'>Debits</th>
+                    <th class='caf'>Credits</th>
+                    <th class='caf'>Balance</th>
+                    <th class='caf'>Comments</th>
+                    <th class='caf'>Status</th>
+                    <th class='caf'>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id='journal-table' class='caf'>
+                  <!--<tr>-->
+                  <!--  <td>Test</td>-->
+                  <!--  <td>Test</td>-->
+                  <!--  <td>Test</td>-->
+                  <!--  <td>Test</td>-->
+                  <!--  <td>Test</td>-->
+                  <!--  <td>Test</td>-->
+                  <!--  <td>Test</td>-->
+                  <!--  <td>Test</td>-->
+                  <!--  <td>-->
+                  <!--    <span style="display: flex; margin-right: 10px;">-->
+                  <!--      <button style="border-radius: 25px; background-color: green;">Approve</button>-->
+                  <!--      <button style="border-radius: 25px; background-color: red;">Deny</button>-->
+                  <!--    </span>-->
+                  <!--  </td>-->
+                  <!--</tr>-->
+                  <!---->
+                  <!-- Accounts will be added here dynamically -->
+                </tbody>
+              </table>
 
 
-      </div>
-    </div>
+            </div>
+          </div>
 
 
           <!--***************************-->
-              <!--Journal Entry Form -->
+          <!--Journal Entry Form -->
           <!--***************************-->
 
-      <div id="journalEntryFormDiv" class='hidden' style='display: none;'>
+          <div id="journalEntryFormDiv" class='hidden' style='display: none;'>
 
-              <br>
-              <hr>
+            <br>
+            <hr>
 
-        <h2>Create a Entry</h2>
+            <h2>Create a Entry</h2>
 
-              <div class="container" style='width: auto;'>
+            <div class="container" style='width: auto;'>
 
-          <form id="journalEntryForm" action="http://localhost:5001/profitpro-e81ab/us-central1/createJournalEntry" style="display: flex; flex-direction: column; gap: 15px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+              <form id="journalEntryForm" action="http://localhost:5001/profitpro-e81ab/us-central1/createJournalEntry"
+                style="display: flex; flex-direction: column; gap: 15px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
 
-            <input type="hidden" id='coa-ledger-source' name='source' value="" style='display:none'>
+                <input type="hidden" id='coa-ledger-source' name='source' value="" style='display:none'>
 
-            <div style="display: flex; gap: 15px; align-items: center; width:100%;/*! margin-left: ; */">
-              <div>
-                <label for="ledger-date" style="display: block; margin-bottom: 5px;">Date:</label>
-                <input type="date" id="journal-date" name="dateAdded" required="" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
-              </div>
+                <div style="display: flex; gap: 15px; align-items: center; width:100%;/*! margin-left: ; */">
+                  <div>
+                    <label for="ledger-date" style="display: block; margin-bottom: 5px;">Date:</label>
+                    <input type="date" id="journal-date" name="dateAdded" required=""
+                      style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px;">
+                  </div>
 
-            </div>
-            <div>
-              <label for="ledger-desc" style="display: block; margin-bottom: 5px;">Record Description:</label>
-              <textarea id="journal-accountDesc" name="description" required='' rows="3" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
-            </div>
+                </div>
+                <div>
+                  <label for="ledger-desc" style="display: block; margin-bottom: 5px;">Record Description:</label>
+                  <textarea id="journal-accountDesc" name="description" required='' rows="3"
+                    style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                </div>
 
 
-                  <!--***********Debit and Credit Entries******************-->
-                  <div style="display: flex;text-align: center;">
+                <!--***********Debit and Credit Entries******************-->
+                <div style="display: flex;text-align: center;">
 
-                    <div style="margin-left: 25%;margin-right: 15px;">
-                      <div id="Debits" style="text-align: center">
+                  <div style="margin-left: 25%;margin-right: 15px;">
+                    <div id="Debits" style="text-align: center">
                       <!--Debit + Credit entries will be added here every click of 'Add Entry' button-->
                     </div>
 
                     <div style="width: 250px">
-                      <button id="addDebitEntryJE" onclick="addDebitEntry('Debits')" type="button" style="color: white; background-color: grey; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">Add Debit</button>
+                      <button id="addDebitEntryJE" onclick="addDebitEntry('Debits')" type="button"
+                        style="color: white; background-color: grey; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">Add
+                        Debit</button>
                     </div>
-                    </div>
+                  </div>
 
 
-                    <div>
+                  <div>
                     <div id="Credits" style="text-align: center;">
                       <!--Debit + Credit entries will be added here every click of 'Add Entry' button-->
                     </div>
 
                     <div style="text-align: center;width: 250px;">
-                      <button id="addCreditEntryJE" onclick="addCreditEntry('Credits')" type="button" style="color: white; background-color: grey; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">Add Credit</button>
-                    </div>
+                      <button id="addCreditEntryJE" onclick="addCreditEntry('Credits')" type="button"
+                        style="color: white; background-color: grey; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">Add
+                        Credit</button>
                     </div>
                   </div>
+                </div>
 
 
-              <div>
-                <label for="ledger-file" style="display: block; margin-bottom: 5px;">Attach File:</label>
-                <input type="file" accept='.pdf, .docx, .csv, .jpg, .png, .xls' id="ledger-file" name="ledgerFile" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%;">
-              </div>
+                <div>
+                  <label for="ledger-file" style="display: block; margin-bottom: 5px;">Attach File:</label>
+                  <input type="file" accept='.pdf, .docx, .csv, .jpg, .png, .xls' id="ledger-file" name="ledgerFile"
+                    style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%;">
+                </div>
 
 
-            <span style="display: inline; text-align: center;">
-              <button type="submit" style="color: white; background-color: green; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">Submit</button>
-              <button type="button" onclick='hideJE_Form()' style="color: white; background-color: red; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">× Cancel</button>
-            </span>
-          </form>
-              </div>
+                <span style="display: inline; text-align: center;">
+                  <button type="submit"
+                    style="color: white; background-color: green; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">Submit</button>
+                  <button type="button" onclick='hideJE_Form()'
+                    style="color: white; background-color: red; border: none; border-radius: 4px; padding: 10px 15px; cursor: pointer;">×
+                    Cancel</button>
+                </span>
+              </form>
+            </div>
 
 
 
 
-          <!--***************************-->
-              <!--Scripts for Journal Entry Section-->
-          <!--***************************-->
+            <!--***************************-->
+            <!--Scripts for Journal Entry Section-->
+            <!--***************************-->
 
-    <script>
+            <script>
 
               //****Created by Erik*****
 
               let debitCount = 0;
 
-              function addDebitEntry(divId){
+              function addDebitEntry(divId) {
                 const entryDiv = document.getElementById(divId);
 
-                const newEntryDiv = document.createElement('div'); 
+                const newEntryDiv = document.createElement('div');
                 newEntryDiv.id = `DebitDiv-${debitCount}`;
 
                 const input = document.createElement('input');
 
-                input.style.display =  "inline";
+                input.style.display = "inline";
                 input.style.width = "200px";
 
                 input.required = "";
@@ -654,9 +1024,9 @@
                 removeButton.style.cursor = "pointer";
                 removeButton.style.color = "red";
 
-                removeButton.onclick = function() {
+                removeButton.onclick = function () {
                   console.log(newEntryDiv);
-                    entryDiv.removeChild(newEntryDiv);
+                  entryDiv.removeChild(newEntryDiv);
                 };
 
 
@@ -664,7 +1034,7 @@
                 newEntryDiv.appendChild(removeButton);
 
                 entryDiv.appendChild(newEntryDiv);
-                
+
                 debitCount++;
 
 
@@ -672,10 +1042,10 @@
 
               let creditCount = 0;
 
-              function addCreditEntry(divId){
+              function addCreditEntry(divId) {
                 const entryDiv = document.getElementById(divId);
-                const newEntryDiv = document.createElement('div'); 
-                  
+                const newEntryDiv = document.createElement('div');
+
                 newEntryDiv.id = `Credit-${creditCount}`;
 
                 const input = document.createElement('input');
@@ -694,9 +1064,9 @@
                 removeButton.style.cursor = "pointer";
                 removeButton.style.color = "red";
 
-                removeButton.onclick = function() {
+                removeButton.onclick = function () {
                   console.log(newEntryDiv);
-                    entryDiv.removeChild(newEntryDiv);
+                  entryDiv.removeChild(newEntryDiv);
                 };
 
 
@@ -718,7 +1088,7 @@
               let entryCount = 0;
 
               //*****************Not used but maybe need to in the future**************************
-              function addDebitCreditEvent(){
+              function addDebitCreditEvent() {
 
                 const entryDiv = document.getElementById('Debits');
 
@@ -774,19 +1144,19 @@
 
               }
 
-  
 
 
 
 
-                function hideJE_Form(){
-                  document.getElementById("journalEntryForm").classList.remove("visible");
-                  document.getElementById("journalEntryForm").classList.add("hidden");
-                  setTimeout(() => {
-                    document.getElementById("journalEntryForm").style.display = "none";
-                  }, 500);
+
+              function hideJE_Form() {
+                document.getElementById("journalEntryForm").classList.remove("visible");
+                document.getElementById("journalEntryForm").classList.add("hidden");
+                setTimeout(() => {
+                  document.getElementById("journalEntryForm").style.display = "none";
+                }, 500);
                 document.getElementById("journalEntryForm").reset();
-                }
+              }
 
 
               //Popup Message controls
@@ -815,74 +1185,74 @@
 
               //****Created by Erik*****
 
-              </script>
+            </script>
 
 
 
 
 
-              <!--Handle Journal entry form submission-->
-              <script>
+            <!--Handle Journal entry form submission-->
+            <script>
 
-        let accountBalances = {};
+              let accountBalances = {};
 
-        document.getElementById('journalEntryForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            
-            const entry = {
-                source: formData.get('source'),  
-                Date: formData.get('dateAdded'),
-                Description: formData.get('description'),
-                Debits: [],
-                Credits: [],
-                Status: 'Pending',  // Set initial status to Pending
-                Comments: "Awaiting Decision",
-                PostReference: "NA"
+              document.getElementById('journalEntryForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
 
-            };
+                const entry = {
+                  source: formData.get('source'),
+                  Date: formData.get('dateAdded'),
+                  Description: formData.get('description'),
+                  Debits: [],
+                  Credits: [],
+                  Status: 'Pending',  // Set initial status to Pending
+                  Comments: "Awaiting Decision",
+                  PostReference: "NA"
 
-          let debits =[];
-          let credits =[];
+                };
 
-            // Collect debits and credits
-            const debitDiv = document.getElementById('Debits');
-            debitDiv.querySelectorAll('input').forEach(debitEntry => {
-                entry.Debits.push({
+                let debits = [];
+                let credits = [];
+
+                // Collect debits and credits
+                const debitDiv = document.getElementById('Debits');
+                debitDiv.querySelectorAll('input').forEach(debitEntry => {
+                  entry.Debits.push({
                     amount: parseFloat(debitEntry.value)
+                  });
+                  debits.push(debitEntry.value);
                 });
-            debits.push(debitEntry.value);
-            });
 
-            const creditDiv = document.getElementById('Credits');
-            creditDiv.querySelectorAll('input').forEach(creditEntry => {
-                entry.Credits.push({
+                const creditDiv = document.getElementById('Credits');
+                creditDiv.querySelectorAll('input').forEach(creditEntry => {
+                  entry.Credits.push({
                     amount: parseFloat(creditEntry.value)
+                  });
+                  credits.push(creditEntry.value);
                 });
-            credits.push(creditEntry.value);
-            });
 
-            // Validate that debits and credits balance
-            const totalDebits = entry.Debits.reduce((sum, debit) => sum + debit.amount, 0);
-            const totalCredits = entry.Credits.reduce((sum, credit) => sum + credit.amount, 0);
-            if (totalDebits !== totalCredits) {
+                // Validate that debits and credits balance
+                const totalDebits = entry.Debits.reduce((sum, debit) => sum + debit.amount, 0);
+                const totalCredits = entry.Credits.reduce((sum, credit) => sum + credit.amount, 0);
+                if (totalDebits !== totalCredits) {
 
-            document.getElementById("Error-popUpTitle").innerHTML = "Error";
-            document.getElementById("Error-popUpTitle").style.color = "#e33030";
+                  document.getElementById("Error-popUpTitle").innerHTML = "Error";
+                  document.getElementById("Error-popUpTitle").style.color = "#e33030";
 
-            document.getElementById("Error-popUpMessage").innerHTML = `Debits and credits must balance!`;
-            document.getElementById("Error-popUpMessage").style.color = "#e33030";
+                  document.getElementById("Error-popUpMessage").innerHTML = `Debits and credits must balance!`;
+                  document.getElementById("Error-popUpMessage").style.color = "#e33030";
 
-            document.getElementById("Error-overlayButton").style.backgroundColor = "#e33030";
-            showErrorPopup();
+                  document.getElementById("Error-overlayButton").style.backgroundColor = "#e33030";
+                  showErrorPopup();
 
-                return;
-            }
+                  return;
+                }
 
                 entry.Balance = totalDebits;
-          entry.Debits = debits;
-          entry.Credits = credits;
-          
+                entry.Debits = debits;
+                entry.Credits = credits;
+
 
                 JSON.stringify(entry);
                 const queryParams = new URLSearchParams(entry).toString();
@@ -892,94 +1262,94 @@
                 console.log("url: " + url);
 
 
-              try {
+                try {
 
-                const API_response = await fetch(url, {
-                  method: "GET"
-                });
+                  const API_response = await fetch(url, {
+                    method: "GET"
+                  });
 
-                const result = await API_response.json();
-                const message = result.message;
+                  const result = await API_response.json();
+                  const message = result.message;
 
-                if (API_response.ok) {
-                  document.getElementById("popUpTitle").innerHTML = "Ledger Entry Added";
-                  document.getElementById("popUpMessage").innerHTML = `${message}`;
-                  showModifyPopup();
-                }else{
-                  document.getElementById("popUpTitle").innerHTML = "Ledger Entry Denied";
-                  document.getElementById("popUpMessage").innerHTML = `${message}`;
-                  document.getElementById("overlayButton").style.backgroundColor = "#e33030";
-                  showModifyPopup();
+                  if (API_response.ok) {
+                    document.getElementById("popUpTitle").innerHTML = "Ledger Entry Added";
+                    document.getElementById("popUpMessage").innerHTML = `${message}`;
+                    showModifyPopup();
+                  } else {
+                    document.getElementById("popUpTitle").innerHTML = "Ledger Entry Denied";
+                    document.getElementById("popUpMessage").innerHTML = `${message}`;
+                    document.getElementById("overlayButton").style.backgroundColor = "#e33030";
+                    showModifyPopup();
+                  }
+
+                } catch (e) {
+                  console.log(e);
                 }
 
-              }catch(e){
-                console.log(e);
+
+                console.log(debits);
+                console.log(credits);
+
+                // Clear the form
+                e.target.reset();
+              });
+
+              function showModifyPopup() {
+                document.getElementById('popupOverlay').style.display = 'block';
+              }
+              function ErrorshowModifyPopup() {
+                document.getElementById('Error-popupOverlay').style.display = 'block';
               }
 
 
-          console.log(debits);
-          console.log(credits);
 
-            // Clear the form
-            e.target.reset();
-        });
+              async function handleApproveDenyForm(event, formId) {
+                event.preventDefault();
 
-        function showModifyPopup() {
-          document.getElementById('popupOverlay').style.display = 'block';
-        }
-        function ErrorshowModifyPopup() {
-          document.getElementById('Error-popupOverlay').style.display = 'block';
-        }
-            
+                const form = event.target;
+                const formData = new FormData(form);
 
+                const queryParams = new URLSearchParams(formData).toString();
 
-        async function handleApproveDenyForm(event, formId){
-          event.preventDefault();
+                const url = `${event.target.action}?${queryParams}`;
 
-          const form = event.target;
-          const formData = new FormData(form);
+                try {
 
-          const queryParams = new URLSearchParams(formData).toString();
+                  const API_response = await fetch(url, {
+                    method: "GET"
+                  });
 
-          const url = `${event.target.action}?${queryParams}`;
+                  const result = await API_response.json();
+                  const message = result.message;
 
-          try {
+                  if (API_response.ok) {
+                    document.getElementById("popUpTitle").innerHTML = "Journal Status Updated";
+                    document.getElementById("popUpMessage").innerHTML = `${message}`;
+                    showModifyPopup();
+                  } else {
+                    document.getElementById("popUpTitle").innerHTML = "Error";
+                    document.getElementById("popUpMessage").innerHTML = `${message}`;
+                    document.getElementById("overlayButton").style.backgroundColor = "#e33030";
+                    showModifyPopup();
+                  }
 
-            const API_response = await fetch(url, {
-              method: "GET"
-            });
-
-            const result = await API_response.json();
-            const message = result.message;
-
-            if (API_response.ok) {
-              document.getElementById("popUpTitle").innerHTML = "Journal Status Updated";
-              document.getElementById("popUpMessage").innerHTML = `${message}`;
-              showModifyPopup();
-            }else{
-              document.getElementById("popUpTitle").innerHTML = "Error";
-              document.getElementById("popUpMessage").innerHTML = `${message}`;
-              document.getElementById("overlayButton").style.backgroundColor = "#e33030";
-              showModifyPopup();
-            }
-
-          }catch(e){
-            console.log(e);
-          }
+                } catch (e) {
+                  console.log(e);
+                }
 
 
-        }
+              }
 
 
 
 
 
-    </script>
+            </script>
 
 
-              <!--****************-->
-              <!--End Journal Entry portion-->
-              <!--****************-->
+            <!--****************-->
+            <!--End Journal Entry portion-->
+            <!--****************-->
 
 
 
@@ -987,204 +1357,223 @@
 
 
 
-      </div>
+          </div>
 
 
-              <!--****************-->
-              <!--Popup message div-->
-              <!--****************-->
+          <!--****************-->
+          <!--Popup message div-->
+          <!--****************-->
 
-            <div id="popupOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;">
-              <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 2; border-radius: 5px; text-align: center;">
-                <h2 id="popUpTitle">User Created</h2>
-                <p id="popUpMessage">Account has been created for the Chart of Accounts</p>
-                <button id="overlayButton" class="close-button" onclick="closePopup()" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
-              </div>
+          <div id="popupOverlay"
+            style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;">
+            <div
+              style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 2; border-radius: 5px; text-align: center;">
+              <h2 id="popUpTitle">User Created</h2>
+              <p id="popUpMessage">Account has been created for the Chart of Accounts</p>
+              <button id="overlayButton" class="close-button" onclick="closePopup()"
+                style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
             </div>
+          </div>
 
 
-            <div id="Error-popupOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;">
-              <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 2; border-radius: 5px; text-align: center;">
-                <h2 id="Error-popUpTitle">User Created</h2>
-                <p id="Error-popUpMessage">Account has been created for the Chart of Accounts</p>
-                <button id="Error-overlayButton" class="close-button" onclick="closeErrorPopup()" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
-              </div>
+          <div id="Error-popupOverlay"
+            style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;">
+            <div
+              style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 2; border-radius: 5px; text-align: center;">
+              <h2 id="Error-popUpTitle">User Created</h2>
+              <p id="Error-popUpMessage">Account has been created for the Chart of Accounts</p>
+              <button id="Error-overlayButton" class="close-button" onclick="closeErrorPopup()"
+                style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
             </div>
+          </div>
 
 
 
 
 
           <!--***************************-->
-              <!--Event Log Table -->
+          <!--Event Log Table -->
           <!--***************************-->
 
-        <div id="EventLogView" class='hidden'>
+          <div id="EventLogView" class='hidden'>
             <h2>Event Log</h2>
             <h3 id="EventLogTitle"></h3>
             <table id="eventLogTable" class='caf'>
-                <thead class='caf'>
-                    <tr class='caf'>
-                        <th class='caf'>Event ID</th>
-                        <th class='caf'>Type Of Change</th>
-                        <th class='caf' style='width: 300px;'>Description</th>
-                        <th class='caf'>Date Changed</th>
-                        <th class='caf'>Time Changed</th>
-                        <th class='caf'>Changed By</th>
+              <thead class='caf'>
+                <tr class='caf'>
+                  <th class='caf'>Event ID</th>
+                  <th class='caf'>Type Of Change</th>
+                  <th class='caf' style='width: 300px;'>Description</th>
+                  <th class='caf'>Date Changed</th>
+                  <th class='caf'>Time Changed</th>
+                  <th class='caf'>Changed By</th>
 
-                    </tr>
-                </thead>
-                <tbody id='EventLog-table'>
-                    <!-- Ledger entries will be added here dynamically -->
-                </tbody>
+                </tr>
+              </thead>
+              <tbody id='EventLog-table'>
+                <!-- Ledger entries will be added here dynamically -->
+              </tbody>
             </table>
-    </div>
+          </div>
 
           <!--***************************-->
-              <!--Before and After Event tables-->
+          <!--Before and After Event tables-->
           <!--***************************-->
 
-        <div id="EventLogImagesView" class='hidden' style='display: none;'>
-                <br><hr><br>
-                <span>
-                  <h4 style="display: inline-block;padding-right: 68%;">How the Ledger Changed</h4>
-                  <button id="closeBeforeAfter" style="display: inline-block;text-align: right;border-radius: 25px;color: white;background-color: grey;">Close</button>
-                </span><br>
+          <div id="EventLogImagesView" class='hidden' style='display: none;'>
+            <br>
+            <hr><br>
+            <span>
+              <h4 style="display: inline-block;padding-right: 68%;">How the Ledger Changed</h4>
+              <button id="closeBeforeAfter"
+                style="display: inline-block;text-align: right;border-radius: 25px;color: white;background-color: grey;">Close</button>
+            </span><br>
 
-                <h3 id="EventLogTitle"></h3>
-                <span style="/*! display: inline-flex; */">
-                  <div style="width: 48%;display: inline-block;vertical-align: top;margin-right: 20px;text-align: center;">
-                    <label style="text-align: center;"> Before</label>
-                    <table id="beforeTable" class="caf" style="font-size: 10px;">
-                      <thead class="caf">
-                        <tr class="caf">
-                        <th class='caf'>Date</th>
-                        <th class='caf'>Description</th>
-                        <th class='caf'>Debit</th>
-                        <th class='caf'>Credit</th>
-                        <th class='caf'>Balance</th>
-                        </tr>
-                      </thead>
-                      <tbody id="EventLogBefore-table">
-                        <!-- Ledger entries will be added here dynamically -->
-                      </tbody>
-                    </table>
+            <h3 id="EventLogTitle"></h3>
+            <span style="/*! display: inline-flex; */">
+              <div style="width: 48%;display: inline-block;vertical-align: top;margin-right: 20px;text-align: center;">
+                <label style="text-align: center;"> Before</label>
+                <table id="beforeTable" class="caf" style="font-size: 10px;">
+                  <thead class="caf">
+                    <tr class="caf">
+                      <th class='caf'>Date</th>
+                      <th class='caf'>Description</th>
+                      <th class='caf'>Debit</th>
+                      <th class='caf'>Credit</th>
+                      <th class='caf'>Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody id="EventLogBefore-table">
+                    <!-- Ledger entries will be added here dynamically -->
+                  </tbody>
+                </table>
 
-                  </div>
-                  <div style="width: 48%;display: inline-block;vertical-align: top;text-align: center;">  <label>After</label>
-                    <table id="afterTable" class="caf" style="font-size: 10px;">
-                      <thead class="caf">
-                        <tr class="caf">
-                          <th class='caf'>Date</th>
-                          <th class='caf'>Description</th>
-                          <th class='caf'>Debit</th>
-                          <th class='caf'>Credit</th>
-                          <th class='caf'>Balance</th>
-                        </tr>
-                      </thead>
-                      <tbody class="caf" id="EventLogAfter-table">
-                        <!-- Ledger entries will be added here dynamically -->
-                      </tbody>
-                    </table><div></div>
-                  </div>
-                </span>
-                <!--end of before + after image div-->
-
-                </div>
-
-
-
-                <!--end of event log div-->
               </div>
+              <div style="width: 48%;display: inline-block;vertical-align: top;text-align: center;">
+                <label>After</label>
+                <table id="afterTable" class="caf" style="font-size: 10px;">
+                  <thead class="caf">
+                    <tr class="caf">
+                      <th class='caf'>Date</th>
+                      <th class='caf'>Description</th>
+                      <th class='caf'>Debit</th>
+                      <th class='caf'>Credit</th>
+                      <th class='caf'>Balance</th>
+                    </tr>
+                  </thead>
+                  <tbody class="caf" id="EventLogAfter-table">
+                    <!-- Ledger entries will be added here dynamically -->
+                  </tbody>
+                </table>
+                <div></div>
+              </div>
+            </span>
+            <!--end of before + after image div-->
+
+          </div>
 
 
-  <div id="Email" class="tabcontent">
 
-    <h3>Email</h3>
+          <!--end of event log div-->
+        </div>
 
-<!--http://127.0.0.1:5001/profitpro-e81ab/us-central1/sendMail-->
-<!--https://sendmail-hbs3oxnkoa-uc.a.run.app/sendMail-->
-    <form id='send-Email'
-      action="http://127.0.0.1:5001/profitpro-e81ab/us-central1/sendMail" method="GET" style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
-      <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Send Email</h2>
 
-      <!-- To Field -->
-      <label for="to" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;">To:</label>
-      <input type="email" id="to" name="to" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
-      <!-- Subject Field -->
-      <label for="subject" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;">Subject:</label>
-      <input type="text" id="subject" name="subject" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+        <div id="Email" class="tabcontent">
 
-      <!-- Message
+          <h3>Email</h3>
+
+          <!--http://127.0.0.1:5001/profitpro-e81ab/us-central1/sendMail-->
+          <!--https://sendmail-hbs3oxnkoa-uc.a.run.app/sendMail-->
+          <form id='send-Email' action="http://127.0.0.1:5001/profitpro-e81ab/us-central1/sendMail" method="GET"
+            style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+            <h2 style="text-align: center; color: #333; margin-bottom: 20px;">Send Email</h2>
+
+            <!-- To Field -->
+            <label for="to" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;">To:</label>
+            <input type="email" id="to" name="to" required
+              style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+            <!-- Subject Field -->
+            <label for="subject"
+              style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;">Subject:</label>
+            <input type="text" id="subject" name="subject" required
+              style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+
+            <!-- Message
         Body
       -->
-      <label for="body" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;">Message:</label>
-      <textarea id="body" name="message" required rows="8" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"></textarea>
+            <label for="body" style="display: block; font-size: 14px; color: #333; margin-bottom: 5px;">Message:</label>
+            <textarea id="body" name="message" required rows="8"
+              style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"></textarea>
 
-      <!-- Submit Button -->
-      <button type="submit" style="width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;"> Send Email </button>
-    </form>
+            <!-- Submit Button -->
+            <button type="submit"
+              style="width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+              Send Email </button>
+          </form>
 
-      <div id="email-popupOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;">
-        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 2; border-radius: 5px; text-align: center;">
-          <h2>Email Sent</h2>
-          <button class="close-button" onclick="closePopup()" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
-        </div>
-      </div>
+          <div id="email-popupOverlay"
+            style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 1;">
+            <div
+              style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 2; border-radius: 5px; text-align: center;">
+              <h2>Email Sent</h2>
+              <button class="close-button" onclick="closePopup()"
+                style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Close</button>
+            </div>
+          </div>
 
-      <script>
-        async function handleEmailSend(formId) {
-          const form = document.getElementById(formId);
+          <script>
+            async function handleEmailSend(formId) {
+              const form = document.getElementById(formId);
 
-          form.addEventListener("submit", async function(event) {
-            event.preventDefault();
+              form.addEventListener("submit", async function (event) {
+                event.preventDefault();
 
-            const input = new FormData(event.target);
-            const queryParams = new URLSearchParams(input).toString();
-            const url = `${event.target.action}?${queryParams}`;
+                const input = new FormData(event.target);
+                const queryParams = new URLSearchParams(input).toString();
+                const url = `${event.target.action}?${queryParams}`;
 
-            try {
-              const API_response = await fetch(url, {
-                method: "GET"
+                try {
+                  const API_response = await fetch(url, {
+                    method: "GET"
+                  });
+
+                  if (API_response.status === 200) {
+                    showEmailPopup();
+                  }
+                } catch (e) {
+                  console.log(e);
+                }
+
               });
-
-              if (API_response.status === 200) {
-                showEmailPopup();
-              }
-            } catch (e) {
-              console.log(e);
             }
 
-          });
-        }
+            function showEmailPopup() {
+              document.getElementById('email-popupOverlay').style.display = 'block';
+            }
 
-        function showEmailPopup() {
-          document.getElementById('email-popupOverlay').style.display = 'block';
-        }
+            function closePopup() {
+              document.getElementById('email-popupOverlay').style.display = 'none';
+              location.reload(); // Refresh the page
+            }
 
-        function closePopup() {
-          document.getElementById('email-popupOverlay').style.display = 'none';
-          location.reload(); // Refresh the page
-        }
+            document.addEventListener("DOMContentLoaded", function () {
+              handleEmailSend('send-Email');
+            });
+          </script>
 
-        document.addEventListener("DOMContentLoaded", function() {
-          handleEmailSend('send-Email');
-        });
-      </script>
-
-  </div>
+        </div>
 
 
 
-      <!--end of ledger page div-->
+        <!--end of ledger page div-->
     </div>
 
-  <!--end of site div-->
+    <!--end of site div-->
   </div>
 
-          <!--***************************-->
-              <!--Email Tab and form-->
-          <!--***************************-->
+  <!--***************************-->
+  <!--Email Tab and form-->
+  <!--***************************-->
 
 
 
@@ -1197,53 +1586,53 @@
     </p>
   </section>
   <!-- footer section -->
-</div>
+  </div>
 
 
-          <!--***************************-->
-              <!--Search bar script-->
-          <!--***************************-->
+  <!--***************************-->
+  <!--Search bar script-->
+  <!--***************************-->
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchBar = document.getElementById('searchBar');
-            const table = document.getElementById('accountsTable');
-            const rows = table.getElementsByTagName('tr');
-            const modal = document.getElementById('accountModal');
-            const span = document.getElementsByClassName("close")[0];
-            const accountDetails = document.getElementById('accountDetails');
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchBar = document.getElementById('searchBar');
+      const table = document.getElementById('accountsTable');
+      const rows = table.getElementsByTagName('tr');
+      const modal = document.getElementById('accountModal');
+      const span = document.getElementsByClassName("close")[0];
+      const accountDetails = document.getElementById('accountDetails');
 
-            // Search functionality
-            searchBar.addEventListener('keyup', function() {
-                const searchTerm = searchBar.value.toLowerCase();
+      // Search functionality
+      searchBar.addEventListener('keyup', function () {
+        const searchTerm = searchBar.value.toLowerCase();
 
-                for (let i = 1; i < rows.length; i++) {
-                    const row = rows[i];
-                    const cells = row.getElementsByTagName('td');
-                    let found = false;
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i];
+          const cells = row.getElementsByTagName('td');
+          let found = false;
 
-                    for (let j = 0; j < cells.length; j++) {
-                        const cellText = cells[j].textContent.toLowerCase();
-                        if (cellText.includes(searchTerm)) {
-                            found = true;
-                            break;
-                        }
-                    }
+          for (let j = 0; j < cells.length; j++) {
+            const cellText = cells[j].textContent.toLowerCase();
+            if (cellText.includes(searchTerm)) {
+              found = true;
+              break;
+            }
+          }
 
-                    row.style.display = found ? '' : 'none';
-                }
-            });
-        });
-    </script>
+          row.style.display = found ? '' : 'none';
+        }
+      });
+    });
+  </script>
 
 
-          <!--***************************-->
-              <!--Search bar script for sprint 3-->
-          <!--***************************-->
+  <!--***************************-->
+  <!--Search bar script for sprint 3-->
+  <!--***************************-->
 
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
       // Get the filter elements
       const statusFilter = document.getElementById('statusFilter');
       const searchInput = document.getElementById('searchInput');
@@ -1306,7 +1695,7 @@
       }
     });
 
-    </script>
+  </script>
 
 
 
@@ -1320,157 +1709,157 @@
 
 
 
-          <!--***************************-->
-              <!--Calendar script-->
-          <!--***************************-->
-<script>
+  <!--***************************-->
+  <!--Calendar script-->
+  <!--***************************-->
+  <script>
 
-      let date = new Date();
-      let year = date.getFullYear();
-      let month = date.getMonth();
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth();
 
-      const day = document.querySelector(".calendar-dates");
+    const day = document.querySelector(".calendar-dates");
 
-      const currdate = document
+    const currdate = document
       .querySelector(".calendar-current-date");
 
-      const prenexIcons = document
+    const prenexIcons = document
       .querySelectorAll(".calendar-navigation span");
 
-      // Array of month names
-      const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ];
+    // Array of month names
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
 
-      // Function to generate the calendar
-      const manipulate = () => {
+    // Function to generate the calendar
+    const manipulate = () => {
 
-        // Get the first day of the month
-        let dayone = new Date(year, month, 1).getDay();
+      // Get the first day of the month
+      let dayone = new Date(year, month, 1).getDay();
 
-        // Get the last date of the month
-        let lastdate = new Date(year, month + 1, 0).getDate();
+      // Get the last date of the month
+      let lastdate = new Date(year, month + 1, 0).getDate();
 
-        // Get the day of the last date of the month
-        let dayend = new Date(year, month, lastdate).getDay();
+      // Get the day of the last date of the month
+      let dayend = new Date(year, month, lastdate).getDay();
 
-        // Get the last date of the previous month
-        let monthlastdate = new Date(year, month, 0).getDate();
+      // Get the last date of the previous month
+      let monthlastdate = new Date(year, month, 0).getDate();
 
-        // Variable to store the generated calendar HTML
-        let lit = "";
+      // Variable to store the generated calendar HTML
+      let lit = "";
 
-        // Loop to add the last dates of the previous month
-        for (let i = dayone; i > 0; i--) {
-          lit +=
+      // Loop to add the last dates of the previous month
+      for (let i = dayone; i > 0; i--) {
+        lit +=
           `<li class="inactive">${monthlastdate - i + 1}</li>`;
-        }
-
-        // Loop to add the dates of the current month
-        for (let i = 1; i <= lastdate; i++) {
-
-          // Check if the current date is today
-          let isToday = i === date.getDate()
-            && month === new Date().getMonth()
-            && year === new Date().getFullYear()
-            ? "active"
-            : "";
-          lit += `<li class="${isToday}">${i}</li>`;
-        }
-
-        // Loop to add the first dates of the next month
-        for (let i = dayend; i < 6; i++) {
-          lit += `<li class="inactive">${i - dayend + 1}</li>`
-        }
-
-        // Update the text of the current date element 
-        // with the formatted current month and year
-        currdate.innerText = `${months[month]} ${year}`;
-
-        // update the HTML of the dates element 
-        // with the generated calendar
-        day.innerHTML = lit;
       }
 
-      manipulate();
+      // Loop to add the dates of the current month
+      for (let i = 1; i <= lastdate; i++) {
 
-      // Attach a click event listener to each icon
-      prenexIcons.forEach(icon => {
+        // Check if the current date is today
+        let isToday = i === date.getDate()
+          && month === new Date().getMonth()
+          && year === new Date().getFullYear()
+          ? "active"
+          : "";
+        lit += `<li class="${isToday}">${i}</li>`;
+      }
 
-        // When an icon is clicked
-        icon.addEventListener("click", () => {
+      // Loop to add the first dates of the next month
+      for (let i = dayend; i < 6; i++) {
+        lit += `<li class="inactive">${i - dayend + 1}</li>`
+      }
 
-          // Check if the icon is "calendar-prev"
-          // or "calendar-next"
-          month = icon.id === "calendar-prev" ? month - 1 : month + 1;
+      // Update the text of the current date element 
+      // with the formatted current month and year
+      currdate.innerText = `${months[month]} ${year}`;
 
-          // Check if the month is out of range
-          if (month < 0 || month > 11) {
+      // update the HTML of the dates element 
+      // with the generated calendar
+      day.innerHTML = lit;
+    }
 
-            // Set the date to the first day of the 
-            // month with the new year
-            date = new Date(year, month, new Date().getDate());
+    manipulate();
 
-            // Set the year to the new year
-            year = date.getFullYear();
+    // Attach a click event listener to each icon
+    prenexIcons.forEach(icon => {
 
-            // Set the month to the new month
-            month = date.getMonth();
-          }
+      // When an icon is clicked
+      icon.addEventListener("click", () => {
 
-          else {
+        // Check if the icon is "calendar-prev"
+        // or "calendar-next"
+        month = icon.id === "calendar-prev" ? month - 1 : month + 1;
 
-            // Set the date to the current date
-            date = new Date();
-          }
+        // Check if the month is out of range
+        if (month < 0 || month > 11) {
 
-          // Call the manipulate function to 
-          // update the calendar display
-          manipulate();
-        });
+          // Set the date to the first day of the 
+          // month with the new year
+          date = new Date(year, month, new Date().getDate());
+
+          // Set the year to the new year
+          year = date.getFullYear();
+
+          // Set the month to the new month
+          month = date.getMonth();
+        }
+
+        else {
+
+          // Set the date to the current date
+          date = new Date();
+        }
+
+        // Call the manipulate function to 
+        // update the calendar display
+        manipulate();
       });
-</script>
+    });
+  </script>
 
 
 
 
-      <script>
-        // Get elements
-        const openButton = document.getElementById('openCalendar');
-        const closeButton = document.getElementById('closeCalendar');
+  <script>
+    // Get elements
+    const openButton = document.getElementById('openCalendar');
+    const closeButton = document.getElementById('closeCalendar');
 
-        document.addEventListener("DOMContentLoaded", function() {
-          // Event Listener to open the calendar
-          openButton.addEventListener('click', () => {
+    document.addEventListener("DOMContentLoaded", function () {
+      // Event Listener to open the calendar
+      openButton.addEventListener('click', () => {
 
-            overlay.style.display = 'block'; // Show overlay
-            calendar.style.display = 'block'; // Show calendar
-          });
+        overlay.style.display = 'block'; // Show overlay
+        calendar.style.display = 'block'; // Show calendar
+      });
 
-          // Event Listener to close the calendar
-          closeButton.addEventListener('click', () => {
-            overlay.style.display = 'none'; // Hide overlay
-            calendar.style.display = 'none'; // Hide calendar
-          });
+      // Event Listener to close the calendar
+      closeButton.addEventListener('click', () => {
+        overlay.style.display = 'none'; // Hide overlay
+        calendar.style.display = 'none'; // Hide calendar
+      });
 
-          // Close calendar when overlay is clicked
-          overlay.addEventListener('click', () => {
-            overlay.style.display = 'none'; // Hide overlay
-            calendar.style.display = 'none'; // Hide calendar
-          });
-        });
-    </script>
+      // Close calendar when overlay is clicked
+      overlay.addEventListener('click', () => {
+        overlay.style.display = 'none'; // Hide overlay
+        calendar.style.display = 'none'; // Hide calendar
+      });
+    });
+  </script>
 
 
 

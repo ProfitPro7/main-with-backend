@@ -1,6 +1,6 @@
 //https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js
-import { /*getAuth,*/ createUserWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
-import { query, collection, addDoc, where, getDocs, doc, setDoc  } from "firebase/firestore";
+import { /*getAuth,*/ createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { query, collection, addDoc, where, getDocs, doc, setDoc } from "firebase/firestore";
 import { app, db, auth } from ".//firebaseConfig.js";
 
 //const auth = getAuth(app);
@@ -13,8 +13,8 @@ export function signUpUser(email, password, firstName, lastName, DateOfBirth, ad
       console.log("New User: " + firstName + ", " + lastName);
       console.log(userCred.user);
       onAuthStateChanged(auth, (user) => {
-        if(user){
-          try{
+        if (user) {
+          try {
 
             //sets userName 
             const d = new Date();
@@ -36,7 +36,7 @@ export function signUpUser(email, password, firstName, lastName, DateOfBirth, ad
             addPassToDatabase(password, email);
 
             addUserToDatabase(address, DateOfBirth, email, password, firstName, lastName, userId, userName)
-            //ugly but needed rn (nested promises)
+              //ugly but needed rn (nested promises)
               .then(() => {
                 sendEmailToAdmin(email)
                   .then(() => {
@@ -45,22 +45,22 @@ export function signUpUser(email, password, firstName, lastName, DateOfBirth, ad
               });
 
 
-          } catch(e){
+          } catch (e) {
             console.log(e);
           }
 
         }
       })
     })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorCode + " : " + errorMessage);
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode + " : " + errorMessage);
 
 
-    document.getElementById('createAccount-error').innerText = errorMessage;
-    document.getElementById('createAccount-error').style.display = 'contents';
-  }) 
+      document.getElementById('createAccount-error').innerText = errorMessage;
+      document.getElementById('createAccount-error').style.display = 'contents';
+    })
 };
 
 
@@ -71,16 +71,16 @@ export function signUpUser(email, password, firstName, lastName, DateOfBirth, ad
 //How: 
 //gets # of documents in "Users" collection + 1 = userId
 
-async function getUserId(){
+async function getUserId() {
   const userCollection = collection(db, "Users");
   const snapshot = await getCountFromServer(userCollection);
-  const  userId = snapshot.data().count;
+  const userId = snapshot.data().count;
   return userId;
 }
 
 
-async function addUserToDatabase(address, dob, email, password, firstName, lastName, userId, userName){
-  try{
+async function addUserToDatabase(address, dob, email, password, firstName, lastName, userId, userName) {
+  try {
     const docRef = await setDoc(doc(db, "Users", email), {
       Address: address,
       DateOfBirth: dob,
@@ -90,46 +90,46 @@ async function addUserToDatabase(address, dob, email, password, firstName, lastN
       active: false,
       firstName: firstName,
       lastName: lastName,
-      profile_pic_url:"",
-      userId: userId, 
+      profile_pic_url: "",
+      userId: userId,
       userName: userName
     });
     console.log('User added: SUCCESS');
 
 
-  }catch(e){
+  } catch (e) {
     console.log("Error adding document. : ", e);
 
   }
 }
 
 
-async function sendEmailToAdmin(email){
+async function sendEmailToAdmin(email) {
   const userCollection = collection(db, "Users");
   const queryForUser = query(userCollection, where("Email", "==", email));
 
-  try{
+  try {
     const docSnap = await getDocs(queryForUser);
-    if (!docSnap.empty){
+    if (!docSnap.empty) {
       docSnap.forEach((doc) => {
         console.log(doc.data());
-        const userName = doc.data().userName; 
+        const userName = doc.data().userName;
         const firstName = doc.data().firstName;
         const lastName = doc.data().lastName;
-        const accountType = doc.data().accountType; 
-        const email = doc.data().Email; 
+        const accountType = doc.data().accountType;
+        const email = doc.data().Email;
         sendEmail(userName, email, firstName, lastName, accountType);
 
       });
     }
-  }catch(e){
+  } catch (e) {
     console.log(e);
   }
 }
 
 
-async function sendEmail(userName, email, firstName, lastName, accountType){
-  try{
+async function sendEmail(userName, email, firstName, lastName, accountType) {
+  try {
 
     const emailSplit = email.split('@');
     const emailName = emailSplit[0];
@@ -140,8 +140,8 @@ async function sendEmail(userName, email, firstName, lastName, accountType){
       message: {
         subject: `Account Created for: ${firstName} ${lastName}, and Pending Approval`,
         text: 'Account creation email',
-        html: 
-        `
+        html:
+          `
         <div id="text"> 
         <p style="font-size: 20px;">Account information: </p><hr><br>
         <p><strong>User Name: </strong> ${userName} </p><br>
@@ -170,17 +170,17 @@ async function sendEmail(userName, email, firstName, lastName, accountType){
         </div>`,
       },
     });
-  }catch(e){
+  } catch (e) {
     console.log(e);
   }
 
 }
 
 
-async function addPassToDatabase(password, email){
+async function addPassToDatabase(password, email) {
   const url = `https://addpasswordtodatabase-hbs3oxnkoa-uc.a.run.app/addpassword?email=${email}&password=${password}`;
-         const API_response = await fetch(url, {
-             method: "GET"
-           });
+  const API_response = await fetch(url, {
+    method: "GET"
+  });
 }
 

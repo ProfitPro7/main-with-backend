@@ -29,9 +29,9 @@
   <!-- responsive style -->
   <link href="/index-css/responsive.css" rel="stylesheet" />
 
-    <!--Calendar symbols-->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <!--Calendar symbols-->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
 
 </head>
@@ -43,14 +43,14 @@
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <!--<a class="navbar-brand" href="index.html">-->
-            <p class='navbar-brand'>
-            <span >
+          <p class='navbar-brand'>
+            <span>
               ProfitPro
             </span>
-            </p>
+          </p>
           <!--</a>-->
 
-            <button id="openCalendar" type='button' style="margin-left: 20px;">📅</button>
+          <button id="openCalendar" type='button' style="margin-left: 20px;">📅</button>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,23 +69,23 @@
                 <li class="nav-item">
                   <a class="nav-link" href="reports.html"> Reports </a>
                 </li>
-                  <!--User settings for later-->
+                <!--User settings for later-->
                 <!--<li class="nav-item">-->
                 <!--  <a class="nav-link" href="#">-->
                 <!--    <span>User Settings</span> -->
                 <!--  </a>-->
                 <!--</li>-->
-                <li class="nav-item">
+                <li id="adminViewLink" class="nav-item">
                   <!--Change later to only appear if user's account is
                     a Manager type-->
                   <a class="nav-link" href="adminPage.html"> Administrator </a>
                 </li>
-                  <!--Change later to only appear if user's account is
+                <!--Change later to only appear if user's account is
                     a Admin type-->
                 <li class="nav-item">
-                  <a class="nav-link" href="#" id='auto-pop-username' >User Name</a>
+                  <a class="nav-link" href="#" id='auto-pop-username'>User Name</a>
                 </li>
-               </ul>
+              </ul>
               <div class="user_option">
                 <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
                   <button class="btn  my-2 my-sm-0 nav_search-btn" type="button"></button>
@@ -99,111 +99,120 @@
     </header>
     <!-- end header section -->
 
-  <!-- how section -->
-  <section class="how_section layout_padding">
-    <div class="heading_container">
-      <h2>
-        Financial Ratios
-      </h2>
-    </div>
-    <div class="how_container" style="padding: 0px; padding-top: 90px;">
-      <div class="box">
-        <div class="img-box" style='cursor: pointer;'>
+    <!-- how section -->
+    <section class="how_section layout_padding">
+      <div class="heading_container">
+        <h2>
+          Financial Ratios
+        </h2>
+      </div>
+      <div class="how_container" style="padding: 0px; padding-top: 90px;">
+        <div class="box">
+          <div class="img-box" style='cursor: pointer;'>
             <p id="netProfitMargin" style='font-size: 50px; margin-top: 20%;'></p>
-        </div>
-        <div class="detail-box">
-          <h5>
-            Net Profit Margin
-          </h5>
+          </div>
+          <div class="detail-box">
+            <h5>
+              Net Profit Margin
+            </h5>
             <p>
-              The net profit margin reveals the percentage of revenue a company retains as profit after covering all expenses, taxes, and interest. It’s a critical measure of profitability, highlighting how effectively a company manages its costs relative to its revenue. 
+              The net profit margin reveals the percentage of revenue a company retains as profit after covering all
+              expenses, taxes, and interest. It’s a critical measure of profitability, highlighting how effectively a
+              company manages its costs relative to its revenue.
             </p>
-      </div>
-      </div>
-      <div class="box">
-        <div class="img-box" style='cursor: pointer;'>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-box" style='cursor: pointer;'>
             <p id="currentRatio" style='font-size: 50px; margin-top: 20%;'></p>
-        </div>
-        <div class="detail-box">
-          <h5>
-            Current Ratio
+          </div>
+          <div class="detail-box">
+            <h5>
+              Current Ratio
 
-          </h5>
-          <p>
-          The current ratio evaluates a company’s ability to meet its short-term obligations with its short-term assets. It is a key liquidity measure that indicates whether the company can sustain day-to-day operations and handle unexpected expenses. 
-          </p>
+            </h5>
+            <p>
+              The current ratio evaluates a company’s ability to meet its short-term obligations with its short-term
+              assets. It is a key liquidity measure that indicates whether the company can sustain day-to-day operations
+              and handle unexpected expenses.
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="box">
-        <div class="img-box" style='cursor: pointer;'>
+        <div class="box">
+          <div class="img-box" style='cursor: pointer;'>
             <p id="assetTurnover" style='font-size: 50px; margin-top: 20%;'></p>
+          </div>
+          <div class="detail-box">
+            <h5>
+              Asset Turnover Ratio
+            </h5>
+            <p>
+              The asset turnover ratio measures how efficiently a company utilizes its assets to generate revenue. It
+              reflects the overall effectiveness of the company’s operations and how well it strategically manages its
+              resources to produce sales.
+            </p>
+          </div>
         </div>
-        <div class="detail-box">
-          <h5>
-            Asset Turnover Ratio
-          </h5>
-          <p>
-          The asset turnover ratio measures how efficiently a company utilizes its assets to generate revenue. It reflects the overall effectiveness of the company’s operations and how well it strategically manages its resources to produce sales.
-          </p>
-        </div>
-      </div>
-      <div class="box">
-        <div class="img-box" style='cursor: pointer;' >
+        <div class="box">
+          <div class="img-box" style='cursor: pointer;'>
             <p id="debtToEquity" style='font-size: 50px; margin-top: 20%;'></p>
-        </div>
-        <div class="detail-box">
-          <h5>
-            Debt-to-Equity Ratio
-          </h5>
-          <p>
-            The debt-to-equity ratio assesses a company’s financial leverage by comparing total debt to shareholders’ equity. It indicates how the company’s assets are financed through debt versus equity, giving insight into the company’s risk level.
-          </p>
+          </div>
+          <div class="detail-box">
+            <h5>
+              Debt-to-Equity Ratio
+            </h5>
+            <p>
+              The debt-to-equity ratio assesses a company’s financial leverage by comparing total debt to shareholders’
+              equity. It indicates how the company’s assets are financed through debt versus equity, giving insight into
+              the company’s risk level.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="btn-box">
-      <a href="ratioData.html" target="_blank">
-            See Data
-      </a>
-    </div>
-  </section>
-  <!-- end how section -->
+      <div class="btn-box">
+        <a href="ratioData.html" target="_blank">
+          See Data
+        </a>
+      </div>
+    </section>
+    <!-- end how section -->
 
 
-      <!-- journal entries awaiting approval -->
+    <!-- journal entries awaiting approval -->
 
-  <section id="pendingTableSection" class="how_section" style="margin-bottom: 100px;">
-    <div class="heading_container">
-      <h2 style="background-color: rgba(255,255,255,0.7);">
-        Pending Journal Entries
-      </h2>
-    </div>
-        <!--insert here-->
-        <div id="journalEntries" class="visible" style="display: block; margin-top: 30px;">
+    <section id="pendingTableSection" class="how_section" style="margin-bottom: 100px;">
+      <div class="heading_container">
+        <h2 style="background-color: rgba(255,255,255,0.7);">
+          Pending Journal Entries
+        </h2>
+      </div>
+      <!--insert here-->
+      <div id="journalEntries" class="visible" style="display: block; margin-top: 30px;">
 
-          <table id="pendingTable" class="caf" style="width: auto; border-radius: 5px; text-align: center; background-color: #f6f5f7; padding: 10px; margin-left: auto; margin-right: auto;">
-            <thead class="caf">
-              <tr class="caf">
-                <th class="caf">Account</th>
-                <th class="caf">Description</th>
-                <th class="caf">Comments</th>
-                <th class="caf">Status</th>
-                <th class="caf">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="pendingTableBody" class="caf">
+        <table id="pendingTable" class="caf"
+          style="width: auto; border-radius: 5px; text-align: center; background-color: #f6f5f7; padding: 10px; margin-left: auto; margin-right: auto;">
+          <thead class="caf">
+            <tr class="caf">
+              <th class="caf">Account</th>
+              <th class="caf">Description</th>
+              <th class="caf">Comments</th>
+              <th class="caf">Status</th>
+              <th class="caf">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="pendingTableBody" class="caf">
 
-            </tbody>
+          </tbody>
 
-          </table>
-        </div>
+        </table>
+      </div>
 
-    <div class="btn-box" style='margin-top: 70px;'>
-      <a href="reports.html">
-            To Accounts
-      </a>
-    </div>
-            </div>
+      <div class="btn-box" style='margin-top: 70px;'>
+        <a href="reports.html">
+          To Accounts
+        </a>
+      </div>
+  </div>
 
   </section>
 
@@ -253,7 +262,7 @@
             </div>
           </div>
         </div>
-       
+
         <div class="col-md-3">
           <div class="info_links">
             <h5>
@@ -323,95 +332,312 @@
 
 
 
-      <!--############Begin Calendar##################-->
+  <!--############Begin Calendar##################-->
 
-<div id='overlay' style="display: none;">
-  <style>
-      .calendar * { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-      .calendar body { display: flex; background: #ef62da; min-height: 100vh; padding: 0 10px; align-items: center; justify-content: center; }
-      .calendar-container { background: #fff; width: 450px; border-radius: 10px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12); }
-      .calendar-container header { display: flex; align-items: center; padding: 25px 30px 10px; justify-content: space-between; }
-      header .calendar-navigation { display: flex; }
-      header .calendar-navigation span { height: 38px; width: 38px; margin: 0 1px; cursor: pointer; text-align: center; line-height: 38px; border-radius: 50%; user-select: none; color: #aeabab; font-size: 1.9rem; }
-      .calendar-navigation span:last-child { margin-right: -10px; }
-      header .calendar-navigation span:hover { background: #f2f2f2; }
-      header .calendar-current-date { font-weight: 500; font-size: 1.45rem; }
-      .calendar-body { padding: 20px; }
-      .calendar-body ul { list-style: none; flex-wrap: wrap; display: flex; text-align: center; }
-      .calendar-body .calendar-dates { margin-bottom: 20px; }
-      .calendar-body li { width: calc(100% / 7); font-size: 1.07rem; color: #414141; }
-      .calendar-body .calendar-weekdays li { cursor: default; font-weight: 500; }
-      .calendar-body .calendar-dates li { margin-top: 30px; position: relative; z-index: 1; cursor: pointer; }
-      .calendar-dates li.inactive { color: #aaa; }
-      .calendar-dates li.active { color: #fff; }
-      .calendar-dates li::before { position: absolute; content: ""; z-index: -1; top: 50%; left: 50%; width: 40px; height: 40px; border-radius: 50%; transform: translate(-50%, -50%); }
-      .calendar-dates li.active::before { background: #6332c5; }
-      .calendar-dates li:not(.active):hover::before { background: #e4e1e1; }
-      #overlay {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */ z-index: 999; /* On top of other elements */ display: flex; /* Use flexbox to center contents */ align-items: center; /* Vertically center */ justify-content: center; /* Horizontally center */ }
-      #calendar {width: auto;top: 50%; left: 50%; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); z-index: 1000; /* On top of the overlay */ padding: 20px; }
+  <div id='overlay' style="display: none;">
+    <style>
+      .calendar * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      .calendar body {
+        display: flex;
+        background: #ef62da;
+        min-height: 100vh;
+        padding: 0 10px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .calendar-container {
+        background: #fff;
+        width: 450px;
+        border-radius: 10px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+      }
+
+      .calendar-container header {
+        display: flex;
+        align-items: center;
+        padding: 25px 30px 10px;
+        justify-content: space-between;
+      }
+
+      header .calendar-navigation {
+        display: flex;
+      }
+
+      header .calendar-navigation span {
+        height: 38px;
+        width: 38px;
+        margin: 0 1px;
+        cursor: pointer;
+        text-align: center;
+        line-height: 38px;
+        border-radius: 50%;
+        user-select: none;
+        color: #aeabab;
+        font-size: 1.9rem;
+      }
+
+      .calendar-navigation span:last-child {
+        margin-right: -10px;
+      }
+
+      header .calendar-navigation span:hover {
+        background: #f2f2f2;
+      }
+
+      header .calendar-current-date {
+        font-weight: 500;
+        font-size: 1.45rem;
+      }
+
+      .calendar-body {
+        padding: 20px;
+      }
+
+      .calendar-body ul {
+        list-style: none;
+        flex-wrap: wrap;
+        display: flex;
+        text-align: center;
+      }
+
+      .calendar-body .calendar-dates {
+        margin-bottom: 20px;
+      }
+
+      .calendar-body li {
+        width: calc(100% / 7);
+        font-size: 1.07rem;
+        color: #414141;
+      }
+
+      .calendar-body .calendar-weekdays li {
+        cursor: default;
+        font-weight: 500;
+      }
+
+      .calendar-body .calendar-dates li {
+        margin-top: 30px;
+        position: relative;
+        z-index: 1;
+        cursor: pointer;
+      }
+
+      .calendar-dates li.inactive {
+        color: #aaa;
+      }
+
+      .calendar-dates li.active {
+        color: #fff;
+      }
+
+      .calendar-dates li::before {
+        position: absolute;
+        content: "";
+        z-index: -1;
+        top: 50%;
+        left: 50%;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .calendar-dates li.active::before {
+        background: #6332c5;
+      }
+
+      .calendar-dates li:not(.active):hover::before {
+        background: #e4e1e1;
+      }
+
+      #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        /* Semi-transparent background */
+        z-index: 999;
+        /* On top of other elements */
+        display: flex;
+        /* Use flexbox to center contents */
+        align-items: center;
+        /* Vertically center */
+        justify-content: center;
+        /* Horizontally center */
+      }
+
+      #calendar {
+        width: auto;
+        top: 50%;
+        left: 50%;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        /* On top of the overlay */
+        padding: 20px;
+      }
     </style>
 
 
-        <div id="calendar" style="display: block; right: 50%; position: relative; top: 40%; left: 50%; transform: translate(-50%, -50%); padding: 20px; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px; z-index: 1000;">              <div class="calendar-container">
-          <header class="calendar-header">
-            <button id='closeCalendar' class="calendar-container" style="width:auto;cursor: pointer;background-color: transparent;border: 0px solid #3498db;">❌</button>
-            <p class="calendar-current-date"></p>
-            <div class="calendar-navigation">
-              <span id="calendar-prev"
-                class="material-symbols-rounded">
-                chevron_left
-              </span>
-              <span id="calendar-next"
-                class="material-symbols-rounded">
-                chevron_right
-              </span>
-            </div>
-          </header>
-
-          <div class="calendar-body">
-            <ul class="calendar-weekdays">
-              <li>Sun</li>
-              <li>Mon</li>
-              <li>Tue</li>
-              <li>Wed</li>
-              <li>Thu</li>
-              <li>Fri</li>
-              <li>Sat</li>
-            </ul>
-            <ul class="calendar-dates"></ul>
+    <div id="calendar"
+      style="display: block; right: 50%; position: relative; top: 40%; left: 50%; transform: translate(-50%, -50%); padding: 20px; border-radius: 8px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px; z-index: 1000;">
+      <div class="calendar-container">
+        <header class="calendar-header">
+          <button id='closeCalendar' class="calendar-container"
+            style="width:auto;cursor: pointer;background-color: transparent;border: 0px solid #3498db;">❌</button>
+          <p class="calendar-current-date"></p>
+          <div class="calendar-navigation">
+            <span id="calendar-prev" class="material-symbols-rounded">
+              chevron_left
+            </span>
+            <span id="calendar-next" class="material-symbols-rounded">
+              chevron_right
+            </span>
           </div>
-        </div>
+        </header>
 
+        <div class="calendar-body">
+          <ul class="calendar-weekdays">
+            <li>Sun</li>
+            <li>Mon</li>
+            <li>Tue</li>
+            <li>Wed</li>
+            <li>Thu</li>
+            <li>Fri</li>
+            <li>Sat</li>
+          </ul>
+          <ul class="calendar-dates"></ul>
         </div>
       </div>
 
-
-      <!--Styling for website theme-->
-    <style>
-           body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
-           header { background: blue; color: #ffffff;  text-align: center; }
-           nav { margin-bottom: 10px }
-           nav a { color: #ffffff; margin: 0 15px; text-decoration: none; }
-           .container { width: 80%; margin: auto; overflow: hidden; }
-           footer { background: blue; color: #ffffff; text-align: center; padding: 10px 0; position: relative; bottom: 0; width: 100%; }
-           .administratorsection { display: flex; justify-content: space-around; margin: 20px 0; }
-           .tab { overflow: hidden; border: 1px solid #ccc; background-color: #f1f1f1; }
-           .tab button { background-color: inherit; float: left; border: none; outline: none; cursor: pointer; padding: 14px 16px; transition: 0.3s; }
-           .tab button:hover { background-color: #ddd; }
-           .tab button.active { background-color: #ccc; }
-           .tabcontent { display: none; padding: 6px 12px; border: 1px solid #ccc; border-top: none; background-color: #f1f1f1; }
-           fieldset { margin-bottom: 30px; }
-           input { height: auto; display: block; width: 20%; margin: 5px; }
-           input[id="bodyEmail"]{ width: 75%; padding: 60px; }
-           tr { border-bottom: 1px solid black; width: 100%; }
-           td { text-align: center; }
-           table { width: 100%; }
-           th, td{padding: 15px;}
-
-       </style>
+    </div>
+  </div>
 
 
-      <!--############End Calendar##################-->
+  <!--Styling for website theme-->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background: blue;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    nav {
+      margin-bottom: 10px
+    }
+
+    nav a {
+      color: #ffffff;
+      margin: 0 15px;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+    }
+
+    footer {
+      background: blue;
+      color: #ffffff;
+      text-align: center;
+      padding: 10px 0;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .administratorsection {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+    }
+
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+    }
+
+    .tab button:hover {
+      background-color: #ddd;
+    }
+
+    .tab button.active {
+      background-color: #ccc;
+    }
+
+    .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+      background-color: #f1f1f1;
+    }
+
+    fieldset {
+      margin-bottom: 30px;
+    }
+
+    input {
+      height: auto;
+      display: block;
+      width: 20%;
+      margin: 5px;
+    }
+
+    input[id="bodyEmail"] {
+      width: 75%;
+      padding: 60px;
+    }
+
+    tr {
+      border-bottom: 1px solid black;
+      width: 100%;
+    }
+
+    td {
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+    }
+
+    th,
+    td {
+      padding: 15px;
+    }
+  </style>
+
+
+  <!--############End Calendar##################-->
 
 
 
@@ -441,174 +667,174 @@
       }
     });
   </script>
-<script>
-  function sendToSignIn(){
-    window.location.href = "signIn.html";
-  }
-</script>
+  <script>
+    function sendToSignIn() {
+      window.location.href = "signIn.html";
+    }
+  </script>
   <!-- end owl carousel script -->
 
 
-          <!--***************************-->
-              <!--Calendar script-->
-          <!--***************************-->
+  <!--***************************-->
+  <!--Calendar script-->
+  <!--***************************-->
 
 
 
-<script>
+  <script>
 
-      let date = new Date();
-      let year = date.getFullYear();
-      let month = date.getMonth();
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth();
 
-      const day = document.querySelector(".calendar-dates");
+    const day = document.querySelector(".calendar-dates");
 
-      const currdate = document
+    const currdate = document
       .querySelector(".calendar-current-date");
 
-      const prenexIcons = document
+    const prenexIcons = document
       .querySelectorAll(".calendar-navigation span");
 
-      // Array of month names
-      const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ];
+    // Array of month names
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
 
-      // Function to generate the calendar
-      const manipulate = () => {
+    // Function to generate the calendar
+    const manipulate = () => {
 
-        // Get the first day of the month
-        let dayone = new Date(year, month, 1).getDay();
+      // Get the first day of the month
+      let dayone = new Date(year, month, 1).getDay();
 
-        // Get the last date of the month
-        let lastdate = new Date(year, month + 1, 0).getDate();
+      // Get the last date of the month
+      let lastdate = new Date(year, month + 1, 0).getDate();
 
-        // Get the day of the last date of the month
-        let dayend = new Date(year, month, lastdate).getDay();
+      // Get the day of the last date of the month
+      let dayend = new Date(year, month, lastdate).getDay();
 
-        // Get the last date of the previous month
-        let monthlastdate = new Date(year, month, 0).getDate();
+      // Get the last date of the previous month
+      let monthlastdate = new Date(year, month, 0).getDate();
 
-        // Variable to store the generated calendar HTML
-        let lit = "";
+      // Variable to store the generated calendar HTML
+      let lit = "";
 
-        // Loop to add the last dates of the previous month
-        for (let i = dayone; i > 0; i--) {
-          lit +=
+      // Loop to add the last dates of the previous month
+      for (let i = dayone; i > 0; i--) {
+        lit +=
           `<li class="inactive">${monthlastdate - i + 1}</li>`;
-        }
-
-        // Loop to add the dates of the current month
-        for (let i = 1; i <= lastdate; i++) {
-
-          // Check if the current date is today
-          let isToday = i === date.getDate()
-            && month === new Date().getMonth()
-            && year === new Date().getFullYear()
-            ? "active"
-            : "";
-          lit += `<li class="${isToday}">${i}</li>`;
-        }
-
-        // Loop to add the first dates of the next month
-        for (let i = dayend; i < 6; i++) {
-          lit += `<li class="inactive">${i - dayend + 1}</li>`
-        }
-
-        // Update the text of the current date element 
-        // with the formatted current month and year
-        currdate.innerText = `${months[month]} ${year}`;
-
-        // update the HTML of the dates element 
-        // with the generated calendar
-        day.innerHTML = lit;
       }
 
-      manipulate();
+      // Loop to add the dates of the current month
+      for (let i = 1; i <= lastdate; i++) {
 
-      // Attach a click event listener to each icon
-      prenexIcons.forEach(icon => {
+        // Check if the current date is today
+        let isToday = i === date.getDate()
+          && month === new Date().getMonth()
+          && year === new Date().getFullYear()
+          ? "active"
+          : "";
+        lit += `<li class="${isToday}">${i}</li>`;
+      }
 
-        // When an icon is clicked
-        icon.addEventListener("click", () => {
+      // Loop to add the first dates of the next month
+      for (let i = dayend; i < 6; i++) {
+        lit += `<li class="inactive">${i - dayend + 1}</li>`
+      }
 
-          // Check if the icon is "calendar-prev"
-          // or "calendar-next"
-          month = icon.id === "calendar-prev" ? month - 1 : month + 1;
+      // Update the text of the current date element 
+      // with the formatted current month and year
+      currdate.innerText = `${months[month]} ${year}`;
 
-          // Check if the month is out of range
-          if (month < 0 || month > 11) {
+      // update the HTML of the dates element 
+      // with the generated calendar
+      day.innerHTML = lit;
+    }
 
-            // Set the date to the first day of the 
-            // month with the new year
-            date = new Date(year, month, new Date().getDate());
+    manipulate();
 
-            // Set the year to the new year
-            year = date.getFullYear();
+    // Attach a click event listener to each icon
+    prenexIcons.forEach(icon => {
 
-            // Set the month to the new month
-            month = date.getMonth();
-          }
+      // When an icon is clicked
+      icon.addEventListener("click", () => {
 
-          else {
+        // Check if the icon is "calendar-prev"
+        // or "calendar-next"
+        month = icon.id === "calendar-prev" ? month - 1 : month + 1;
 
-            // Set the date to the current date
-            date = new Date();
-          }
+        // Check if the month is out of range
+        if (month < 0 || month > 11) {
 
-          // Call the manipulate function to 
-          // update the calendar display
-          manipulate();
-        });
+          // Set the date to the first day of the 
+          // month with the new year
+          date = new Date(year, month, new Date().getDate());
+
+          // Set the year to the new year
+          year = date.getFullYear();
+
+          // Set the month to the new month
+          month = date.getMonth();
+        }
+
+        else {
+
+          // Set the date to the current date
+          date = new Date();
+        }
+
+        // Call the manipulate function to 
+        // update the calendar display
+        manipulate();
       });
-</script>
+    });
+  </script>
 
 
 
 
-      <script>
-        // Get elements
-        const openButton = document.getElementById('openCalendar');
-        const closeButton = document.getElementById('closeCalendar');
+  <script>
+    // Get elements
+    const openButton = document.getElementById('openCalendar');
+    const closeButton = document.getElementById('closeCalendar');
 
-        document.addEventListener("DOMContentLoaded", function() {
-          // Event Listener to open the calendar
-          openButton.addEventListener('click', () => {
+    document.addEventListener("DOMContentLoaded", function () {
+      // Event Listener to open the calendar
+      openButton.addEventListener('click', () => {
 
-            overlay.style.display = 'block'; // Show overlay
-            calendar.style.display = 'block'; // Show calendar
-          });
+        overlay.style.display = 'block'; // Show overlay
+        calendar.style.display = 'block'; // Show calendar
+      });
 
-          // Event Listener to close the calendar
-          closeButton.addEventListener('click', () => {
-            overlay.style.display = 'none'; // Hide overlay
-            calendar.style.display = 'none'; // Hide calendar
-          });
+      // Event Listener to close the calendar
+      closeButton.addEventListener('click', () => {
+        overlay.style.display = 'none'; // Hide overlay
+        calendar.style.display = 'none'; // Hide calendar
+      });
 
-          // Close calendar when overlay is clicked
-          overlay.addEventListener('click', () => {
-            overlay.style.display = 'none'; // Hide overlay
-            calendar.style.display = 'none'; // Hide calendar
-          });
-        });
-    </script>
+      // Close calendar when overlay is clicked
+      overlay.addEventListener('click', () => {
+        overlay.style.display = 'none'; // Hide overlay
+        calendar.style.display = 'none'; // Hide calendar
+      });
+    });
+  </script>
 
-          <!--***************************-->
-              <!--End Calendar script-->
-          <!--***************************-->
+  <!--***************************-->
+  <!--End Calendar script-->
+  <!--***************************-->
 
-<script type='module' src='main.js'></script>
+  <script type='module' src='main.js'></script>
 
   <script type="text/javascript" src="js-for-index/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="js-for-index/bootstrap.js"></script>
