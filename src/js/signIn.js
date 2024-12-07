@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { collection, doc, getDocs, query, where, updateDoc } from "firebase/firestore";
 import { app, db } from ".//firebaseConfig.js";
 
@@ -6,28 +6,32 @@ const auth = getAuth(app);
 let attempts = 0;
 
 export function signInUser(email, password) {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCred) => {
-      console.log("Welcome " + userCred.user);
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          attempts = 0;
-          userTypeRedirect(email);
-        }
+  setPersistence(auth, browserSessionPersistence).then(() => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCred) => {
+        console.log("Welcome " + userCred.user);
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            attempts = 0;
+            userTypeRedirect(email);
+          }
+        })
       })
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      attempts = attempts + 1;
-      if (attempts < 3) {
-        document.getElementById('wrong-password').innerText = `Wrong email/password. You have made ${attempts}/3 attempts.`;
-        document.getElementById('wrong-password').style.display = 'contents';
-        console.log(errorCode + " : " + errorMessage);
-      } else {
-        disableUser(email);
-      }
-    });
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        attempts = attempts + 1;
+        if (attempts < 3) {
+          document.getElementById('wrong-password').innerText = `Wrong email/password. You have made ${attempts}/3 attempts.`;
+          document.getElementById('wrong-password').style.display = 'contents';
+          console.log(errorCode + " : " + errorMessage);
+        } else {
+          disableUser(email);
+        }
+      });
+  }).catch((e) => {
+    console.log(e + "\nUser persistence failure: signIn.js");
+  });
 }
 
 

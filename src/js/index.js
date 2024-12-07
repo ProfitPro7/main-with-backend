@@ -1,7 +1,7 @@
 import { app, auth } from ".//firebaseConfig.js";
 import { signUpUser } from ".//signUp.js";
 import { signInUser } from ".//signIn.js";
-import { getUserName, createUserList, createExpiredPasswordList } from ".//admin.js";
+import { getUserName, createUserList, createExpiredPasswordList, getAccountType } from ".//admin.js";
 import { sendPasswordResetEmail } from "firebase/auth";
 
 import { populateChartOfAccountsTable, selectAccount, selectAccount2, deselectAccount, deselectAccount2, fillLedger, fillEventLog, fillBeforeAfterTables, selectEventLogBeforeAfter, deSelectBeforeAfter, fillJournal, createJEButton, fillLedgerBookkeeping } from ".//bookkeeping.js";
@@ -13,8 +13,10 @@ const path = window.location.pathname;
 
 
 if (!path.includes("index.html") && !path.includes("ratioData.html")) {
+
   getUserName()
     .then((userName) => {
+      console.log("This is the userName: " + userName);
       document.getElementById('auto-pop-username').innerText = userName;
     })
     .catch((e) => {

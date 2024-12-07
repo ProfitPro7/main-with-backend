@@ -2,7 +2,7 @@ import { auth, db } from ".//firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 
-export async function getUserName(){
+export async function getUserName() {
   return new Promise((resolve, reject) => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -14,39 +14,39 @@ export async function getUserName(){
           .catch((e) => {
             reject(e);
           })
-      }else {
+      } else {
         resolve(null);
       }
     });
   });
 }
 
-async function getData(email){
-      const docRef = doc(db, "Users", email);
-      const docSnap = await getDoc(docRef);
+async function getData(email) {
+  const docRef = doc(db, "Users", email);
+  const docSnap = await getDoc(docRef);
 
-      if(docSnap.exists()){
-        const userName =  docSnap.data().userName;
-        return userName;
+  if (docSnap.exists()) {
+    const userName = docSnap.data().userName;
+    return userName;
 
-      }else {
-       return null; 
+  } else {
+    return null;
 
-      }
+  }
 
 }
 
 
-export async function getUserCollection(){
+export async function getUserCollection() {
   const users = collection(db, "Users");
 
   const docSnap = await getDocs(users);
   return docSnap;
-  
+
 }
 
 
-export async function createUserList(divId){
+export async function createUserList(divId) {
   const docSnap = await getUserCollection();
   docSnap.forEach((doc) => {
     const data = doc.data();
@@ -78,7 +78,7 @@ export async function createUserList(divId){
     `;
     document.getElementById(`${divId}`).append(newDiv);
 
-    if(data.suspendedStart && data.suspendedEnd){
+    if (data.suspendedStart && data.suspendedEnd) {
       const suspendedDiv = document.createElement('span');
       suspendedDiv.style.color = 'white';
       suspendedDiv.innerHTML = `SUSPENDED FROM : ${data.suspendedStart} - ${data.suspendedEnd}`;
@@ -96,15 +96,15 @@ export async function createUserList(divId){
 }
 
 
-export async function getExpiredPassCollection(){
+export async function getExpiredPassCollection() {
   const users = collection(db, "expired-passwords");
 
   const docSnap = await getDocs(users);
   return docSnap;
-  
+
 }
 
-export async function createExpiredPasswordList(divId){
+export async function createExpiredPasswordList(divId) {
   const docSnap = await getExpiredPassCollection();
   docSnap.forEach((doc) => {
     const data = doc.data();
@@ -134,4 +134,4 @@ export async function createExpiredPasswordList(divId){
   });
 }
 
-  
+
